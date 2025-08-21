@@ -3,13 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPTCoins - AI-Powered Crypto Trading</title>
-    <meta name="description" content="Leverage GPT AI for smarter cryptocurrency trading">
+    <title>GPTCoins - AI-Powered Cryptocurrency Trading | Smart Crypto with Artificial Intelligence</title>
+    <meta name="description" content="Revolutionary AI-powered cryptocurrency platform. Smart trading algorithms, predictive analytics, and automated portfolio management powered by advanced artificial intelligence.">
+    <meta name="keywords" content="AI cryptocurrency, GPT crypto, artificial intelligence trading, smart crypto, automated trading, AI portfolio">
+    <meta name="author" content="GPTCoins">
+    <meta property="og:title" content="GPTCoins - AI-Powered Cryptocurrency Trading">
+    <meta property="og:description" content="Revolutionary AI-powered cryptocurrency platform with smart trading algorithms">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://gptcoins.com">
+    <link rel="canonical" href="https://gptcoins.com">
     
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1B4DCV3VGT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1B4DCV3VGT');
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary: #6366f1;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f0f23;
+            --dark-alt: #1a1a3e;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
+            --shadow: rgba(0,0,0,0.1);
+            --shadow-hover: rgba(0,0,0,0.2);
+            --gradient-ai: linear-gradient(135deg, #00d4ff, #6366f1, #10b981);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -17,145 +53,663 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            background: var(--dark);
+        }
+        
+        /* AI Particles Background */
+        .ai-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, rgba(0,212,255,0.1), transparent 50%),
+                        radial-gradient(circle at 80% 70%, rgba(99,102,241,0.1), transparent 50%),
+                        radial-gradient(circle at 50% 50%, rgba(16,185,129,0.1), transparent 50%);
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float-particle 8s ease-in-out infinite;
+        }
+        
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+            25% { transform: translateY(-20px) translateX(10px); opacity: 0.8; }
+            50% { transform: translateY(-40px) translateX(-5px); opacity: 1; }
+            75% { transform: translateY(-20px) translateX(15px); opacity: 0.6; }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0,212,255,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(15, 15, 35, 0.98);
+            box-shadow: 0 4px 20px rgba(0,212,255,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon {
+            background: var(--gradient-ai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--gradient-ai);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-alt) 50%, var(--dark) 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .neural-network {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                radial-gradient(circle at 25% 25%, var(--primary) 2px, transparent 2px),
+                radial-gradient(circle at 75% 25%, var(--secondary) 2px, transparent 2px),
+                radial-gradient(circle at 25% 75%, var(--accent) 2px, transparent 2px),
+                radial-gradient(circle at 75% 75%, var(--primary) 2px, transparent 2px);
+            background-size: 200px 200px;
+            animation: neural-pulse 10s ease-in-out infinite;
+        }
+        
+        @keyframes neural-pulse {
+            0%, 100% { opacity: 0.1; }
+            50% { opacity: 0.2; }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            color: var(--white);
+        }
+        
+        .ai-badge {
+            background: var(--gradient-ai);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease;
+        }
+        
+        .ai-badge .icon {
+            animation: spin 3s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+        
+        .ai-text {
+            background: var(--gradient-ai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-ai {
+            background: var(--gradient-ai);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(0,212,255,0.3);
+        }
+        
+        .btn-ai:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,212,255,0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+        
+        .ai-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            animation: slideInUp 0.8s ease 0.8s both;
+        }
+        
+        .ai-feature {
+            text-align: center;
+        }
+        
+        .ai-feature-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .ai-feature-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .ai-dashboard {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,212,255,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            animation: slideInRight 0.8s ease;
+            position: relative;
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .ai-prediction {
+            margin-bottom: 1.5rem;
+        }
+        
+        .prediction-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .prediction-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .ai-chart {
+            height: 100px;
+            background: var(--gradient-ai);
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-line {
+            position: absolute;
+            top: 30%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--white);
+            animation: chart-flow 3s ease-in-out infinite;
+        }
+        
+        @keyframes chart-flow {
+            0%, 100% { transform: translateX(-100%); opacity: 0.3; }
+            50% { transform: translateX(100%); opacity: 1; }
+        }
+        
+        .ai-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .ai-btn {
+            padding: 0.8rem;
+            background: rgba(0,212,255,0.1);
+            border: 1px solid rgba(0,212,255,0.3);
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .ai-btn:hover {
+            background: rgba(0,212,255,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--white);
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
         }
         
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #00d4ff;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #00d4ff;
-        }
-        
-        .hero {
-            padding: 100px 20px;
+        .section-header {
             text-align: center;
-            color: white;
+            margin-bottom: 4rem;
         }
         
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #00d4ff;
-            text-decoration: none;
+        .section-badge {
+            background: rgba(0,212,255,0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
         
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
         
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
         
         .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-ai);
+            opacity: 0.1;
+            transition: left 0.5s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--primary);
         }
         
         .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-ai);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
         }
         
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #00d4ff;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
         
-        footer {
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tech-tag {
+            background: rgba(0,212,255,0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        /* AI Stats Section */
+        .ai-stats {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark), var(--dark-alt));
+            color: var(--white);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .stat-card {
             text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(0,212,255,0.2);
+            transition: all 0.3s ease;
         }
         
-        @keyframes fadeInUp {
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: var(--gradient-ai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.8);
+            font-weight: 500;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: var(--gradient-ai);
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn-cta {
+            background: var(--white);
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            background: var(--gradient-ai);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -163,65 +717,512 @@
             }
         }
         
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--dark);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
             }
             
-            .tagline {
-                font-size: 18px;
+            .nav-menu.active {
+                left: 0;
             }
             
-            nav a {
-                display: none;
+            .nav-toggle {
+                display: block;
             }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .ai-features {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">gptcoins.com</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <!-- AI Particles Background -->
+    <div class="ai-particles" id="particles"></div>
     
-    <div class="hero">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🧠</span>
+                GPTCoins
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">AI Features</a></li>
+                <li><a href="#stats" class="nav-link">Performance</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="neural-network"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="ai-badge">
+                    <i class="fas fa-brain icon"></i>
+                    AI-Powered Cryptocurrency
+                </div>
+                <h1 class="hero-title">
+                    The Future of <span class="ai-text">Smart Crypto</span> Trading
+                </h1>
+                <p class="hero-subtitle">
+                    Revolutionary AI-powered cryptocurrency platform with predictive analytics, 
+                    automated portfolio management, and intelligent trading algorithms powered by GPT technology.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-ai" onclick="openTallyForm()">
+                        <i class="fas fa-rocket"></i>
+                        Start AI Trading
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        <i class="fas fa-brain"></i>
+                        Explore AI Features
+                    </a>
+                </div>
+                <div class="ai-features">
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">🤖</div>
+                        <div class="ai-feature-label">AI Algorithms</div>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">📊</div>
+                        <div class="ai-feature-label">Predictive Analytics</div>
+                    </div>
+                    <div class="ai-feature">
+                        <div class="ai-feature-icon">⚡</div>
+                        <div class="ai-feature-label">Auto Trading</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="ai-dashboard">
+                    <div class="dashboard-header">
+                        <div class="ai-status">
+                            <div class="status-indicator"></div>
+                            AI_ACTIVE
+                        </div>
+                    </div>
+                    <div class="ai-prediction">
+                        <div class="prediction-label">AI Prediction Accuracy</div>
+                        <div class="prediction-value">94.7%</div>
+                    </div>
+                    <div class="ai-chart">
+                        <div class="chart-line"></div>
+                    </div>
+                    <div class="ai-actions">
+                        <button class="ai-btn">OPTIMIZE</button>
+                        <button class="ai-btn">PREDICT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="container">
-            <h1>AI-Powered Crypto Trading</h1>
-            <p class="tagline">Let Artificial Intelligence Optimize Your Portfolio</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'gptcoins.com'})">Start AI Trading</a>
+            <div class="section-header fade-in-up">
+                <div class="section-badge">AI-Powered Features</div>
+                <h2 class="section-title">Next-Generation Crypto Intelligence</h2>
+                <p class="section-subtitle">
+                    Experience the power of artificial intelligence in cryptocurrency trading and portfolio management
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="feature-title">GPT-Powered Analysis</h3>
+                    <p class="feature-description">
+                        Advanced GPT algorithms analyze market sentiment, news, and social media to predict 
+                        price movements with 94% accuracy.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">GPT-4</span>
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">ML</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="feature-title">Automated Trading Bots</h3>
+                    <p class="feature-description">
+                        AI-powered trading bots execute trades 24/7, using machine learning to adapt 
+                        to market conditions and maximize profits.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">AutoML</span>
+                        <span class="tech-tag">Deep Learning</span>
+                        <span class="tech-tag">24/7</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Predictive Analytics</h3>
+                    <p class="feature-description">
+                        Real-time market predictions using neural networks, sentiment analysis, 
+                        and technical indicators for optimal timing.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Neural Networks</span>
+                        <span class="tech-tag">Real-time</span>
+                        <span class="tech-tag">Sentiment AI</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">AI Risk Management</h3>
+                    <p class="feature-description">
+                        Intelligent risk assessment and portfolio rebalancing to protect investments 
+                        and optimize returns using advanced algorithms.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Risk AI</span>
+                        <span class="tech-tag">Auto-Balance</span>
+                        <span class="tech-tag">Protection</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3 class="feature-title">Smart Insights</h3>
+                    <p class="feature-description">
+                        AI-generated market insights, explanations, and recommendations in natural 
+                        language to help you make informed decisions.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">GPT Chat</span>
+                        <span class="tech-tag">Insights</span>
+                        <span class="tech-tag">Natural Language</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-sync-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Adaptive Learning</h3>
+                    <p class="feature-description">
+                        AI models continuously learn from market data and user behavior to improve 
+                        predictions and trading performance over time.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Continuous Learning</span>
+                        <span class="tech-tag">Adaptation</span>
+                        <span class="tech-tag">Evolution</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     
-    <div class="features" id="features">
-        <h2>Smart Trading Features</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🤖</div>
-                <h3>AI Analysis</h3>
-                <p>GPT-powered market analysis and predictions</p>
+    <!-- AI Stats Section -->
+    <section class="ai-stats" id="stats">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-badge" style="background: rgba(255,255,255,0.1); color: var(--primary);">AI Performance</div>
+                <h2 class="section-title" style="color: var(--white);">Proven AI Results</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">
+                    Our AI algorithms deliver consistent results backed by real data and performance metrics
+                </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h3>Auto Trading</h3>
-                <p>Automated trading strategies based on AI insights</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Risk Management</h3>
-                <p>Intelligent portfolio optimization and risk assessment</p>
+            <div class="stats-grid">
+                <div class="stat-card fade-in-up">
+                    <div class="stat-number" data-count="94">0</div>
+                    <div class="stat-label">% Prediction Accuracy</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-number" data-count="340">0</div>
+                    <div class="stat-label">% AI-Generated Returns</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-number" data-count="50">0</div>
+                    <div class="stat-label">K+ AI Models Trained</div>
+                </div>
+                <div class="stat-card fade-in-up">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">AI Monitoring</div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     
-    <footer>
-        <p>&copy; 2024 gptcoins.com. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in-up">
+                <h2 class="cta-title">Ready for AI-Powered Trading?</h2>
+                <p class="cta-subtitle">
+                    Join the revolution and experience the future of intelligent cryptocurrency trading
+                </p>
+                <a href="#" class="btn-cta" onclick="openTallyForm()">
+                    <i class="fas fa-brain"></i>
+                    Activate AI Trading
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>GPTCoins</h4>
+                    <p>Revolutionary AI-powered cryptocurrency platform leveraging GPT technology for intelligent trading.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>AI Features</h4>
+                    <ul>
+                        <li><a href="#">GPT Analysis</a></li>
+                        <li><a href="#">Auto Trading</a></li>
+                        <li><a href="#">Predictive AI</a></li>
+                        <li><a href="#">Smart Insights</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Technology</h4>
+                    <ul>
+                        <li><a href="#">Machine Learning</a></li>
+                        <li><a href="#">Neural Networks</a></li>
+                        <li><a href="#">API Integration</a></li>
+                        <li><a href="#">AI Documentation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About AI</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="#">AI Ethics</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GPTCoins. All rights reserved. | Part of the Sami Halawa Digital Portfolio</p>
+            </div>
+        </div>
     </footer>
+    
+    <script>
+        // Create AI particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 100;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.querySelector('[data-count]')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Tally Form Integration
+        function openTallyForm() {
+            if (window.Tally) {
+                window.Tally.openPopup('mO2EYY', {
+                    width: 500,
+                    height: 600,
+                    overlay: true
+                });
+            } else {
+                window.open('https://tally.so/r/mO2EYY', '_blank', 'width=500,height=600');
+            }
+            
+            gtag('event', 'form_open', {
+                form_name: 'gptcoins_ai_signup',
+                page_location: window.location.href
+            });
+        }
+        
+        // Load Tally Widget
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://tally.so/widgets/embed.js';
+            script.async = true;
+            document.head.appendChild(script);
+        })();
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            createParticles();
+            setTimeout(animateCounters, 1000);
+        });
+        
+        // Track page views
+        gtag('event', 'page_view', {
+            page_title: 'GPTCoins - AI-Powered Cryptocurrency Trading',
+            page_location: window.location.href
+        });
+    </script>
 </body>
 </html>

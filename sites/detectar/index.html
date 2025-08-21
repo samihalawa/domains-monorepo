@@ -3,13 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detectar.ai - AI Content Detection</title>
-    <meta name="description" content="Advanced AI detection and verification platform">
+    <title>Detectar - Advanced AI Content Detection | Detect Deepfakes, AI Text & Synthetic Media</title>
+    <meta name="description" content="Advanced AI detection platform for text, images, and media. Detect AI-generated content, deepfakes, and synthetic media with 99.7% accuracy. Enterprise-grade security.">
+    <meta name="keywords" content="AI detection, deepfake detection, AI text detector, synthetic media, content verification, security analysis">
+    <meta name="author" content="Detectar">
+    <meta property="og:title" content="Detectar - Advanced AI Content Detection">
+    <meta property="og:description" content="Detect AI-generated content with 99.7% accuracy using advanced AI detection technology">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://detectar.com">
+    <link rel="canonical" href="https://detectar.com">
     
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1B4DCV3VGT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1B4DCV3VGT');
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;500;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #6366f1;
+            --accent: #f59e0b;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --dark-alt: #1e293b;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --text: #334155;
+            --text-light: #64748b;
+            --text-dark: #0f172a;
+            --border: #e2e8f0;
+            --shadow: rgba(0,0,0,0.1);
+            --shadow-hover: rgba(0,0,0,0.2);
+            --gradient-scan: linear-gradient(135deg, #10b981, #3b82f6, #8b5cf6);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -17,145 +54,675 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            background: var(--dark);
+        }
+        
+        /* Scanner Animation */
+        .scanner-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background: 
+                radial-gradient(circle at 15% 20%, rgba(16,185,129,0.15), transparent 40%),
+                radial-gradient(circle at 85% 80%, rgba(99,102,241,0.15), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(139,92,246,0.1), transparent 50%);
+        }
+        
+        .scan-line {
+            position: absolute;
+            width: 2px;
+            height: 100vh;
+            background: var(--gradient-scan);
+            animation: scan-horizontal 8s ease-in-out infinite;
+            opacity: 0.3;
+        }
+        
+        @keyframes scan-horizontal {
+            0%, 100% { left: -2px; opacity: 0; }
+            50% { left: 100%; opacity: 0.6; }
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(16,185,129,0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(15, 23, 42, 0.98);
+            box-shadow: 0 4px 20px rgba(16,185,129,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo-icon {
+            background: var(--gradient-scan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 1.8rem;
+            animation: scan-pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes scan-pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--gradient-scan);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-alt) 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .data-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.05;
+            background-image: 
+                linear-gradient(90deg, var(--primary) 1px, transparent 1px),
+                linear-gradient(0deg, var(--primary) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+        
+        @keyframes grid-move {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            color: var(--white);
+        }
+        
+        .security-badge {
+            background: rgba(16,185,129,0.2);
+            border: 1px solid rgba(16,185,129,0.3);
+            color: var(--primary);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease;
+        }
+        
+        .security-badge .icon {
+            animation: scan-rotate 3s linear infinite;
+        }
+        
+        @keyframes scan-rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+        
+        .scan-text {
+            background: var(--gradient-scan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-scan {
+            background: var(--gradient-scan);
+            color: var(--white);
+            box-shadow: 0 4px 15px rgba(16,185,129,0.3);
+        }
+        
+        .btn-scan:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16,185,129,0.4);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--dark);
+        }
+        
+        .detection-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            animation: slideInUp 0.8s ease 0.8s both;
+        }
+        
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(16,185,129,0.2);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            font-family: 'Space Mono', monospace;
+            display: block;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .detection-panel {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(16,185,129,0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            animation: slideInRight 0.8s ease;
+            position: relative;
+        }
+        
+        .panel-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .scan-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-weight: 600;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+        }
+        
+        .status-indicator {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        
+        .detection-result {
+            margin-bottom: 1.5rem;
+        }
+        
+        .result-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--success);
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .scan-progress {
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: var(--gradient-scan);
+            border-radius: 4px;
+            animation: scan-progress 3s ease-in-out infinite;
+        }
+        
+        @keyframes scan-progress {
+            0%, 100% { width: 0%; }
+            50% { width: 100%; }
+        }
+        
+        .scan-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+        
+        .scan-btn {
+            padding: 0.8rem;
+            background: rgba(16,185,129,0.1);
+            border: 1px solid rgba(16,185,129,0.3);
+            color: var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        .scan-btn:hover {
+            background: rgba(16,185,129,0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--white);
+            position: relative;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
         }
         
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #10b981;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #10b981;
-        }
-        
-        .hero {
-            padding: 100px 20px;
+        .section-header {
             text-align: center;
-            color: white;
+            margin-bottom: 4rem;
         }
         
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #10b981;
-            text-decoration: none;
+        .section-badge {
+            background: rgba(16,185,129,0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
         
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
         
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
         
         .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-scan);
+            opacity: 0.05;
+            transition: left 0.5s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--primary);
         }
         
         .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: var(--gradient-scan);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
         }
         
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #10b981;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
         }
         
-        footer {
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-tech {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        
+        .tech-tag {
+            background: rgba(16,185,129,0.1);
+            color: var(--primary);
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            font-family: 'Space Mono', monospace;
+        }
+        
+        /* Security Section */
+        .security-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark), var(--dark-alt));
+            color: var(--white);
+        }
+        
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .security-card {
             text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
+            padding: 2rem;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(16,185,129,0.2);
+            transition: all 0.3s ease;
         }
         
-        @keyframes fadeInUp {
+        .security-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+        
+        .security-icon {
+            font-size: 2.5rem;
+            background: var(--gradient-scan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .security-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .security-description {
+            color: rgba(255,255,255,0.8);
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: var(--gradient-scan);
+            color: var(--white);
+            text-align: center;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        .btn-cta {
+            background: var(--white);
+            color: var(--dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255,255,255,0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            background: var(--gradient-scan);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -163,65 +730,517 @@
             }
         }
         
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--dark);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
             }
             
-            .tagline {
-                font-size: 18px;
+            .nav-menu.active {
+                left: 0;
             }
             
-            nav a {
-                display: none;
+            .nav-toggle {
+                display: block;
             }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .detection-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">detectar.ai</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Scanner Background -->
+    <div class="scanner-bg">
+        <div class="scan-line" style="animation-delay: 0s;"></div>
+        <div class="scan-line" style="animation-delay: 2s;"></div>
+        <div class="scan-line" style="animation-delay: 4s;"></div>
+    </div>
     
-    <div class="hero">
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span class="logo-icon">🔍</span>
+                Detectar
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">Detection</a></li>
+                <li><a href="#security" class="nav-link">Security</a></li>
+                <li><a href="#api" class="nav-link">API</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="data-grid"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="security-badge">
+                    <i class="fas fa-shield-alt icon"></i>
+                    Enterprise-Grade Detection
+                </div>
+                <h1 class="hero-title">
+                    Advanced <span class="scan-text">AI Detection</span> Platform
+                </h1>
+                <p class="hero-subtitle">
+                    Detect AI-generated content, deepfakes, and synthetic media with 99.7% accuracy. 
+                    Protect your organization from AI-generated misinformation and fraud.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-scan" onclick="openTallyForm()">
+                        <i class="fas fa-search"></i>
+                        Start Detection
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        <i class="fas fa-eye"></i>
+                        View Demo
+                    </a>
+                </div>
+                <div class="detection-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="99">0</span>
+                        <span class="stat-label">% Accuracy Rate</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-label">M+ Scans Daily</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number"><1</span>
+                        <span class="stat-label">Sec Processing</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="detection-panel">
+                    <div class="panel-header">
+                        <div class="scan-status">
+                            <div class="status-indicator"></div>
+                            SCANNING_ACTIVE
+                        </div>
+                    </div>
+                    <div class="detection-result">
+                        <div class="result-label">Detection Confidence</div>
+                        <div class="result-value">99.7%</div>
+                    </div>
+                    <div class="scan-progress">
+                        <div class="progress-bar"></div>
+                    </div>
+                    <div class="scan-actions">
+                        <button class="scan-btn">ANALYZE</button>
+                        <button class="scan-btn">VERIFY</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="container">
-            <h1>Detect AI-Generated Content</h1>
-            <p class="tagline">Ensure Authenticity in the Age of AI</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'detectar.ai'})">Try Detection Now</a>
+            <div class="section-header fade-in-up">
+                <div class="section-badge">Detection Capabilities</div>
+                <h2 class="section-title">Multi-Modal AI Detection</h2>
+                <p class="section-subtitle">
+                    Comprehensive detection across text, images, video, and audio with cutting-edge AI technology
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-file-text"></i>
+                    </div>
+                    <h3 class="feature-title">AI Text Detection</h3>
+                    <p class="feature-description">
+                        Identify AI-generated text from GPT, Claude, and other language models with 
+                        advanced linguistic analysis and pattern recognition.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">NLP</span>
+                        <span class="tech-tag">Transformers</span>
+                        <span class="tech-tag">99.7%</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3 class="feature-title">Deepfake Detection</h3>
+                    <p class="feature-description">
+                        Advanced computer vision algorithms detect deepfakes, face swaps, 
+                        and AI-generated images with pixel-level analysis.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Computer Vision</span>
+                        <span class="tech-tag">CNN</span>
+                        <span class="tech-tag">Real-time</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3 class="feature-title">Video Analysis</h3>
+                    <p class="feature-description">
+                        Frame-by-frame analysis detects manipulated videos, AI-generated content, 
+                        and temporal inconsistencies with temporal modeling.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Temporal CNN</span>
+                        <span class="tech-tag">Frame Analysis</span>
+                        <span class="tech-tag">4K Support</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                    <h3 class="feature-title">Voice Cloning Detection</h3>
+                    <p class="feature-description">
+                        Detect AI-generated speech and voice cloning attacks using spectral 
+                        analysis and acoustic fingerprinting technology.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Audio ML</span>
+                        <span class="tech-tag">Spectral Analysis</span>
+                        <span class="tech-tag">Voice ID</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="feature-title">API Integration</h3>
+                    <p class="feature-description">
+                        Enterprise-ready REST API with SDKs for Python, JavaScript, and more. 
+                        Scale detection across your entire platform.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">REST API</span>
+                        <span class="tech-tag">SDKs</span>
+                        <span class="tech-tag">Webhooks</span>
+                    </div>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Analytics Dashboard</h3>
+                    <p class="feature-description">
+                        Comprehensive analytics and reporting with threat intelligence, 
+                        detection trends, and custom alerting systems.
+                    </p>
+                    <div class="feature-tech">
+                        <span class="tech-tag">Analytics</span>
+                        <span class="tech-tag">Reporting</span>
+                        <span class="tech-tag">Alerts</span>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     
-    <div class="features" id="features">
-        <h2>Detection Capabilities</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🔍</div>
-                <h3>Text Analysis</h3>
-                <p>Identify AI-generated text with 99% accuracy</p>
+    <!-- Security Section -->
+    <section class="security-section" id="security">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-badge" style="background: rgba(255,255,255,0.1); color: var(--primary);">Security & Compliance</div>
+                <h2 class="section-title" style="color: var(--white);">Enterprise Security Standards</h2>
+                <p class="section-subtitle" style="color: rgba(255,255,255,0.8);">
+                    Bank-grade security with compliance standards for enterprise deployment
+                </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🖼️</div>
-                <h3>Image Verification</h3>
-                <p>Detect deepfakes and AI-generated images</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Real-time API</h3>
-                <p>Integrate detection into your workflow</p>
+            <div class="security-grid">
+                <div class="security-card fade-in-up">
+                    <div class="security-icon">🔒</div>
+                    <h3 class="security-title">Zero-Trust Architecture</h3>
+                    <p class="security-description">
+                        End-to-end encryption, secure API endpoints, and comprehensive audit logging 
+                        for maximum security assurance.
+                    </p>
+                </div>
+                <div class="security-card fade-in-up">
+                    <div class="security-icon">🛡️</div>
+                    <h3 class="security-title">SOC 2 Type II Certified</h3>
+                    <p class="security-description">
+                        Independently audited security controls meeting the highest standards 
+                        for data protection and privacy.
+                    </p>
+                </div>
+                <div class="security-card fade-in-up">
+                    <div class="security-icon">🏢</div>
+                    <h3 class="security-title">GDPR & CCPA Compliant</h3>
+                    <p class="security-description">
+                        Full compliance with international data privacy regulations including 
+                        GDPR, CCPA, and other regional standards.
+                    </p>
+                </div>
+                <div class="security-card fade-in-up">
+                    <div class="security-icon">⚡</div>
+                    <h3 class="security-title">99.9% Uptime SLA</h3>
+                    <p class="security-description">
+                        Enterprise-grade infrastructure with guaranteed uptime, redundancy, 
+                        and 24/7 monitoring across global data centers.
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     
-    <footer>
-        <p>&copy; 2024 detectar.ai. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in-up">
+                <h2 class="cta-title">Ready to Secure Your Content?</h2>
+                <p class="cta-subtitle">
+                    Join thousands of organizations protecting themselves from AI-generated threats
+                </p>
+                <a href="#" class="btn-cta" onclick="openTallyForm()">
+                    <i class="fas fa-shield-alt"></i>
+                    Start Free Trial
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Detectar</h4>
+                    <p>Advanced AI detection platform protecting organizations from synthetic media and AI-generated threats.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Detection</h4>
+                    <ul>
+                        <li><a href="#">Text Analysis</a></li>
+                        <li><a href="#">Image Detection</a></li>
+                        <li><a href="#">Video Scanning</a></li>
+                        <li><a href="#">Voice Analysis</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Enterprise</h4>
+                    <ul>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Security Center</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Research</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Detectar. All rights reserved. | Part of the Sami Halawa Digital Portfolio</p>
+            </div>
+        </div>
     </footer>
+    
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile menu toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Counter animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 100;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.ceil(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                updateCounter();
+            });
+        }
+        
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.querySelector('[data-count]')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Tally Form Integration
+        function openTallyForm() {
+            if (window.Tally) {
+                window.Tally.openPopup('mO2EYY', {
+                    width: 500,
+                    height: 600,
+                    overlay: true
+                });
+            } else {
+                window.open('https://tally.so/r/mO2EYY', '_blank', 'width=500,height=600');
+            }
+            
+            gtag('event', 'form_open', {
+                form_name: 'detectar_trial_signup',
+                page_location: window.location.href
+            });
+        }
+        
+        // Load Tally Widget
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://tally.so/widgets/embed.js';
+            script.async = true;
+            document.head.appendChild(script);
+        })();
+        
+        // Initialize
+        window.addEventListener('load', function() {
+            setTimeout(animateCounters, 1000);
+        });
+        
+        // Track page views
+        gtag('event', 'page_view', {
+            page_title: 'Detectar - Advanced AI Content Detection',
+            page_location: window.location.href
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT API Keys - Secure API Key Management Platform</title>
+    <meta name="description" content="Manage your GPT and AI API keys securely with advanced monitoring, usage analytics, and enterprise-grade security features.">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8ZBQPN3S3C"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-8ZBQPN3S3C');
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --secondary: #3b82f6;
+            --accent: #8b5cf6;
+            --dark: #1f2937;
+            --darker: #111827;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: #1f2937;
+            overflow-x: hidden;
+            background: var(--darker);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(17, 24, 39, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo::before {
+            content: '{ }';
+            color: var(--accent);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #d1d5db;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="code" width="20" height="20" patternUnits="userSpaceOnUse"><text x="2" y="15" font-family="monospace" font-size="12" fill="rgba(16,185,129,0.1)">01</text></pattern></defs><rect width="100" height="100" fill="url(%23code)"/></svg>');
+            animation: codeScroll 20s linear infinite;
+        }
+
+        @keyframes codeScroll {
+            0% { transform: translateX(0) translateY(0); }
+            100% { transform: translateX(-20px) translateY(-20px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .hero-text .highlight {
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 15px 35px;
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            animation: slideInRight 1s ease-out 0.6s both;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .terminal {
+            background: #1e1e1e;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            animation: terminalGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes terminalGlow {
+            from { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); }
+            to { box-shadow: 0 20px 60px rgba(16, 185, 129, 0.2); }
+        }
+
+        .terminal-header {
+            background: #2d2d30;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27ca3f; }
+
+        .terminal-body {
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: #d4d4d4;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            animation: typewriter 0.5s ease-out both;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 1s; }
+        .terminal-line:nth-child(2) { animation-delay: 1.5s; }
+        .terminal-line:nth-child(3) { animation-delay: 2s; }
+        .terminal-line:nth-child(4) { animation-delay: 2.5s; }
+
+        @keyframes typewriter {
+            from { width: 0; overflow: hidden; }
+            to { width: 100%; }
+        }
+
+        .prompt {
+            color: var(--primary);
+        }
+
+        .command {
+            color: #569cd6;
+        }
+
+        .string {
+            color: #ce9178;
+        }
+
+        .success {
+            color: var(--primary);
+        }
+
+        /* Features Section */
+        .features {
+            padding: 100px 0;
+            background: var(--dark);
+            color: white;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(16, 185, 129, 0.05);
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+            border-color: var(--primary);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .feature-icon::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--accent), var(--secondary));
+            border-radius: 18px;
+            z-index: -1;
+            animation: spin 3s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .feature-icon i {
+            font-size: 2rem;
+            color: white;
+            z-index: 2;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .feature-card p {
+            color: #d1d5db;
+            line-height: 1.7;
+        }
+
+        /* Dashboard Preview */
+        .dashboard-preview {
+            padding: 100px 0;
+            background: var(--light);
+        }
+
+        .dashboard-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+
+        .dashboard-header {
+            background: var(--dark);
+            color: white;
+            padding: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .dashboard-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .dashboard-body {
+            padding: 2rem;
+        }
+
+        .api-keys-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .api-key-item {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            padding: 1.5rem;
+            background: #f9fafb;
+            border-radius: 12px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .api-key-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 5px 20px rgba(16, 185, 129, 0.1);
+        }
+
+        .api-key-info {
+            flex: 1;
+        }
+
+        .api-key-name {
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--dark);
+        }
+
+        .api-key-value {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .api-key-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-limited {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .cta-content h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, white, var(--primary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-content p {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tally-form {
+            max-width: 500px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 20px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--darker);
+            color: white;
+            padding: 50px 0 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .footer-section a {
+            color: #9ca3af;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+            color: #6b7280;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+
+            .dashboard-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .api-key-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(16, 185, 129, 0.3);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        .loaded .loading {
+            opacity: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo">GPT API Keys</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#docs">Documentation</a></li>
+                <li><a href="#cta" class="cta-button">Get Started</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Manage Your <span class="highlight">API Keys</span> Like a Pro</h1>
+                    <p>Secure, monitor, and optimize your GPT and AI API keys with advanced analytics, usage limits, and enterprise-grade security features.</p>
+                    <div class="hero-buttons">
+                        <a href="#cta" class="btn-primary">Start Free Trial</a>
+                        <a href="#features" class="btn-secondary">View Features</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="terminal">
+                        <div class="terminal-header">
+                            <div class="terminal-dot red"></div>
+                            <div class="terminal-dot yellow"></div>
+                            <div class="terminal-dot green"></div>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-line">
+                                <span class="prompt">$</span> <span class="command">gpt-keys</span> <span class="string">list</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ Found 3 active API keys</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="prompt">$</span> <span class="command">gpt-keys</span> <span class="string">monitor</span> <span class="string">--realtime</span>
+                            </div>
+                            <div class="terminal-line">
+                                <span class="success">✓ Real-time monitoring enabled</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h2>Enterprise-Grade API Management</h2>
+                <p>Everything you need to securely manage, monitor, and optimize your AI API usage</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Advanced Security</h3>
+                    <p>Military-grade encryption, secure key rotation, IP whitelisting, and comprehensive audit logs to protect your valuable API keys.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Real-time Analytics</h3>
+                    <p>Monitor usage patterns, track costs, identify bottlenecks, and optimize API consumption with detailed analytics and insights.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cog"></i>
+                    </div>
+                    <h3>Smart Rate Limiting</h3>
+                    <p>Intelligent rate limiting, usage quotas, and automatic scaling to prevent overages and optimize costs across all your projects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3>Instant Alerts</h3>
+                    <p>Get notified of unusual activity, approaching limits, security threats, and cost overruns via email, Slack, or webhook.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Team Collaboration</h3>
+                    <p>Share keys securely with team members, set role-based permissions, and maintain complete visibility across your organization.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3>Developer Tools</h3>
+                    <p>RESTful API, CLI tools, SDKs for popular languages, and comprehensive documentation for seamless integration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dashboard Preview -->
+    <section class="dashboard-preview" id="dashboard">
+        <div class="container">
+            <div class="section-header">
+                <h2 style="color: #1f2937;">Powerful Dashboard</h2>
+                <p style="color: #6b7280;">Monitor all your API keys from a single, intuitive interface</p>
+            </div>
+            <div class="dashboard-container">
+                <div class="dashboard-header">
+                    <div class="dashboard-title">API Key Management</div>
+                    <div class="dashboard-stats">
+                        <div class="stat">
+                            <div class="stat-value">42</div>
+                            <div class="stat-label">Active Keys</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$1,247</div>
+                            <div class="stat-label">This Month</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dashboard-body">
+                    <div class="api-keys-list">
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <div class="api-key-name">OpenAI GPT-4 Production</div>
+                                <div class="api-key-value">sk-••••••••••••••••••••••••••••••••••••••••••••••••Ab12</div>
+                            </div>
+                            <div class="api-key-status status-active">Active</div>
+                        </div>
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <div class="api-key-name">OpenAI GPT-3.5 Development</div>
+                                <div class="api-key-value">sk-••••••••••••••••••••••••••••••••••••••••••••••••Cd34</div>
+                            </div>
+                            <div class="api-key-status status-active">Active</div>
+                        </div>
+                        <div class="api-key-item">
+                            <div class="api-key-info">
+                                <div class="api-key-name">Claude Anthropic API</div>
+                                <div class="api-key-value">ant-••••••••••••••••••••••••••••••••••••••••••••••••Ef56</div>
+                            </div>
+                            <div class="api-key-status status-limited">Rate Limited</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section" id="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Secure Your API Keys?</h2>
+                <p>Join thousands of developers who trust GPT API Keys to manage their most valuable assets. Start your free trial today!</p>
+                
+                <div class="tally-form">
+                    <form data-tally-form="w8qPkM">
+                        <div class="form-group">
+                            <label for="developer-name">Full Name *</label>
+                            <input type="text" id="developer-name" name="developer-name" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company/Organization</label>
+                            <input type="text" id="company" name="company" placeholder="Your company name">
+                        </div>
+                        <div class="form-group">
+                            <label for="api-usage">Current API Usage</label>
+                            <select id="api-usage" name="api-usage">
+                                <option value="getting-started">Just getting started</option>
+                                <option value="light">Light usage (< $100/month)</option>
+                                <option value="medium">Medium usage ($100-$1000/month)</option>
+                                <option value="heavy">Heavy usage ($1000+/month)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="primary-apis">Primary APIs Used</label>
+                            <select id="primary-apis" name="primary-apis">
+                                <option value="openai">OpenAI (GPT-3.5, GPT-4)</option>
+                                <option value="anthropic">Anthropic Claude</option>
+                                <option value="google">Google AI (PaLM, Bard)</option>
+                                <option value="multiple">Multiple providers</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="submit-btn">Start Free Trial</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <a href="#">API Management</a>
+                    <a href="#">Security Features</a>
+                    <a href="#">Analytics Dashboard</a>
+                    <a href="#">Team Collaboration</a>
+                    <a href="#">Pricing</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Integrations</h3>
+                    <a href="#">OpenAI</a>
+                    <a href="#">Anthropic Claude</a>
+                    <a href="#">Google AI</a>
+                    <a href="#">Hugging Face</a>
+                    <a href="#">Custom APIs</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Developers</h3>
+                    <a href="#">API Documentation</a>
+                    <a href="#">SDKs & Libraries</a>
+                    <a href="#">CLI Tools</a>
+                    <a href="#">Code Examples</a>
+                    <a href="#">Status Page</a>
+                </div>
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="#">About Us</a>
+                    <a href="#">Security</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 GPT API Keys. All rights reserved. | Built with ❤️ for developers</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tally Forms Script -->
+    <script src="https://tally.so/widgets/embed.js"></script>
+
+    <!-- Custom JavaScript -->
+    <script>
+        // Loading animation
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(17, 24, 39, 0.98)';
+                header.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.2)';
+            } else {
+                header.style.background = 'rgba(17, 24, 39, 0.95)';
+                header.style.boxShadow = 'none';
+            }
+        });
+
+        // Terminal typing animation
+        function typeWriter(element, text, speed = 50) {
+            element.innerHTML = '';
+            let i = 0;
+            const timer = setInterval(() => {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                } else {
+                    clearInterval(timer);
+                }
+            }, speed);
+        }
+
+        // Animate terminal lines on load
+        window.addEventListener('load', function() {
+            const terminalLines = document.querySelectorAll('.terminal-line');
+            terminalLines.forEach((line, index) => {
+                setTimeout(() => {
+                    line.style.animation = 'none';
+                    line.style.opacity = '1';
+                    line.style.width = '100%';
+                }, index * 500 + 2000);
+            });
+        });
+
+        // Animate dashboard stats
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statValues = entry.target.querySelectorAll('.stat-value');
+                    statValues.forEach(stat => {
+                        const text = stat.textContent;
+                        if (text.includes('$')) {
+                            animateValue(stat, 0, 1247, 2000, '$', '');
+                        } else if (text.includes('%')) {
+                            animateValue(stat, 0, 99.9, 2000, '', '%');
+                        } else {
+                            animateValue(stat, 0, parseInt(text), 2000);
+                        }
+                    });
+                }
+            });
+        }, observerOptions);
+
+        const dashboardSection = document.querySelector('.dashboard-preview');
+        if (dashboardSection) {
+            observer.observe(dashboardSection);
+        }
+
+        function animateValue(element, start, end, duration, prefix = '', suffix = '') {
+            let current = start;
+            const range = end - start;
+            const increment = range / (duration / 16);
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= end) {
+                    current = end;
+                    clearInterval(timer);
+                }
+                element.textContent = prefix + Math.floor(current * 10) / 10 + suffix;
+            }, 16);
+        }
+
+        // Form handling
+        document.querySelector('form[data-tally-form]').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            if (!data.email || !data['developer-name']) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            const submitBtn = this.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Setting up your account...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Welcome to GPT API Keys! Check your email for login credentials and next steps.');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                gtag('event', 'conversion', {
+                    'send_to': 'G-8ZBQPN3S3C',
+                    'event_category': 'Signup',
+                    'event_label': 'GPT API Keys Trial'
+                });
+            }, 2500);
+        });
+
+        // API key hover effects
+        document.querySelectorAll('.api-key-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(5px)';
+                const keyValue = this.querySelector('.api-key-value');
+                if (keyValue) {
+                    keyValue.style.color = '#10b981';
+                }
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0)';
+                const keyValue = this.querySelector('.api-key-value');
+                if (keyValue) {
+                    keyValue.style.color = '#6b7280';
+                }
+            });
+        });
+
+        // Feature card animations
+        document.querySelectorAll('.feature-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                const icon = this.querySelector('.feature-icon');
+                if (icon) {
+                    icon.style.transform = 'scale(1.1) rotate(5deg)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                const icon = this.querySelector('.feature-icon');
+                if (icon) {
+                    icon.style.transform = 'scale(1) rotate(0deg)';
+                }
+            });
+        });
+
+        // Code syntax highlighting simulation
+        function highlightCode() {
+            const codeElements = document.querySelectorAll('.terminal-line');
+            codeElements.forEach(element => {
+                const text = element.innerHTML;
+                // Simple syntax highlighting for demo
+                element.innerHTML = text
+                    .replace(/(\$)/g, '<span class="prompt">$</span>')
+                    .replace(/(gpt-keys|list|monitor)/g, '<span class="command">$1</span>')
+                    .replace(/(".*?")/g, '<span class="string">$1</span>')
+                    .replace(/(✓.*)/g, '<span class="success">$1</span>');
+            });
+        }
+
+        // Initialize code highlighting
+        setTimeout(highlightCode, 3000);
+    </script>
+</body>
+</html>

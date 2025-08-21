@@ -3,13 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instant Virtual Cards - Digital Payment Solutions</title>
-    <meta name="description" content="Create virtual debit cards instantly for online payments">
+    <title>InstantVirtualCards - Secure Virtual Payment Cards | Create Cards Instantly</title>
+    <meta name="description" content="Generate secure virtual payment cards instantly for online shopping, subscriptions, and business expenses. Enhanced security, spending controls, and instant activation.">
+    <meta name="keywords" content="virtual cards, payment security, online shopping, business expenses, virtual credit cards, secure payments">
+    <meta name="author" content="InstantVirtualCards">
+    <meta property="og:title" content="InstantVirtualCards - Secure Virtual Payment Cards">
+    <meta property="og:description" content="Generate secure virtual payment cards instantly with advanced security and spending controls">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://instantvirtualcards.com">
+    <link rel="canonical" href="https://instantvirtualcards.com">
     
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1B4DCV3VGT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1B4DCV3VGT');
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #06d6a0;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --white: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --shadow: rgba(15, 23, 42, 0.08);
+            --shadow-hover: rgba(15, 23, 42, 0.16);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -17,145 +51,612 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #059669 0%, #0891b2 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            background: var(--white);
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 4px 20px var(--shadow-hover);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #06d6a0 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="circuit" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 0v5h5m-5 5v5h5m-10 5h5v-5" fill="none" stroke="%23ffffff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23circuit)"/></svg>') repeat;
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.7; }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            color: var(--white);
+        }
+        
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: slideInUp 0.8s ease;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white), rgba(255, 255, 255, 0.8));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            animation: slideInUp 0.8s ease 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            font-size: 1rem;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: var(--white);
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--white);
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            animation: slideInUp 0.8s ease 0.8s both;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+            display: block;
+        }
+        
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .card-preview {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 450px;
+            animation: slideInRight 0.8s ease;
+        }
+        
+        .virtual-card {
+            background: linear-gradient(135deg, #1e293b, #334155);
+            border-radius: 16px;
+            padding: 1.5rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+        
+        .virtual-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1));
+            animation: shine 3s ease-in-out infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            50% { transform: translateX(100%) translateY(100%); }
+            100% { transform: translateX(-100%) translateY(-100%); }
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+        }
+        
+        .card-logo {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+        
+        .card-type {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .card-number {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+        
+        .card-holder {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card-expiry {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .card-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--white);
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .action-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--light);
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
         }
         
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #059669;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #059669;
-        }
-        
-        .hero {
-            padding: 100px 20px;
+        .section-header {
             text-align: center;
-            color: white;
+            margin-bottom: 4rem;
         }
         
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #059669;
-            text-decoration: none;
+        .section-badge {
+            background: rgba(37, 99, 235, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
         
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .section-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
         
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
         
         .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(37, 99, 235, 0.08), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--primary);
         }
         
         .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
         }
         
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #059669;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
         
-        footer {
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+        
+        /* Security Section */
+        .security-section {
+            padding: 6rem 0;
+            background: var(--white);
+        }
+        
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .security-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .security-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(45deg, var(--success), var(--accent));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        
+        .security-content h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .security-content p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--white);
             text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
         }
         
-        @keyframes fadeInUp {
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="80" r="3" fill="%23ffffff" opacity="0.1"><animate attributeName="opacity" values="0.1;0.4;0.1" dur="2s" repeatCount="indefinite" begin="1s"/></circle></svg>') repeat;
+        }
+        
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -163,65 +664,593 @@
             }
         }
         
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
+                box-shadow: 0 4px 20px var(--shadow);
             }
             
-            .tagline {
-                font-size: 18px;
+            .nav-menu.active {
+                left: 0;
             }
             
-            nav a {
-                display: none;
+            .nav-toggle {
+                display: block;
             }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 2.2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .security-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-title {
+                font-size: 2.2rem;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid var(--white);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">instantvirtualcards.com</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
     
-    <div class="hero">
+    <!-- Cursor -->
+    <div class="cursor-dot" id="cursor"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-credit-card"></i>
+                InstantVirtualCards
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#security" class="nav-link">Security</a></li>
+                <li><a href="#pricing" class="nav-link">Pricing</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    Secure Virtual Payments
+                </div>
+                <h1 class="hero-title">Create Virtual Cards Instantly</h1>
+                <p class="hero-subtitle">
+                    Generate secure virtual payment cards in seconds for online shopping, subscriptions, and business expenses. 
+                    Enhanced security with spending controls and instant activation.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" onclick="openTallyForm()">
+                        <i class="fas fa-plus-circle"></i>
+                        Create Card Now
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        <i class="fas fa-play"></i>
+                        See How It Works
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="5">0</span>
+                        <span class="stat-label">Seconds to Create</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="100000">0</span>
+                        <span class="stat-label">Cards Generated</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="99">0</span>
+                        <span class="stat-label">% Secure</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="card-preview">
+                    <div class="virtual-card">
+                        <div class="card-header">
+                            <div class="card-logo">VIRTUAL</div>
+                            <div class="card-type">INSTANT CARD</div>
+                        </div>
+                        <div class="card-number">•••• •••• •••• 4242</div>
+                        <div class="card-footer">
+                            <div class="card-holder">JOHN SMITH</div>
+                            <div class="card-expiry">12/26</div>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <div class="action-btn">
+                            <i class="fas fa-lock"></i>
+                            Freeze
+                        </div>
+                        <div class="action-btn">
+                            <i class="fas fa-chart-bar"></i>
+                            Spending
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="container">
-            <h1>Virtual Cards in Seconds</h1>
-            <p class="tagline">Secure Online Payments Made Simple</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'instantvirtualcards.com'})">Create Card Now</a>
+            <div class="section-header fade-in-up">
+                <div class="section-badge">Core Features</div>
+                <h2 class="section-title">Everything You Need for Safe Online Payments</h2>
+                <p class="section-subtitle">
+                    Advanced virtual card features designed for maximum security and convenience
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Instant Generation</h3>
+                    <p class="feature-description">
+                        Create virtual cards in under 5 seconds with immediate activation. 
+                        No waiting periods, no delays - start using your card right away.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3 class="feature-title">Spending Controls</h3>
+                    <p class="feature-description">
+                        Set custom spending limits, merchant restrictions, and expiration dates. 
+                        Complete control over how and where your virtual cards can be used.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="feature-title">Freeze & Unfreeze</h3>
+                    <p class="feature-description">
+                        Instantly freeze suspicious transactions or temporarily disable cards. 
+                        Unfreeze with a single click when you're ready to use them again.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile Management</h3>
+                    <p class="feature-description">
+                        Manage all your virtual cards from our mobile app. Create, control, 
+                        and monitor your cards anywhere, anytime with full functionality.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Real-time Analytics</h3>
+                    <p class="feature-description">
+                        Track spending patterns, analyze transaction data, and receive insights 
+                        about your payment behavior with detailed reports and analytics.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <h3 class="feature-title">Business Solutions</h3>
+                    <p class="feature-description">
+                        Enterprise-grade virtual cards for business expenses, employee cards, 
+                        and vendor payments with advanced approval workflows and reporting.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     
-    <div class="features" id="features">
-        <h2>Virtual Card Benefits</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">💳</div>
-                <h3>Instant Creation</h3>
-                <p>Generate virtual cards in seconds, no waiting</p>
+    <!-- Security Section -->
+    <section class="security-section" id="security">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-badge">Bank-Level Security</div>
+                <h2 class="section-title">Your Security is Our Priority</h2>
+                <p class="section-subtitle">
+                    Multi-layered security architecture protecting every transaction
+                </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔐</div>
-                <h3>Maximum Security</h3>
-                <p>Single-use cards for maximum payment security</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🌍</div>
-                <h3>Global Acceptance</h3>
-                <p>Works with any online merchant worldwide</p>
+            <div class="security-grid">
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>256-bit Encryption</h3>
+                        <p>All card data is encrypted using military-grade AES-256 encryption with secure key management.</p>
+                    </div>
+                </div>
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>PCI DSS Compliant</h3>
+                        <p>Fully compliant with Payment Card Industry Data Security Standards for safe card processing.</p>
+                    </div>
+                </div>
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Privacy Protection</h3>
+                        <p>Your real card details are never exposed to merchants, protecting against data breaches.</p>
+                    </div>
+                </div>
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Fraud Monitoring</h3>
+                        <p>Real-time fraud detection with instant alerts for suspicious activities and transactions.</p>
+                    </div>
+                </div>
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-fingerprint"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Biometric Access</h3>
+                        <p>Secure app access with fingerprint and face recognition for added security layers.</p>
+                    </div>
+                </div>
+                <div class="security-item fade-in-up">
+                    <div class="security-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <div class="security-content">
+                        <h3>Transaction History</h3>
+                        <p>Complete audit trail of all transactions with detailed logs and verification capabilities.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     
-    <footer>
-        <p>&copy; 2024 instantvirtualcards.com. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in-up">
+                <h2 class="cta-title">Start Creating Virtual Cards Today</h2>
+                <p class="cta-subtitle">
+                    Join thousands of users who trust InstantVirtualCards for secure online payments
+                </p>
+                <a href="#" class="btn btn-primary" onclick="openTallyForm()">
+                    <i class="fas fa-rocket"></i>
+                    Get Started Free
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>InstantVirtualCards</h4>
+                    <p>Secure virtual payment cards created instantly for safer online transactions.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#">Personal Cards</a></li>
+                        <li><a href="#">Business Cards</a></li>
+                        <li><a href="#">Enterprise Solutions</a></li>
+                        <li><a href="#">Mobile App</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Security</h4>
+                    <ul>
+                        <li><a href="#">Security Features</a></li>
+                        <li><a href="#">Compliance</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">Status Page</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 InstantVirtualCards. All rights reserved. | Part of the Sami Halawa Digital Portfolio</p>
+            </div>
+        </div>
     </footer>
+    
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1200);
+        });
+        
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 60;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        if (target >= 100000) {
+                            counter.textContent = (current / 1000).toFixed(0) + 'K+';
+                        } else {
+                            counter.textContent = Math.ceil(current);
+                        }
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        if (target >= 100000) {
+                            counter.textContent = (target / 1000).toFixed(0) + 'K+';
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                };
+                updateCounter();
+            });
+        }
+        
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.querySelector('[data-count]')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Tally Form Integration
+        function openTallyForm() {
+            if (window.Tally) {
+                window.Tally.openPopup('mO2EYY', {
+                    width: 500,
+                    height: 600,
+                    overlay: true
+                });
+            } else {
+                // Fallback to direct URL
+                window.open('https://tally.so/r/mO2EYY', '_blank', 'width=500,height=600');
+            }
+            
+            // Track conversion
+            gtag('event', 'form_open', {
+                form_name: 'instantvirtualcards_signup',
+                page_location: window.location.href
+            });
+        }
+        
+        // Load Tally Widget
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://tally.so/widgets/embed.js';
+            script.async = true;
+            document.head.appendChild(script);
+        })();
+        
+        // Initialize counters on load
+        setTimeout(animateCounters, 2000);
+        
+        // Track page views
+        gtag('event', 'page_view', {
+            page_title: 'InstantVirtualCards - Secure Virtual Payment Cards',
+            page_location: window.location.href
+        });
+        
+        // Virtual Card Interactive Effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const virtualCard = document.querySelector('.virtual-card');
+            const actionBtns = document.querySelectorAll('.action-btn');
+            
+            // Add hover effects to virtual card
+            virtualCard.addEventListener('mouseenter', function() {
+                this.style.transform = 'rotateY(5deg) rotateX(5deg)';
+            });
+            
+            virtualCard.addEventListener('mouseleave', function() {
+                this.style.transform = 'rotateY(0deg) rotateX(0deg)';
+            });
+            
+            // Add click effects to action buttons
+            actionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 150);
+                });
+            });
+        });
+    </script>
 </body>
 </html>

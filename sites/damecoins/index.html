@@ -3,13 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DameCoins - Cryptocurrency Exchange Platform</title>
-    <meta name="description" content="Buy and sell cryptocurrencies instantly with DameCoins">
+    <title>DameCoins - Professional Cryptocurrency Exchange | Trade Bitcoin, Ethereum & More</title>
+    <meta name="description" content="Professional cryptocurrency exchange platform. Trade Bitcoin, Ethereum, and 100+ cryptocurrencies with institutional-grade security, real-time analytics, and 0.1% fees.">
+    <meta name="keywords" content="cryptocurrency, bitcoin, ethereum, crypto exchange, trading, blockchain, digital assets">
+    <meta name="author" content="DameCoins">
+    <meta property="og:title" content="DameCoins - Professional Cryptocurrency Exchange">
+    <meta property="og:description" content="Trade cryptocurrencies with institutional-grade security and 0.1% fees">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://damecoins.com">
+    <link rel="canonical" href="https://damecoins.com">
     
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-1B4DCV3VGT"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-1B4DCV3VGT');
+    </script>
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary: #f7931a;
+            --primary-dark: #e8830d;
+            --secondary: #6c63ff;
+            --success: #00c851;
+            --danger: #ff4444;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --text: #333333;
+            --text-light: #666666;
+            --border: #e1e5e9;
+            --shadow: rgba(0,0,0,0.1);
+            --shadow-hover: rgba(0,0,0,0.2);
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -17,145 +49,630 @@
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #f7931a 0%, #ff6b6b 100%);
+            color: var(--text);
+            overflow-x: hidden;
+            background: var(--dark);
+        }
+        
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10000;
+            transition: transform 0.1s ease;
+            mix-blend-mode: difference;
+        }
+        
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(26, 26, 26, 0.98);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-link {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Hero Section */
+        .hero {
             min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d1b4e 50%, #1a1a1a 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="2" fill="%23f7931a" opacity="0.3"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="40" r="1.5" fill="%236c63ff" opacity="0.4"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/></circle><circle cx="40" cy="80" r="2.5" fill="%23f7931a" opacity="0.2"><animate attributeName="opacity" values="0.2;0.7;0.2" dur="4s" repeatCount="indefinite" begin="1s"/></circle></svg>') repeat;
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-content {
+            color: var(--white);
+        }
+        
+        .hero-badge {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1.5rem;
+            animation: slideInUp 0.8s ease;
+        }
+        
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--white), var(--primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: slideInUp 0.8s ease 0.2s both;
+        }
+        
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease 0.4s both;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease 0.6s both;
+        }
+        
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary), var(--primary-dark));
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(247, 147, 26, 0.3);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: var(--white);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+        
+        .btn-outline:hover {
+            background: var(--white);
+            color: var(--dark);
+            border-color: var(--white);
+        }
+        
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            animation: slideInUp 0.8s ease 0.8s both;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+        }
+        
+        .stat-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .trading-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 400px;
+            animation: slideInRight 0.8s ease;
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .crypto-pair {
+            color: var(--white);
+            font-weight: 600;
+        }
+        
+        .price-change {
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .price-chart {
+            height: 100px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .price-chart::before {
+            content: '';
+            position: absolute;
+            top: 20%;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--white);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .action-btn {
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--white);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .action-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+        
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: var(--white);
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0 2rem;
         }
         
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #f7931a;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #f7931a;
-        }
-        
-        .hero {
-            padding: 100px 20px;
+        .section-header {
             text-align: center;
-            color: white;
+            margin-bottom: 4rem;
         }
         
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #f7931a;
-            text-decoration: none;
+        .section-badge {
+            background: rgba(247, 147, 26, 0.1);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
             border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
         }
         
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
         
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
         }
         
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
         }
         
         .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
+            background: var(--white);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(247, 147, 26, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .feature-card:hover::before {
+            left: 100%;
         }
         
         .feature-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow-hover);
+            border-color: var(--primary);
         }
         
         .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            color: var(--white);
         }
         
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #f7931a;
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--dark);
         }
         
-        footer {
+        .feature-description {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        /* Trading Section */
+        .trading-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--light), var(--white));
+        }
+        
+        .trading-dashboard {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px var(--shadow);
+            border: 1px solid var(--border);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .market-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--success);
+            font-weight: 600;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse 1s ease-in-out infinite;
+        }
+        
+        .crypto-list {
+            display: grid;
+            gap: 1rem;
+        }
+        
+        .crypto-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            gap: 1rem;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            align-items: center;
+        }
+        
+        .crypto-item:hover {
+            background: var(--light);
+        }
+        
+        .crypto-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--white);
+        }
+        
+        .btc { background: #f7931a; }
+        .eth { background: #627eea; }
+        .ada { background: #0033ad; }
+        
+        .crypto-info h4 {
+            font-weight: 600;
+            margin-bottom: 0.2rem;
+        }
+        
+        .crypto-symbol {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+        
+        .crypto-price {
+            text-align: right;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .crypto-change {
+            text-align: right;
+            font-weight: 600;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+        
+        .positive {
+            background: rgba(0, 200, 81, 0.1);
+            color: var(--success);
+        }
+        
+        .negative {
+            background: rgba(255, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, var(--dark), var(--primary));
+            color: var(--white);
             text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
         }
         
-        @keyframes fadeInUp {
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer-section a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: rgba(255,255,255,0.6);
+        }
+        
+        /* Animations */
+        @keyframes slideInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(50px);
             }
             to {
                 opacity: 1;
@@ -163,65 +680,565 @@
             }
         }
         
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        /* Responsive Design */
         @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--dark);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
             }
             
-            .tagline {
-                font-size: 18px;
+            .nav-menu.active {
+                left: 0;
             }
             
-            nav a {
-                display: none;
+            .nav-toggle {
+                display: block;
             }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-stats {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .trading-dashboard {
+                padding: 1.5rem;
+            }
+            
+            .crypto-item {
+                grid-template-columns: auto 1fr;
+                gap: 1rem;
+            }
+            
+            .crypto-price,
+            .crypto-change {
+                grid-column: 2;
+                text-align: left;
+            }
+        }
+        
+        /* Scroll Animations */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Loading Animation */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 0.5s ease;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(247, 147, 26, 0.3);
+            border-top: 3px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">damecoins.com</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
+    <!-- Loading Screen -->
+    <div class="loading" id="loading">
+        <div class="loader"></div>
+    </div>
     
-    <div class="hero">
+    <!-- Cursor -->
+    <div class="cursor-dot" id="cursor"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-coins"></i>
+                DameCoins
+            </a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#trading" class="nav-link">Trading</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <button class="nav-toggle" id="nav-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+    
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-shield-alt"></i>
+                    Regulated & Secure Exchange
+                </div>
+                <h1 class="hero-title">Trade Crypto with Confidence</h1>
+                <p class="hero-subtitle">
+                    Professional cryptocurrency exchange with institutional-grade security, 
+                    real-time analytics, and industry-leading 0.1% trading fees.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#" class="btn btn-primary" onclick="openTallyForm()">
+                        <i class="fas fa-rocket"></i>
+                        Start Trading Now
+                    </a>
+                    <a href="#features" class="btn btn-outline">
+                        <i class="fas fa-play"></i>
+                        Watch Demo
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="100">0</span>
+                        <span class="stat-label">Cryptocurrencies</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="1000000">0</span>
+                        <span class="stat-label">Active Users</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">$<span data-count="10">0</span>B+</span>
+                        <span class="stat-label">Trading Volume</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="trading-card">
+                    <div class="card-header">
+                        <div class="crypto-pair">BTC/USD</div>
+                        <div class="price-change">+5.24%</div>
+                    </div>
+                    <div class="price-chart"></div>
+                    <div class="quick-actions">
+                        <button class="action-btn">Buy</button>
+                        <button class="action-btn">Sell</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features Section -->
+    <section class="features" id="features">
         <div class="container">
-            <h1>Your Gateway to Cryptocurrency</h1>
-            <p class="tagline">Buy, Sell, and Trade Digital Assets with Confidence</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'damecoins.com'})">Start Trading Now</a>
+            <div class="section-header fade-in-up">
+                <div class="section-badge">Why Choose DameCoins</div>
+                <h2 class="section-title">Advanced Trading Features</h2>
+                <p class="section-subtitle">
+                    Experience professional-grade cryptocurrency trading with our cutting-edge platform
+                </p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="feature-title">Lightning Fast Execution</h3>
+                    <p class="feature-description">
+                        Execute trades in milliseconds with our high-performance matching engine 
+                        and 99.99% uptime guarantee.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Military-Grade Security</h3>
+                    <p class="feature-description">
+                        Multi-signature cold storage, 2FA, biometric login, and insurance 
+                        coverage protect your digital assets.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">Advanced Analytics</h3>
+                    <p class="feature-description">
+                        Professional trading tools, real-time charts, technical indicators, 
+                        and AI-powered market insights.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <h3 class="feature-title">Competitive Fees</h3>
+                    <p class="feature-description">
+                        Industry-leading 0.1% trading fees with volume discounts and 
+                        zero deposit/withdrawal fees for crypto.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">24/7 Expert Support</h3>
+                    <p class="feature-description">
+                        Round-the-clock customer support from crypto experts in multiple 
+                        languages via chat, email, and phone.
+                    </p>
+                </div>
+                <div class="feature-card fade-in-up">
+                    <div class="feature-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="feature-title">Mobile Trading</h3>
+                    <p class="feature-description">
+                        Trade on-the-go with our award-winning mobile apps for iOS and Android 
+                        with full desktop feature parity.
+                    </p>
+                </div>
+            </div>
         </div>
-    </div>
+    </section>
     
-    <div class="features" id="features">
-        <h2>Why Choose DameCoins?</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Instant Trading</h3>
-                <p>Buy and sell cryptocurrencies in seconds with competitive rates</p>
+    <!-- Trading Section -->
+    <section class="trading-section" id="trading">
+        <div class="container">
+            <div class="section-header fade-in-up">
+                <div class="section-badge">Live Market Data</div>
+                <h2 class="section-title">Real-Time Trading Dashboard</h2>
+                <p class="section-subtitle">
+                    Monitor live prices and execute trades with our professional trading interface
+                </p>
             </div>
-            <div class="feature-card">
-                <div class="feature-icon">🔒</div>
-                <h3>Secure Platform</h3>
-                <p>Bank-level security with cold storage and 2FA protection</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">💬</div>
-                <h3>24/7 Support</h3>
-                <p>Round-the-clock customer support in multiple languages</p>
+            <div class="trading-dashboard fade-in-up">
+                <div class="dashboard-header">
+                    <h3 class="dashboard-title">Top Cryptocurrencies</h3>
+                    <div class="market-status">
+                        <div class="status-dot"></div>
+                        Markets Open
+                    </div>
+                </div>
+                <div class="crypto-list">
+                    <div class="crypto-item">
+                        <div class="crypto-icon btc">₿</div>
+                        <div class="crypto-info">
+                            <h4>Bitcoin</h4>
+                            <div class="crypto-symbol">BTC</div>
+                        </div>
+                        <div class="crypto-price">$45,234.67</div>
+                        <div class="crypto-change positive">+5.24%</div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-icon eth">Ξ</div>
+                        <div class="crypto-info">
+                            <h4>Ethereum</h4>
+                            <div class="crypto-symbol">ETH</div>
+                        </div>
+                        <div class="crypto-price">$3,123.45</div>
+                        <div class="crypto-change positive">+3.18%</div>
+                    </div>
+                    <div class="crypto-item">
+                        <div class="crypto-icon ada">₳</div>
+                        <div class="crypto-info">
+                            <h4>Cardano</h4>
+                            <div class="crypto-symbol">ADA</div>
+                        </div>
+                        <div class="crypto-price">$1.23</div>
+                        <div class="crypto-change negative">-1.45%</div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
     
-    <footer>
-        <p>&copy; 2024 damecoins.com. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content fade-in-up">
+                <h2 class="cta-title">Ready to Start Trading?</h2>
+                <p class="cta-subtitle">
+                    Join millions of traders worldwide and experience the future of cryptocurrency trading
+                </p>
+                <a href="#" class="btn btn-primary" onclick="openTallyForm()">
+                    <i class="fas fa-user-plus"></i>
+                    Create Free Account
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>DameCoins</h4>
+                    <p>Professional cryptocurrency exchange platform trusted by millions worldwide.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Products</h4>
+                    <ul>
+                        <li><a href="#">Spot Trading</a></li>
+                        <li><a href="#">Margin Trading</a></li>
+                        <li><a href="#">Futures</a></li>
+                        <li><a href="#">DeFi Staking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">API Documentation</a></li>
+                        <li><a href="#">System Status</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Press</a></li>
+                        <li><a href="#">Legal</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 DameCoins. All rights reserved. | Part of the Sami Halawa Digital Portfolio</p>
+            </div>
+        </div>
     </footer>
+    
+    <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                document.getElementById('loading').classList.add('hidden');
+            }, 1500);
+        });
+        
+        // Custom Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+        
+        // Navbar Scroll Effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+        
+        // Mobile Menu Toggle
+        const navToggle = document.getElementById('nav-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        navToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = navToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                const icon = navToggle.querySelector('i');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times');
+            });
+        });
+        
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('[data-count]');
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                let current = 0;
+                const increment = target / 100;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        if (target >= 1000000) {
+                            counter.textContent = (current / 1000000).toFixed(1) + 'M+';
+                        } else if (target >= 1000) {
+                            counter.textContent = (current / 1000).toFixed(0) + 'K+';
+                        } else {
+                            counter.textContent = Math.ceil(current);
+                        }
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        if (target >= 1000000) {
+                            counter.textContent = (target / 1000000).toFixed(1) + 'M+';
+                        } else if (target >= 1000) {
+                            counter.textContent = (target / 1000).toFixed(0) + 'K+';
+                        } else {
+                            counter.textContent = target;
+                        }
+                    }
+                };
+                updateCounter();
+            });
+        }
+        
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.querySelector('[data-count]')) {
+                        animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.fade-in-up').forEach(el => {
+            observer.observe(el);
+        });
+        
+        // Smooth Scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Tally Form Integration
+        function openTallyForm() {
+            if (window.Tally) {
+                window.Tally.openPopup('mO2EYY', {
+                    width: 500,
+                    height: 600,
+                    overlay: true
+                });
+            } else {
+                // Fallback to direct URL
+                window.open('https://tally.so/r/mO2EYY', '_blank', 'width=500,height=600');
+            }
+            
+            // Track conversion
+            gtag('event', 'form_open', {
+                form_name: 'damecoins_signup',
+                page_location: window.location.href
+            });
+        }
+        
+        // Load Tally Widget
+        (function() {
+            const script = document.createElement('script');
+            script.src = 'https://tally.so/widgets/embed.js';
+            script.async = true;
+            document.head.appendChild(script);
+        })();
+        
+        // Initialize counters on load
+        setTimeout(animateCounters, 2000);
+        
+        // Price Animation
+        function animatePrices() {
+            const prices = document.querySelectorAll('.crypto-price');
+            prices.forEach(price => {
+                const currentPrice = parseFloat(price.textContent.replace('$', '').replace(',', ''));
+                const variation = (Math.random() - 0.5) * 100;
+                const newPrice = currentPrice + variation;
+                price.textContent = '$' + newPrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+            });
+        }
+        
+        // Animate prices every 5 seconds
+        setInterval(animatePrices, 5000);
+        
+        // Track page views
+        gtag('event', 'page_view', {
+            page_title: 'DameCoins - Professional Cryptocurrency Exchange',
+            page_location: window.location.href
+        });
+    </script>
 </body>
 </html>
