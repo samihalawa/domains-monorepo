@@ -3,7 +3,7 @@
 const https = require('https');
 
 // Cloudflare API configuration
-const CF_TOKEN = '0a2EQk0uQcKxYNrkXTPeU8NZ5P1CkBLM9D2iNV4x';
+const CF_TOKEN = 'vt-zCfnnPewhpcP6n5Gy_On6AI8U2YEvxjFGLMAd';
 
 // Top 20 domains to configure
 const domains = [
@@ -29,7 +29,7 @@ const domains = [
   { name: 'agentsai.ltd', zoneId: 'b6adcdf04f179630662d4298aecd4b9e' }
 ];
 
-// Cloudflare Pages project URL (we'll create this)
+// Cloudflare Pages project URL (deployed)
 const PAGES_PROJECT = 'domains-monorepo.pages.dev';
 
 async function makeCloudflareRequest(method, path, data = null) {
