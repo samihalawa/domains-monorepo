@@ -1,0 +1,17 @@
+{
+  "name": "domains-monorepo",
+  "version": "1.0.0",
+  "description": "Monorepo for all domain websites",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "build": "node scripts/build-all.js",
+    "serve": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "workspaces": [
+    "sites/*"
+  ]
+}
