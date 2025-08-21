@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
 // Top 20 domains to serve
 const domains = {
@@ -31,7 +31,7 @@ const domains = {
 
 // Serve static files for each domain
 app.use((req, res, next) => {
-  const host = req.get('host')?.replace(':3000', '') || 'localhost';
+  const host = req.get('host')?.replace(':8080', '') || 'localhost';
   const siteName = domains[host] || 'default';
   const sitePath = path.join(__dirname, 'sites', siteName);
   
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
 
 // Default route
 app.get('/', (req, res) => {
-  const host = req.get('host')?.replace(':3000', '') || 'localhost';
+  const host = req.get('host')?.replace(':8080', '') || 'localhost';
   const siteName = domains[host] || 'default';
   const indexPath = path.join(__dirname, 'sites', siteName, 'index.html');
   
