@@ -1,10 +1,9 @@
-// Cloudflare Worker to serve different sites based on domain
 export default {
   async fetch(request) {
     const url = new URL(request.url);
     const hostname = url.hostname;
     
-    // Map domains to their site folders
+    // Map domains to their Pages deployment paths
     const domainMap = {
       'damecoins.com': 'damecoins',
       'www.damecoins.com': 'damecoins',
@@ -48,35 +47,24 @@ export default {
       'www.agentsai.ltd': 'agentsai'
     };
 
-    // Get the site folder for this domain
-    const siteFolder = domainMap[hostname] || 'default';
+    const siteFolder = domainMap[hostname];
     
-    // For now, return the HTML directly
-    // In production, this would fetch from KV storage or serve from Pages
-    const html = await getSiteHTML(siteFolder);
+    if (siteFolder) {
+      // Fetch from the Cloudflare Pages deployment
+      const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/`;
+      const response = await fetch(pagesUrl);
+      
+      // Return the response with proper headers
+      return new Response(response.body, {
+        status: response.status,
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600'
+        }
+      });
+    }
     
-    return new Response(html, {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, max-age=3600'
-      }
-    });
+    // Default 404 response
+    return new Response('Site not found', { status: 404 });
   }
 };
-
-async function getSiteHTML(siteFolder) {
-  // This is a placeholder - in production, you'd fetch from KV or Pages
-  // For now, returning a simple redirect to the GitHub Pages version
-  return `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title>Loading...</title>
-  <meta http-equiv="refresh" content="0; url=https://samihalawa.github.io/domains-monorepo/sites/${siteFolder}/">
-  <script async src="https://zarazscript.trigox.workers.dev/"></script>
-</head>
-<body>
-  <p>Loading site...</p>
-</body>
-</html>`;
-}
