@@ -50,7 +50,38 @@ export default {
     const siteFolder = domainMap[hostname];
     
     if (siteFolder) {
-      // Fetch from the Cloudflare Pages deployment
+      // Handle dashboard paths for damepay.com
+      if (hostname === 'damepay.com' || hostname === 'www.damepay.com') {
+        const path = url.pathname;
+        
+        // Dashboard routes
+        if (path.startsWith('/dashboard')) {
+          const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/dashboard.html`;
+          const response = await fetch(pagesUrl);
+          return new Response(response.body, {
+            status: response.status,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Cache-Control': 'public, max-age=300'
+            }
+          });
+        }
+        
+        // About page
+        if (path === '/about' || path === '/about.html') {
+          const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/about.html`;
+          const response = await fetch(pagesUrl);
+          return new Response(response.body, {
+            status: response.status,
+            headers: {
+              'Content-Type': 'text/html; charset=utf-8',
+              'Cache-Control': 'public, max-age=3600'
+            }
+          });
+        }
+      }
+      
+      // Default to index.html for all other paths
       const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/`;
       const response = await fetch(pagesUrl);
       
