@@ -3,225 +3,166 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DamePay - Payment Gateway Solutions</title>
-    <meta name="description" content="Accept payments globally with our secure gateway">
-    
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
-    
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #7c3aed;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #7c3aed;
-        }
-        
-        .hero {
-            padding: 100px 20px;
-            text-align: center;
-            color: white;
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #7c3aed;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-        
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #7c3aed;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-            
-            .tagline {
-                font-size: 18px;
-            }
-            
-            nav a {
-                display: none;
-            }
-        }
-    </style>
+    <title>DamePay - Professional SumUp API Wrapper</title>
+    <meta name="description" content="Professional SumUp API wrapper service. Manage payment processing with enhanced features, comprehensive analytics, and developer-friendly API keys.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 </head>
-<body>
-    <header>
-        <div class="header-content">
-            <div class="logo">damepay.com</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
+<body class="bg-white">
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-6">
+                <div class="flex items-center">
+                    <a href="/" class="text-2xl font-bold text-blue-600">DamePay</a>
+                </div>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="/" class="text-blue-600 font-medium">Home</a>
+                    <a href="/about" class="text-gray-500 hover:text-gray-700">About</a>
+                    <a href="/features" class="text-gray-500 hover:text-gray-700">Features</a>
+                    <a href="/pricing" class="text-gray-500 hover:text-gray-700">Pricing</a>
+                    <a href="/docs" class="text-gray-500 hover:text-gray-700">Docs</a>
+                </nav>
+                <div class="flex items-center space-x-4">
+                    <a href="https://damepay.netlify.app/dashboard/login" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Sign In</a>
+                    <a href="https://damepay.netlify.app/dashboard/signup" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Get Started</a>
+                </div>
+            </div>
         </div>
     </header>
-    
-    <div class="hero">
-        <div class="container">
-            <h1>Global Payment Gateway</h1>
-            <p class="tagline">Accept Payments from Anywhere, Anytime</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'damepay.com'})">Start Accepting Payments</a>
-        </div>
-    </div>
-    
-    <div class="features" id="features">
-        <h2>Payment Solutions</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">💰</div>
-                <h3>Multi-Currency</h3>
-                <p>Accept payments in 150+ currencies</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h3>Instant Settlement</h3>
-                <p>Get your money faster with instant payouts</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🛡️</div>
-                <h3>Fraud Protection</h3>
-                <p>Advanced AI-powered fraud detection</p>
+
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-br from-blue-50 to-indigo-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+                    Professional <span class="text-blue-600">SumUp</span> API Wrapper
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+                    Enhanced payment processing with comprehensive analytics, API key management, and developer-friendly features that SumUp doesn't provide out of the box.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="https://damepay.netlify.app/dashboard/signup" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg text-lg transition">
+                        Start Free Trial
+                    </a>
+                    <a href="https://damepay.netlify.app/dashboard/login" class="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold py-3 px-8 rounded-lg text-lg transition">
+                        View Dashboard
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2024 damepay.com. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
+
+    <!-- Features Section -->
+    <div class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                    Everything SumUp Should Have
+                </h2>
+                <p class="text-xl text-gray-600">
+                    Professional features for serious payment processing
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Feature 1 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Advanced API Keys</h3>
+                    <p class="text-gray-600">
+                        Create multiple API keys with granular permissions, rate limiting, and usage tracking that SumUp doesn't offer.
+                    </p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012-2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Comprehensive Analytics</h3>
+                    <p class="text-gray-600">
+                        Detailed usage metrics, success rates, and performance insights. See what's working and optimize your integration.
+                    </p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4">Smart Payment Links</h3>
+                    <p class="text-gray-600">
+                        Create and manage payment links with advanced features, expiration dates, and detailed tracking analytics.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="bg-blue-600 py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-6">
+                Ready to Upgrade Your Payment Processing?
+            </h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Join developers who've moved beyond SumUp's limitations. Get enterprise-grade features with the same reliable payment processing.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://damepay.netlify.app/dashboard/signup" class="bg-white text-blue-600 hover:bg-gray-50 font-semibold py-3 px-8 rounded-lg text-lg transition">
+                    Start Free Trial
+                </a>
+                <a href="https://damepay.netlify.app/dashboard/login" class="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold py-3 px-8 rounded-lg text-lg transition">
+                    Access Dashboard
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">DamePay</h3>
+                    <p class="text-gray-400 mb-6">Professional SumUp API wrapper service</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="/pricing" class="text-gray-400 hover:text-white">Pricing</a></li>
+                        <li><a href="/docs" class="text-gray-400 hover:text-white">Documentation</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="/about" class="text-gray-400 hover:text-white">About</a></li>
+                        <li><a href="/contact" class="text-gray-400 hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4">Get Started</h4>
+                    <ul class="space-y-2">
+                        <li><a href="https://damepay.netlify.app/dashboard/login" class="text-gray-400 hover:text-white">Dashboard</a></li>
+                        <li><a href="https://damepay.netlify.app/dashboard/signup" class="text-gray-400 hover:text-white">Sign Up</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="mt-8 pt-8 border-t border-gray-800 text-center text-gray-500">
+                <p>&copy; 2024 DamePay. All rights reserved.</p>
+            </div>
+        </div>
     </footer>
 </body>
 </html>
