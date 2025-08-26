@@ -15,8 +15,6 @@ export default {
       'www.empleados.ai': 'empleados',
       'instantvirtualcards.com': 'instantvirtualcards',
       'www.instantvirtualcards.com': 'instantvirtualcards',
-      'damepay.com': 'damepay',
-      'www.damepay.com': 'damepay',
       'gptapikeys.com': 'gptapikeys',
       'www.gptapikeys.com': 'gptapikeys',
       'megacursos.com': 'megacursos',
@@ -50,38 +48,7 @@ export default {
     const siteFolder = domainMap[hostname];
     
     if (siteFolder) {
-      // Handle dashboard paths for damepay.com
-      if (hostname === 'damepay.com' || hostname === 'www.damepay.com') {
-        const path = url.pathname;
-        
-        // Dashboard routes
-        if (path.startsWith('/dashboard')) {
-          const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/dashboard.html`;
-          const response = await fetch(pagesUrl);
-          return new Response(response.body, {
-            status: response.status,
-            headers: {
-              'Content-Type': 'text/html; charset=utf-8',
-              'Cache-Control': 'public, max-age=300'
-            }
-          });
-        }
-        
-        // About page
-        if (path === '/about' || path === '/about.html') {
-          const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/about.html`;
-          const response = await fetch(pagesUrl);
-          return new Response(response.body, {
-            status: response.status,
-            headers: {
-              'Content-Type': 'text/html; charset=utf-8',
-              'Cache-Control': 'public, max-age=3600'
-            }
-          });
-        }
-      }
-      
-      // Default to index.html for all other paths
+      // Default to index.html for all paths
       const pagesUrl = `https://domains-monorepo.pages.dev/${siteFolder}/`;
       const response = await fetch(pagesUrl);
       
