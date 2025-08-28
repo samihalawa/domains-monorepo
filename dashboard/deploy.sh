@@ -29,7 +29,7 @@ fi
 
 # Deploy the worker
 echo "🔧 Deploying API worker..."
-wrangler publish
+wrangler deploy
 
 # Set environment variables if they exist
 echo "🔐 Setting up environment variables..."
