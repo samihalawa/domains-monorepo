@@ -2,10 +2,11 @@ name = "domains-router"
 main = "index.js"
 compatibility_date = "2024-12-20"
 
+# Routes for domains served by this worker (excludes Netlify-hosted domains)
 routes = [
   { pattern = "damecoins.com/*", zone_name = "damecoins.com" },
   { pattern = "gptcoins.com/*", zone_name = "gptcoins.com" },
-  { pattern = "detectar.ai/*", zone_name = "detectar.ai" },
+  # REMOVED: detectar.ai - hosted on Netlify
   { pattern = "empleados.ai/*", zone_name = "empleados.ai" },
   { pattern = "instantvirtualcards.com/*", zone_name = "instantvirtualcards.com" },
   { pattern = "gptapikeys.com/*", zone_name = "gptapikeys.com" },
@@ -13,7 +14,7 @@ routes = [
   { pattern = "cryptoupdated.com/*", zone_name = "cryptoupdated.com" },
   { pattern = "gpt-excel.com/*", zone_name = "gpt-excel.com" },
   { pattern = "autoword.ai/*", zone_name = "autoword.ai" },
-  { pattern = "autotinder.ai/*", zone_name = "autotinder.ai" },
+  # REMOVED: autotinder.ai - hosted on Netlify
   { pattern = "dameapi.com/*", zone_name = "dameapi.com" },
   { pattern = "flywallex.com/*", zone_name = "flywallex.com" },
   { pattern = "gateway24h.com/*", zone_name = "gateway24h.com" },
@@ -21,5 +22,10 @@ routes = [
   { pattern = "visualingo.app/*", zone_name = "visualingo.app" },
   { pattern = "mcp.blue/*", zone_name = "mcp.blue" },
   { pattern = "sort.services/*", zone_name = "sort.services" },
-  { pattern = "agentsai.ltd/*", zone_name = "agentsai.ltd" }
+  # REMOVED: agentsai.ltd - hosted on Netlify
+  { pattern = "ministerio.ai/*", zone_name = "ministerio.ai" },
+  { pattern = "octbot.ai/*", zone_name = "octbot.ai" },
+  { pattern = "apilord.com/*", zone_name = "apilord.com" },
+  { pattern = "gptabsolute.com/*", zone_name = "gptabsolute.com" },
+  { pattern = "gpthard.com/*", zone_name = "gpthard.com" }
 ]

@@ -4,13 +4,13 @@ export default {
     const hostname = url.hostname;
     
     // Map domains to their Pages deployment paths
+    // NOTE: Domains on Netlify (agentsai.ltd, autotinder.ai, detectar.ai) are NOT included here
     const domainMap = {
       'damecoins.com': 'damecoins',
       'www.damecoins.com': 'damecoins',
       'gptcoins.com': 'gptcoins',
       'www.gptcoins.com': 'gptcoins',
-      'detectar.ai': 'detectar',
-      'www.detectar.ai': 'detectar',
+      // REMOVED: detectar.ai - has Netlify app (detectar-ai-platform.netlify.app)
       'empleados.ai': 'empleados',
       'www.empleados.ai': 'empleados',
       'instantvirtualcards.com': 'instantvirtualcards',
@@ -25,8 +25,7 @@ export default {
       'www.gpt-excel.com': 'gpt-excel',
       'autoword.ai': 'autoword',
       'www.autoword.ai': 'autoword',
-      'autotinder.ai': 'autotinder',
-      'www.autotinder.ai': 'autotinder',
+      // REMOVED: autotinder.ai - has Netlify app (autotinder.netlify.app)
       'dameapi.com': 'dameapi',
       'www.dameapi.com': 'dameapi',
       'flywallex.com': 'flywallex',
@@ -41,8 +40,7 @@ export default {
       'www.mcp.blue': 'mcp',
       'sort.services': 'sort',
       'www.sort.services': 'sort',
-      'agentsai.ltd': 'agentsai',
-      'www.agentsai.ltd': 'agentsai',
+      // REMOVED: agentsai.ltd - has Netlify app (agentsai.netlify.app)
       'ministerio.ai': 'ministerio',
       'www.ministerio.ai': 'ministerio',
       'octbot.ai': 'octbot',
