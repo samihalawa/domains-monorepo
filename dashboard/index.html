@@ -627,13 +627,19 @@
     <div class="notification" id="notification"></div>
 
     <script>
-        // Configuration - Our API worker endpoints
+        // Enhanced Configuration with Dynamic Intelligence
         const CONFIG = {
             apiWorker: 'https://domains-dashboard-api.trigox.workers.dev',
             github: {
                 owner: 'samihalawa',
                 repo: 'domains-monorepo',
                 branch: 'main'
+            },
+            endpoints: {
+                deploymentMap: '/api/deployment-map',
+                domainAnalysis: '/api/domain-analysis',
+                cloudflareZones: '/api/cloudflare/zones',
+                netlifySites: '/api/netlify/sites'
             }
         };
 
