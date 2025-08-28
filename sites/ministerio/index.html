@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ministerio.AI - El Centro de Formación en Inteligencia Artificial en Español</title>
+    <meta name="description" content="La plataforma oficial de formación en IA más completa en español. Cursos, certificaciones, masterclasses y recursos para dominar la inteligencia artificial desde cero hasta experto.">
+    <meta name="keywords" content="cursos inteligencia artificial, formación IA español, certificación AI, masterclass machine learning, curso ChatGPT, aprender IA online">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ministerio.AI - Formación Completa en IA">
+    <meta property="og:description" content="La academia de IA más completa en español. Cursos, certificaciones y formación profesional en inteligencia artificial.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ministerio.ai">
+    
+    <!-- Universal Tracking Script -->
+    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-blue: #1e40af;
+            --secondary-blue: #3b82f6;
+            --accent-gold: #f59e0b;
+            --success-green: #10b981;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --white: #ffffff;
+            --light-gray: #f8fafc;
+            --border-gray: #e5e7eb;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+            background: var(--white);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border-gray);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-decoration: none;
+        }
+        
+        .logo::before {
+            content: "🏛️";
+            margin-right: 8px;
+            font-size: 28px;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+        
+        .nav-menu a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--primary-blue);
+        }
+        
+        .header-cta {
+            background: var(--primary-blue);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .header-cta:hover {
+            background: var(--secondary-blue);
+            transform: translateY(-1px);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: white;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 300"><path d="M0,160L80,170C160,180,320,200,480,190C640,180,800,140,880,120L960,100L1000,120V300H0Z" fill="rgba(255,255,255,0.1)"/></svg>') bottom center/cover;
+            animation: wave 20s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(-50px); }
+        }
+        
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 8px 20px;
+            border-radius: 25px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .hero .subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 40px;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-gold);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .btn-primary {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary:hover {
+            background: #f97316;
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(249, 115, 22, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 18px 36px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-3px);
+        }
+        
+        /* Learning Paths */
+        .learning-paths {
+            padding: 100px 0;
+            background: var(--light-gray);
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-dark);
+            margin-bottom: 20px;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 60px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .paths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+        
+        .path-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .path-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(30, 64, 175, 0.15);
+            border-color: var(--primary-blue);
+        }
+        
+        .path-level {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--accent-gold);
+            color: var(--text-dark);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .path-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .path-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+        
+        .path-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .path-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .path-features li {
+            padding: 8px 0;
+            display: flex;
+            align-items: center;
+            color: var(--text-dark);
+        }
+        
+        .path-features li::before {
+            content: "✓";
+            color: var(--success-green);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .path-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+        
+        .path-price .currency {
+            font-size: 1.2rem;
+        }
+        
+        .path-duration {
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        
+        .path-cta {
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .path-cta:hover {
+            background: var(--secondary-blue);
+            transform: translateY(-2px);
+        }
+        
+        /* Courses Section */
+        .courses {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .courses-filter {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            background: var(--light-gray);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--primary-blue);
+            color: white;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .course-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+        }
+        
+        .course-content {
+            padding: 25px;
+        }
+        
+        .course-category {
+            background: var(--accent-gold);
+            color: var(--text-dark);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+        
+        .course-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .course-description {
+            color: var(--text-light);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .course-students {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .course-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .course-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--primary-blue);
+        }
+        
+        /* Instructors */
+        .instructors {
+            padding: 100px 0;
+            background: var(--light-gray);
+        }
+        
+        .instructors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+        
+        .instructor-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .instructor-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .instructor-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            color: white;
+        }
+        
+        .instructor-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: var(--text-dark);
+        }
+        
+        .instructor-title {
+            color: var(--primary-blue);
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .instructor-bio {
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+        
+        /* Resources */
+        .resources {
+            padding: 100px 0;
+            background: white;
+        }
+        
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .resource-card {
+            background: var(--light-gray);
+            padding: 30px;
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        .resource-card:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: translateY(-5px);
+        }
+        
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .resource-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--text-dark) 0%, #374151 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--accent-gold);
+        }
+        
+        .footer-section a {
+            color: #d1d5db;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: white;
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 20px;
+            text-align: center;
+            color: #9ca3af;
+        }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .paths-grid,
+            .courses-grid,
+            .instructors-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Ministerio.AI</a>
+                <nav>
+                    <ul class="nav-menu">
+                        <li><a href="#cursos">Cursos</a></li>
+                        <li><a href="#rutas">Rutas de Aprendizaje</a></li>
+                        <li><a href="#instructores">Instructores</a></li>
+                        <li><a href="#recursos">Recursos</a></li>
+                        <li><a href="#certificacion">Certificación</a></li>
+                    </ul>
+                </nav>
+                <a href="#inscribirse" class="header-cta">Comenzar Gratis</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content fade-in">
+                    <div class="hero-badge">🎓 La Academia de IA más Completa en Español</div>
+                    <h1>Ministerio de<br>Inteligencia Artificial</h1>
+                    <p class="subtitle">La plataforma oficial para dominar la IA. Desde conceptos básicos hasta implementaciones avanzadas. Cursos, certificaciones, masterclasses y una comunidad de expertos en español.</p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Cursos Especializados</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">25K+</div>
+                            <div class="stat-label">Estudiantes Activos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">15+</div>
+                            <div class="stat-label">Instructores Expertos</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">95%</div>
+                            <div class="stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-buttons">
+                        <a href="#rutas" class="btn-primary">
+                            🚀 Comenzar Mi Formación
+                        </a>
+                        <a href="#cursos" class="btn-secondary">Explorar Cursos</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rutas" class="learning-paths">
+            <div class="container">
+                <h2 class="section-title">Rutas de Aprendizaje</h2>
+                <p class="section-subtitle">Formación estructurada desde principiante hasta experto. Elige tu camino hacia el dominio de la inteligencia artificial.</p>
+                
+                <div class="paths-grid">
+                    <div class="path-card fade-in">
+                        <div class="path-level">Principiante</div>
+                        <div class="path-icon">🌱</div>
+                        <h3>Fundamentos de IA</h3>
+                        <p class="path-description">Comienza desde cero. Aprende los conceptos básicos, matemáticas esenciales y primeros pasos en machine learning.</p>
+                        <ul class="path-features">
+                            <li>Introducción a la IA y ML</li>
+                            <li>Matemáticas para IA</li>
+                            <li>Python para principiantes</li>
+                            <li>Primeros modelos</li>
+                            <li>Proyecto final guiado</li>
+                        </ul>
+                        <div class="path-price"><span class="currency">€</span>97</div>
+                        <div class="path-duration">6 semanas • 40 horas</div>
+                        <button class="path-cta">Inscribirme Ahora</button>
+                    </div>
+                    
+                    <div class="path-card fade-in">
+                        <div class="path-level">Intermedio</div>
+                        <div class="path-icon">⚡</div>
+                        <h3>IA para Profesionales</h3>
+                        <p class="path-description">Desarrolla habilidades avanzadas en machine learning, deep learning y aplicaciones empresariales de IA.</p>
+                        <ul class="path-features">
+                            <li>Machine Learning Avanzado</li>
+                            <li>Deep Learning con TensorFlow</li>
+                            <li>Procesamiento de Lenguaje Natural</li>
+                            <li>Computer Vision</li>
+                            <li>Despliegue en producción</li>
+                        </ul>
+                        <div class="path-price"><span class="currency">€</span>297</div>
+                        <div class="path-duration">12 semanas • 100 horas</div>
+                        <button class="path-cta">Inscribirme Ahora</button>
+                    </div>
+                    
+                    <div class="path-card fade-in">
+                        <div class="path-level">Experto</div>
+                        <div class="path-icon">🎯</div>
+                        <h3>Maestría en IA</h3>
+                        <p class="path-description">Conviértete en un experto. Investigación, desarrollo de algoritmos propios y liderazgo en proyectos de IA.</p>
+                        <ul class="path-features">
+                            <li>Investigación en IA</li>
+                            <li>Desarrollo de algoritmos</li>
+                            <li>IA Generativa Avanzada</li>
+                            <li>Ética y gobernanza de IA</li>
+                            <li>Mentoría personalizada</li>
+                        </ul>
+                        <div class="path-price"><span class="currency">€</span>797</div>
+                        <div class="path-duration">24 semanas • 200 horas</div>
+                        <button class="path-cta">Inscribirme Ahora</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="cursos" class="courses">
+            <div class="container">
+                <h2 class="section-title">Cursos Disponibles</h2>
+                <p class="section-subtitle">Más de 50 cursos especializados en diferentes áreas de la inteligencia artificial</p>
+                
+                <div class="courses-filter">
+                    <button class="filter-btn active">Todos</button>
+                    <button class="filter-btn">Machine Learning</button>
+                    <button class="filter-btn">Deep Learning</button>
+                    <button class="filter-btn">NLP</button>
+                    <button class="filter-btn">Computer Vision</button>
+                    <button class="filter-btn">IA Generativa</button>
+                </div>
+                
+                <div class="courses-grid">
+                    <div class="course-card">
+                        <div class="course-image">🤖</div>
+                        <div class="course-content">
+                            <div class="course-category">Machine Learning</div>
+                            <h3 class="course-title">ChatGPT para Profesionales</h3>
+                            <p class="course-description">Domina ChatGPT y herramientas de IA generativa para maximizar tu productividad profesional.</p>
+                            <div class="course-meta">
+                                <span class="course-students">5,847 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.9</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€39</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">🧠</div>
+                        <div class="course-content">
+                            <div class="course-category">Deep Learning</div>
+                            <h3 class="course-title">Redes Neuronales desde Cero</h3>
+                            <p class="course-description">Construye y entrena redes neuronales profundas usando Python y TensorFlow.</p>
+                            <div class="course-meta">
+                                <span class="course-students">3,421 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€79</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">💬</div>
+                        <div class="course-content">
+                            <div class="course-category">NLP</div>
+                            <h3 class="course-title">Procesamiento de Lenguaje Natural</h3>
+                            <p class="course-description">Análisis de texto, sentiment analysis, chatbots y traducción automática.</p>
+                            <div class="course-meta">
+                                <span class="course-students">2,156 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.7</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€69</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">👁️</div>
+                        <div class="course-content">
+                            <div class="course-category">Computer Vision</div>
+                            <h3 class="course-title">Visión por Computador</h3>
+                            <p class="course-description">Reconocimiento de imágenes, detección de objetos y análisis visual con IA.</p>
+                            <div class="course-meta">
+                                <span class="course-students">1,892 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€89</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">🎨</div>
+                        <div class="course-content">
+                            <div class="course-category">IA Generativa</div>
+                            <h3 class="course-title">Stable Diffusion y Midjourney</h3>
+                            <p class="course-description">Crea imágenes impresionantes con IA. Domina las mejores herramientas generativas.</p>
+                            <div class="course-meta">
+                                <span class="course-students">4,235 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.9</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€59</div>
+                        </div>
+                    </div>
+                    
+                    <div class="course-card">
+                        <div class="course-image">📊</div>
+                        <div class="course-content">
+                            <div class="course-category">Machine Learning</div>
+                            <h3 class="course-title">Ciencia de Datos con Python</h3>
+                            <p class="course-description">Análisis de datos, visualización y machine learning usando pandas, numpy y scikit-learn.</p>
+                            <div class="course-meta">
+                                <span class="course-students">6,742 estudiantes</span>
+                                <div class="course-rating">
+                                    <span>⭐</span>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
+                            <div class="course-price">€49</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="instructores" class="instructors">
+            <div class="container">
+                <h2 class="section-title">Nuestros Instructores</h2>
+                <p class="section-subtitle">Aprende de los mejores expertos en IA de habla hispana</p>
+                
+                <div class="instructors-grid">
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">👨‍🏫</div>
+                        <h3 class="instructor-name">Dr. Carlos Martínez</h3>
+                        <p class="instructor-title">Director de IA en Google España</p>
+                        <p class="instructor-bio">15+ años en machine learning y deep learning. PhD en IA por la Universidad Politécnica de Madrid. Especialista en NLP y computer vision.</p>
+                    </div>
+                    
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">👩‍💼</div>
+                        <h3 class="instructor-name">Dra. María García</h3>
+                        <p class="instructor-title">Científica Principal en Microsoft AI</p>
+                        <p class="instructor-bio">Pionera en IA generativa en España. Investigadora en redes neuronales generativas y autora de 50+ papers científicos.</p>
+                    </div>
+                    
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">👨‍💻</div>
+                        <h3 class="instructor-name">Ing. Pablo Rodríguez</h3>
+                        <p class="instructor-title">CTO & Co-fundador de AIStartup</p>
+                        <p class="instructor-bio">Experto en implementación de IA en producción. Ha liderado equipos de IA en 3 startups exitosas y consultor de Fortune 500.</p>
+                    </div>
+                    
+                    <div class="instructor-card fade-in">
+                        <div class="instructor-avatar">👩‍🔬</div>
+                        <h3 class="instructor-name">Dra. Ana López</h3>
+                        <p class="instructor-title">Profesora de IA en UNAM México</p>
+                        <p class="instructor-bio">Especialista en ética de IA y machine learning explicable. Consultora del gobierno mexicano en políticas de IA.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recursos" class="resources">
+            <div class="container">
+                <h2 class="section-title">Recursos y Herramientas</h2>
+                <p class="section-subtitle">Todo lo que necesitas para tu aprendizaje y desarrollo profesional</p>
+                
+                <div class="resources-grid">
+                    <div class="resource-card">
+                        <div class="resource-icon">📚</div>
+                        <h3 class="resource-title">Biblioteca Digital</h3>
+                        <p>Acceso a libros, papers y documentación técnica actualizada</p>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🛠️</div>
+                        <h3 class="resource-title">Laboratorios Virtuales</h3>
+                        <p>Entornos pre-configurados con GPU para entrenar tus modelos</p>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">👥</div>
+                        <h3 class="resource-title">Comunidad</h3>
+                        <p>Foro exclusivo con 25K+ estudiantes y mentores expertos</p>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">🏆</div>
+                        <h3 class="resource-title">Certificaciones</h3>
+                        <p>Certificados oficiales reconocidos por la industria</p>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">💼</div>
+                        <h3 class="resource-title">Bolsa de Trabajo</h3>
+                        <p>Conexión directa con empresas que buscan talento en IA</p>
+                    </div>
+                    
+                    <div class="resource-card">
+                        <div class="resource-icon">📱</div>
+                        <h3 class="resource-title">App Móvil</h3>
+                        <p>Aprende desde cualquier lugar con nuestra app iOS/Android</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inscribirse" class="cta-section">
+            <div class="container">
+                <h2>¿Listo para Dominar la Inteligencia Artificial?</h2>
+                <p>Únete a más de 25,000 estudiantes que ya están transformando sus carreras</p>
+                
+                <div style="max-width: 600px; margin: 40px auto;">
+                    <iframe data-tally-src="https://tally.so/embed/mO2EYY?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                            loading="lazy" width="100%" height="500" frameborder="0" marginheight="0" marginwidth="0" 
+                            title="Ministerio.AI - Inscripción">
+                    </iframe>
+                    <script>var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.head.appendChild(s);}</script>
+                </div>
+                
+                <div style="margin-top: 40px;">
+                    <a href="#rutas" class="btn-primary" style="margin-right: 20px;">
+                        🎓 Ver Todas las Rutas
+                    </a>
+                    <a href="#cursos" class="btn-secondary">
+                        📚 Explorar Cursos
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Ministerio.AI</h4>
+                    <p>La academia de inteligencia artificial más completa en español. Formación profesional, certificaciones y comunidad de expertos.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Formación</h4>
+                    <a href="#principiante">Ruta Principiante</a>
+                    <a href="#intermedio">Ruta Intermedio</a>
+                    <a href="#experto">Ruta Experto</a>
+                    <a href="#masterclass">Masterclasses</a>
+                    <a href="#certificacion">Certificaciones</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Especialidades</h4>
+                    <a href="#ml">Machine Learning</a>
+                    <a href="#dl">Deep Learning</a>
+                    <a href="#nlp">Procesamiento de Lenguaje</a>
+                    <a href="#cv">Computer Vision</a>
+                    <a href="#generativa">IA Generativa</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Comunidad</h4>
+                    <a href="#foro">Foro de Estudiantes</a>
+                    <a href="#discord">Discord</a>
+                    <a href="#linkedin">LinkedIn</a>
+                    <a href="#newsletter">Newsletter</a>
+                    <a href="#eventos">Eventos</a>
+                </div>
+                
+                <div class="footer-section">
+                    <h4>Soporte</h4>
+                    <a href="mailto:hola@ministerio.ai">hola@ministerio.ai</a>
+                    <a href="#ayuda">Centro de Ayuda</a>
+                    <a href="#faq">Preguntas Frecuentes</a>
+                    <a href="#contacto">Contactar Instructor</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Ministerio.AI. Todos los derechos reservados. | <a href="#privacidad">Política de Privacidad</a> | <a href="#terminos">Términos de Uso</a> | <a href="#cookies">Cookies</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Course filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const courseCards = document.querySelectorAll('.course-card');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Filter logic would go here
+                // For demo purposes, we'll just show all courses
+            });
+        });
+
+        // Path card interactions
+        const pathCards = document.querySelectorAll('.path-card');
+        pathCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Fade-in animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+            observer.observe(el);
+        });
+
+        // Animate stats on scroll
+        const statsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statsNumbers = entry.target.querySelectorAll('.stat-number');
+                    statsNumbers.forEach(stat => {
+                        const finalNumber = stat.textContent;
+                        let current = 0;
+                        const target = parseInt(finalNumber.replace(/[^\d]/g, ''));
+                        const increment = target / 50;
+                        
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= target) {
+                                current = target;
+                                clearInterval(timer);
+                            }
+                            
+                            if (finalNumber.includes('K')) {
+                                stat.textContent = Math.floor(current / 1000) + 'K+';
+                            } else if (finalNumber.includes('%')) {
+                                stat.textContent = Math.floor(current) + '%';
+                            } else {
+                                stat.textContent = Math.floor(current) + '+';
+                            }
+                        }, 40);
+                    });
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.hero-stats').forEach(section => {
+            statsObserver.observe(section);
+        });
+
+        // Track CTA interactions
+        document.querySelectorAll('.btn-primary, .btn-secondary, .path-cta, .header-cta').forEach(button => {
+            button.addEventListener('click', function() {
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'click', {
+                        'event_category': 'CTA',
+                        'event_label': this.textContent.trim(),
+                        'page_title': 'Ministerio.AI'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle (for future implementation)
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                document.querySelector('.nav-menu').classList.toggle('show');
+            });
+        }
+    </script>
+</body>
+</html>

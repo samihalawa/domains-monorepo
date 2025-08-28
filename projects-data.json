@@ -1,0 +1,342 @@
+{
+  "domains": {
+    "owned_domains": {
+      "cloudflare_managed": [
+        "adsator.com", "agentsai.ltd", "allnicenails.com", "apilord.com", "aprendiendogpt.com", "arbitrox.com", "autoclient.ai", "automedical.ai", "autotinder.ai", "autoword.ai", "awscheaper.com", "bizumpay.net", "btcshidai.com", "buyfbgroups.com", "calendarvirus.com", "cashouter.com", "chinototal.com", "crearwebgpt.com", "creatupropiacriptomoneda.com", "cryptoadiccion.com", "cryptojuridical.com", "cryptoupdated.com", "currencybyip.com", "cursochinoonline.com", "cursoexocad.com", "dameapi.com", "damecoins.com", "damehosting.com", "damepay.com", "damesender.com", "damestaff.com", "dametranslate.com", "desktoping.com", "detectar.ai", "dominaae.com", "easecoins.com", "easylista.com", "econonews.co.uk", "empleados.ai", "exocadcourse.com", "fintechmorning.com", "flywallex.com", "gateway24h.com", "geair.es", "gpt-excel.com", "gptabsolute.com", "gptaddicts.com", "gptapikeys.com", "gptautoweb.com", "gptcoins.com", "gptenespanol.com", "gpthard.com", "gptmundo.com", "gptplugindatabase.com", "gptpowerpoint.com", "gptvenezuela.com", "gptveteran.com", "gptwild.com", "hispanoinfo.com", "hkpaymentprocessor.com", "hollesa.com", "housemoney.es", "hsktotal.com", "iaexpertos.es", "imprimirgpt.com", "indosy.com", "instantvirtualcards.com", "learnexocad.com", "leccionesgpt.com", "lessonsia.com", "libreriagpt.com", "losmegacursos.com", "maccado.com", "maximagpt.com", "mcp.blue", "megacursos.com", "megawebs.com", "ministerio.ai", "mubago.com", "octbot.ai", "paymentimes.com", "pime.ai", "samihalawa.com", "sort.services", "viogenia.es", "visualingo.app"
+      ]
+    },
+    "monorepo_sites": [
+      {
+        "domain": "damecoins.com",
+        "status": "live",
+        "platform": "Cloudflare Pages Monorepo",
+        "folder": "/sites/damecoins/",
+        "industry": "Crypto Exchange",
+        "url": "https://damecoins.com"
+      },
+      {
+        "domain": "gptcoins.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/gptcoins/",
+        "value": "high",
+        "industry": "AI Crypto",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://gptcoins.com"
+      },
+      {
+        "domain": "empleados.ai",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/empleados/",
+        "value": "high",
+        "industry": "HR Solutions",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://empleados.ai"
+      },
+      {
+        "domain": "instantvirtualcards.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/instantvirtualcards/",
+        "value": "high",
+        "industry": "Virtual Cards",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://instantvirtualcards.com"
+      },
+      {
+        "domain": "gptapikeys.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/gptapikeys/",
+        "value": "medium",
+        "industry": "API Management",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://gptapikeys.com"
+      },
+      {
+        "domain": "megacursos.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/megacursos/",
+        "value": "medium",
+        "industry": "Online Courses",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://megacursos.com"
+      },
+      {
+        "domain": "cryptoupdated.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/cryptoupdated/",
+        "value": "medium",
+        "industry": "Crypto News",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://cryptoupdated.com"
+      },
+      {
+        "domain": "gpt-excel.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/gpt-excel/",
+        "value": "medium",
+        "industry": "Excel AI",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://gpt-excel.com"
+      },
+      {
+        "domain": "autoword.ai",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/autoword/",
+        "value": "medium",
+        "industry": "AI Writing",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://autoword.ai"
+      },
+      {
+        "domain": "dameapi.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/dameapi/",
+        "value": "medium",
+        "industry": "API Marketplace",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://dameapi.com"
+      },
+      {
+        "domain": "flywallex.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/flywallex/",
+        "value": "high",
+        "industry": "Digital Wallet",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://flywallex.com"
+      },
+      {
+        "domain": "gateway24h.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/gateway24h/",
+        "value": "high",
+        "industry": "Payment Processing",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://gateway24h.com"
+      },
+      {
+        "domain": "fintechmorning.com",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/fintechmorning/",
+        "value": "medium",
+        "industry": "Fintech News",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://fintechmorning.com"
+      },
+      {
+        "domain": "visualingo.app",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/visualingo/",
+        "value": "high",
+        "industry": "Language Learning",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://visualingo.app"
+      },
+      {
+        "domain": "mcp.blue",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/mcp/",
+        "value": "high",
+        "industry": "Model Protocol",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://mcp.blue"
+      },
+      {
+        "domain": "sort.services",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/sort/",
+        "value": "low",
+        "industry": "Sorting Services",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://sort.services"
+      },
+      {
+        "domain": "ministerio.ai",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/ministerio/",
+        "value": "ultra-high",
+        "industry": "Government AI",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://ministerio.ai"
+      },
+      {
+        "domain": "octbot.ai",
+        "status": "live",
+        "platform": "Cloudflare Pages",
+        "deployment": "domains-monorepo.pages.dev",
+        "folder": "/sites/octbot/",
+        "value": "medium",
+        "industry": "AI Bot",
+        "dns": "CNAME → domains-monorepo.pages.dev",
+        "url": "https://octbot.ai"
+      }
+    ],
+    "premium_deployed": [
+      {
+        "domain": "pime.ai",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "AI Platform",
+        "value": "ultra-high",
+        "url": "https://pime.ai"
+      },
+      {
+        "domain": "samihalawa.com",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "Personal Brand",
+        "value": "high",
+        "url": "https://samihalawa.com"
+      },
+      {
+        "domain": "autoclient.ai",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "AI Client Services",
+        "value": "high",
+        "url": "https://autoclient.ai"
+      },
+      {
+        "domain": "automedical.ai",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "Medical AI",
+        "value": "ultra-high",
+        "url": "https://automedical.ai"
+      },
+      {
+        "domain": "agentsai.ltd",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "AI Agents",
+        "value": "medium",
+        "url": "https://agentsai.ltd"
+      },
+      {
+        "domain": "autotinder.ai",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "Dating AI",
+        "value": "high",
+        "url": "https://autotinder.ai"
+      },
+      {
+        "domain": "detectar.ai",
+        "status": "live",
+        "platform": "Deployed",
+        "industry": "AI Detection",
+        "value": "high",
+        "url": "https://detectar.ai"
+      }
+    ],
+    "down": [
+      {
+        "domain": "apilord.com",
+        "status": "down",
+        "platform": "Cloudflare Pages (Configured)",
+        "folder": "/sites/apilord/",
+        "value": "medium",
+        "industry": "API Services",
+        "issue": "DNS not configured properly"
+      },
+      {
+        "domain": "gptabsolute.com",
+        "status": "down",
+        "platform": "Cloudflare Pages (Configured)",
+        "folder": "/sites/gptabsolute/",
+        "value": "medium",
+        "industry": "AI Platform",
+        "issue": "DNS not configured properly"
+      },
+      {
+        "domain": "gpthard.com",
+        "status": "down",
+        "platform": "Cloudflare Pages (Configured)",
+        "folder": "/sites/gpthard/",
+        "value": "medium",
+        "industry": "Advanced AI",
+        "issue": "DNS not configured properly"
+      }
+    ],
+    "note": "CORRECTED DATA BASED ON ACTUAL CLOUDFLARE API - These are ALL the domains you actually own and manage through Cloudflare. Total: 80+ domains."
+  },
+  "statistics": {
+    "total_domains": 31,
+    "live_domains": 21,
+    "down_domains": 3,
+    "available_premium": 10,
+    "platforms": {
+      "cloudflare_pages": 18,
+      "netlify": 3,
+      "undeployed": 10
+    },
+    "value_distribution": {
+      "ultra_high": 7,
+      "high": 10,
+      "medium": 13,
+      "low": 1
+    },
+    "estimated_portfolio_value": "$1M+ annual revenue potential"
+  },
+  "infrastructure": {
+    "cloudflare": {
+      "pages_project": "domains-monorepo",
+      "worker_router": "domains-router.js",
+      "deployment_url": "domains-monorepo.pages.dev",
+      "custom_domains": 18
+    },
+    "netlify": {
+      "individual_projects": 3,
+      "deployment_method": "Individual apps per domain"
+    }
+  },
+  "priorities": {
+    "immediate": [
+      "autorad.automedical.ai",
+      "pime.ai",
+      "samihalawa.com"
+    ],
+    "secondary": [
+      "autoclient.ai",
+      "medico.ai",
+      "ejecutivo.ai"
+    ],
+    "future": [
+      "banco.ai",
+      "profesor.ai",
+      "abogado.ai",
+      "consultor.ai"
+    ]
+  }
+}

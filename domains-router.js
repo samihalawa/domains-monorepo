@@ -42,7 +42,17 @@ export default {
       'sort.services': 'sort',
       'www.sort.services': 'sort',
       'agentsai.ltd': 'agentsai',
-      'www.agentsai.ltd': 'agentsai'
+      'www.agentsai.ltd': 'agentsai',
+      'ministerio.ai': 'ministerio',
+      'www.ministerio.ai': 'ministerio',
+      'octbot.ai': 'octbot',
+      'www.octbot.ai': 'octbot',
+      'apilord.com': 'apilord',
+      'www.apilord.com': 'apilord',
+      'gptabsolute.com': 'gptabsolute',
+      'www.gptabsolute.com': 'gptabsolute',
+      'gpthard.com': 'gpthard',
+      'www.gpthard.com': 'gpthard'
     };
 
     const siteFolder = domainMap[hostname];

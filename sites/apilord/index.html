@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Lord - Premium API Services & Integration Solutions</title>
+    <meta name="description" content="Professional API development, integration, and management services. Custom REST APIs, GraphQL, real-time APIs, and enterprise-grade solutions.">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #0f0f23;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid #333;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+        
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+        
+        .hero {
+            padding: 120px 0 80px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M 50 0 L 0 0 0 50" fill="none" stroke="%2300d4ff" stroke-width="0.5" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            z-index: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #00d4ff, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: #fff;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+        }
+        
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: #0f0f23;
+        }
+        
+        .api-demo {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 3rem;
+            border: 1px solid #333;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .code-block {
+            background: #1a1a1a;
+            color: #00ff88;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            overflow-x: auto;
+            border: 1px solid #333;
+        }
+        
+        .services {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #333;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+            border-color: #00d4ff;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #00d4ff, #ff6b6b);
+            transition: left 0.3s;
+        }
+        
+        .service-card:hover::before {
+            left: 0;
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            color: #00d4ff;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        
+        .service-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        .tech-stack {
+            padding: 80px 0;
+            background: #f8f9fa;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .tech-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: #fff;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            border: 2px solid #e9ecef;
+        }
+        
+        .tech-item:hover {
+            transform: translateY(-5px);
+            border-color: #00d4ff;
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        
+        .features {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: #fff;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(5px);
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00d4ff;
+        }
+        
+        .pricing {
+            padding: 80px 0;
+            background: #fff;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background: #fff;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            border-color: #00d4ff;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
+        }
+        
+        .pricing-card.featured {
+            border-color: #00d4ff;
+            background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+            color: #fff;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured .btn-primary {
+            background: #fff;
+            color: #00d4ff;
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .plan-price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .plan-period {
+            opacity: 0.7;
+            margin-bottom: 2rem;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .plan-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .contact {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 100%);
+            color: #fff;
+            text-align: center;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        footer {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tech-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">
+                <span>⚡</span>
+                API Lord
+            </a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Master of APIs</h1>
+                <p>Professional API development, integration, and management services. From REST to GraphQL, we build enterprise-grade solutions that scale.</p>
+                
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Start Building</a>
+                    <a href="#services" class="btn btn-secondary">View Services</a>
+                </div>
+                
+                <div class="api-demo">
+                    <h3 style="color: #00d4ff; margin-bottom: 1rem;">Live API Example</h3>
+                    <div class="code-block">
+curl -X GET "https://api.apilord.com/v1/users" \
+  -H "Authorization: Bearer YOUR_API_KEY" \
+  -H "Content-Type: application/json"
+
+{
+  "status": "success",
+  "data": {
+    "users": [...],
+    "total": 1234,
+    "page": 1
+  },
+  "meta": {
+    "rate_limit": "1000/hour",
+    "response_time": "23ms"
+  }
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">API Development Services</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">🔗</span>
+                    <h3>REST API Development</h3>
+                    <p>Custom RESTful APIs with comprehensive documentation, authentication, rate limiting, and monitoring. Built for scalability and performance.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">⚡</span>
+                    <h3>GraphQL APIs</h3>
+                    <p>Flexible GraphQL APIs that reduce over-fetching and under-fetching. Perfect for modern applications requiring efficient data queries.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">🚀</span>
+                    <h3>Real-time APIs</h3>
+                    <p>WebSocket and Server-Sent Events implementation for real-time data streaming, live updates, and interactive applications.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">🔌</span>
+                    <h3>API Integration</h3>
+                    <p>Seamless integration with third-party APIs, data transformation, middleware development, and error handling strategies.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">🛡️</span>
+                    <h3>API Security</h3>
+                    <p>OAuth 2.0, JWT authentication, API gateways, rate limiting, input validation, and comprehensive security auditing.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">📊</span>
+                    <h3>API Management</h3>
+                    <p>Complete API lifecycle management including versioning, documentation, monitoring, analytics, and developer portal setup.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="tech-stack">
+        <div class="container">
+            <h2 class="section-title">Technology Stack</h2>
+            
+            <div class="tech-grid">
+                <div class="tech-item">
+                    <span class="tech-icon">🟢</span>
+                    <h4>Node.js</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🐍</span>
+                    <h4>Python</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">☕</span>
+                    <h4>Java</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🔷</span>
+                    <h4>TypeScript</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🐘</span>
+                    <h4>PostgreSQL</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🍃</span>
+                    <h4>MongoDB</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">☁️</span>
+                    <h4>AWS</h4>
+                </div>
+                <div class="tech-item">
+                    <span class="tech-icon">🔵</span>
+                    <h4>Docker</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Enterprise-Grade Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>High Performance</h3>
+                    <p>Sub-100ms response times with optimized database queries, caching strategies, and CDN integration for global distribution.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Auto Scaling</h3>
+                    <p>Automatic horizontal and vertical scaling based on traffic patterns. Handle millions of requests without downtime.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>99.9% Uptime</h3>
+                    <p>Redundant infrastructure, health monitoring, automatic failover, and disaster recovery protocols ensure maximum availability.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Comprehensive Docs</h3>
+                    <p>Interactive API documentation with code examples, SDKs for popular languages, and dedicated developer portal.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Real-time Monitoring</h3>
+                    <p>Advanced analytics, error tracking, performance monitoring, and custom alerts for proactive issue resolution.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>Enterprise Security</h3>
+                    <p>SOC 2 compliance, encryption at rest and in transit, regular security audits, and penetration testing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">API Development Pricing</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">Startup</div>
+                    <div class="plan-price">$2,999</div>
+                    <div class="plan-period">one-time</div>
+                    <ul class="plan-features">
+                        <li>REST API Development</li>
+                        <li>Basic Authentication</li>
+                        <li>API Documentation</li>
+                        <li>3 Endpoints</li>
+                        <li>30 days support</li>
+                        <li>Source code included</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Get Started</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="plan-name">Professional</div>
+                    <div class="plan-price">$7,999</div>
+                    <div class="plan-period">one-time</div>
+                    <ul class="plan-features">
+                        <li>REST + GraphQL APIs</li>
+                        <li>OAuth 2.0 / JWT Auth</li>
+                        <li>Interactive Documentation</li>
+                        <li>15 Endpoints</li>
+                        <li>Real-time Features</li>
+                        <li>Rate Limiting & Monitoring</li>
+                        <li>90 days support</li>
+                        <li>Load Testing</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Most Popular</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price">Custom</div>
+                    <div class="plan-period">pricing</div>
+                    <ul class="plan-features">
+                        <li>Unlimited Endpoints</li>
+                        <li>Microservices Architecture</li>
+                        <li>API Gateway Setup</li>
+                        <li>Advanced Security</li>
+                        <li>24/7 Monitoring</li>
+                        <li>SLA Guarantees</li>
+                        <li>1 year support</li>
+                        <li>Training & Consulting</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Ready to Build Your API?</h2>
+            <p>Let's discuss your API requirements and create a solution that scales with your business.</p>
+            
+            <div class="contact-form">
+                <iframe 
+                    data-tally-src="https://tally.so/embed/mVa5X8?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                    loading="lazy" 
+                    width="100%" 
+                    height="500" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    title="API Lord Contact Form"
+                    style="border-radius: 15px;">
+                </iframe>
+            </div>
+            
+            <script>
+                var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.head.appendChild(s);}
+            </script>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 API Lord. Professional API Development & Integration Solutions.</p>
+        </div>
+    </footer>
+</body>
+</html>

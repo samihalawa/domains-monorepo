@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT Hard - Hardcore AI Development & Advanced Language Models</title>
+    <meta name="description" content="Advanced GPT development, custom LLM training, and hardcore AI solutions for demanding applications. Enterprise-grade language model engineering.">
+    
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'JetBrains Mono', 'Monaco', 'Menlo', monospace;
+            line-height: 1.6;
+            color: #333;
+            background: #0a0a0a;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #ff0080;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #ff0080;
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #00ff88;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .nav-links a:hover {
+            color: #ff0080;
+            text-shadow: 0 0 10px #ff0080;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: 
+                linear-gradient(135deg, #0a0a0a 0%, #1a0a1a 50%, #0a1a0a 100%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="%23ff0080" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            color: #fff;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 0, 128, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 255, 136, 0.3) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite alternate;
+            z-index: 0;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero h1 {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            background: linear-gradient(45deg, #ff0080, #00ff88, #0088ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .hero .subtitle {
+            font-size: 1.2rem;
+            color: #00ff88;
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .terminal {
+            background: #000;
+            border: 2px solid #ff0080;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            text-align: left;
+            font-family: 'JetBrains Mono', monospace;
+            color: #00ff88;
+            box-shadow: 0 0 30px rgba(255, 0, 128, 0.3);
+        }
+        
+        .terminal-header {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .terminal-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .terminal-dot.red { background: #ff5f56; }
+        .terminal-dot.yellow { background: #ffbd2e; }
+        .terminal-dot.green { background: #27ca3f; }
+        
+        .terminal-content {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .cursor {
+            animation: blink 1s infinite;
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 3rem;
+        }
+        
+        .btn {
+            padding: 18px 35px;
+            border: 2px solid;
+            border-radius: 0;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary {
+            background: transparent;
+            color: #ff0080;
+            border-color: #ff0080;
+        }
+        
+        .btn-primary:hover {
+            background: #ff0080;
+            color: #000;
+            box-shadow: 0 0 20px #ff0080;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #00ff88;
+            border-color: #00ff88;
+        }
+        
+        .btn-secondary:hover {
+            background: #00ff88;
+            color: #000;
+            box-shadow: 0 0 20px #00ff88;
+        }
+        
+        .services {
+            padding: 100px 0;
+            background: #111;
+            border-top: 2px solid #ff0080;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: 'JetBrains Mono', monospace;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0080, #00ff88);
+            margin: 1rem auto;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0080, #00ff88);
+            transition: left 0.4s;
+        }
+        
+        .service-card:hover::before {
+            left: 0;
+        }
+        
+        .service-card:hover {
+            border-color: #ff0080;
+            background: #222;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 0, 128, 0.2);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            color: #00ff88;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .service-card p {
+            color: #ccc;
+            line-height: 1.7;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .features {
+            padding: 100px 0;
+            background: #0a0a0a;
+            color: #fff;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .feature-card {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 2rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .feature-card:hover {
+            border-color: #00ff88;
+            background: #222;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .feature-card p {
+            color: #ccc;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .pricing {
+            padding: 100px 0;
+            background: #111;
+            border-top: 2px solid #00ff88;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background: #1a1a1a;
+            border: 2px solid #333;
+            padding: 2.5rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.4s;
+        }
+        
+        .pricing-card:hover {
+            border-color: #ff0080;
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .pricing-card.featured {
+            border-color: #ff0080;
+            background: #222;
+            transform: scale(1.05);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'HARDCORE';
+            position: absolute;
+            top: 20px;
+            left: -35px;
+            background: #ff0080;
+            color: #000;
+            padding: 8px 40px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            transform: rotate(-45deg);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .plan-price {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #ff0080;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .plan-period {
+            color: #00ff88;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .plan-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #333;
+            position: relative;
+            padding-left: 2rem;
+            color: #ccc;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .plan-features li::before {
+            content: '>';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        .contact {
+            padding: 100px 0;
+            background: #0a0a0a;
+            color: #fff;
+            text-align: center;
+            border-top: 2px solid #ff0080;
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #1a1a1a;
+            padding: 3rem;
+            border: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #ff0080, #00ff88);
+        }
+        
+        footer {
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 2px solid #ff0080;
+            font-family: 'JetBrains Mono', monospace;
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .terminal {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">GPT_HARD</a>
+            <ul class="nav-links">
+                <li><a href="#services">Services</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="subtitle">HARDCORE AI DEVELOPMENT</div>
+                <h1>GPT HARD</h1>
+                <p>Advanced language model engineering for demanding applications. Custom LLM training, hardcore AI development, and enterprise-grade solutions that push the boundaries of artificial intelligence.</p>
+                
+                <div class="terminal">
+                    <div class="terminal-header">
+                        <div class="terminal-dot red"></div>
+                        <div class="terminal-dot yellow"></div>
+                        <div class="terminal-dot green"></div>
+                    </div>
+                    <div class="terminal-content">
+$ gpt-hard train --model custom-llm-v2 --dataset enterprise.jsonl<br>
+[INFO] Loading 2.5M training examples...<br>
+[INFO] GPU cluster initialized: 8x H100 80GB<br>
+[INFO] Starting hardcore training sequence...<br>
+[SUCCESS] Model performance: 94.7% accuracy<br>
+[SUCCESS] Deployment ready in 3.2 seconds<br>
+<span class="cursor">█</span>
+                    </div>
+                </div>
+                
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Deploy Hardcore AI</a>
+                    <a href="#services" class="btn btn-secondary">View Arsenal</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <div class="container">
+            <h2 class="section-title">Hardcore AI Arsenal</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">[LLM]</span>
+                    <h3>Custom LLM Training</h3>
+                    <p>From-scratch language model development with custom architectures, advanced training techniques, and hardcore optimization for maximum performance in specialized domains.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">[GPU]</span>
+                    <h3>High-Performance Computing</h3>
+                    <p>Massive GPU cluster deployments, distributed training across hundreds of nodes, and extreme-scale inference optimization for enterprise workloads.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">[OPT]</span>
+                    <h3>Model Optimization</h3>
+                    <p>Aggressive model compression, quantization, pruning, and distillation techniques to achieve maximum performance while maintaining quality standards.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">[API]</span>
+                    <h3>Ultra-Fast Inference</h3>
+                    <p>Sub-millisecond response times with custom CUDA kernels, optimized serving infrastructure, and bleeding-edge hardware acceleration techniques.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">[SEC]</span>
+                    <h3>Adversarial Defense</h3>
+                    <p>Hardcore security measures including adversarial training, prompt injection protection, and advanced filtering systems for mission-critical applications.</p>
+                </div>
+                
+                <div class="service-card">
+                    <span class="service-icon">[MLX]</span>
+                    <h3>Multi-Modal AI</h3>
+                    <p>Advanced vision-language models, audio processing integration, and complex reasoning systems that handle multiple data modalities simultaneously.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Hardcore Features</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>⚡ Extreme Performance</h3>
+                    <p>Sub-10ms inference times with custom silicon, optimized kernels, and hardcore engineering that pushes hardware to its limits.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🔒 Military-Grade Security</h3>
+                    <p>Zero-trust architecture, homomorphic encryption, and advanced threat detection designed for the most demanding security requirements.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🧠 Custom Architectures</h3>
+                    <p>Proprietary model designs with novel attention mechanisms, advanced reasoning capabilities, and domain-specific optimizations.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>📊 Real-Time Analytics</h3>
+                    <p>Hardcore monitoring with microsecond-level metrics, predictive failure detection, and automated performance optimization.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🌍 Global Edge Network</h3>
+                    <p>Worldwide deployment with edge computing nodes, intelligent routing, and sub-5ms latency to any location on Earth.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <h3>🤖 Expert Team</h3>
+                    <p>PhD-level AI researchers, hardcore systems engineers, and performance optimization specialists available 24/7.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="pricing">
+        <div class="container">
+            <h2 class="section-title">Hardcore Pricing</h2>
+            
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="plan-name">Developer</div>
+                    <div class="plan-price">$999</div>
+                    <div class="plan-period">per month</div>
+                    <ul class="plan-features">
+                        <li>1M hardcore API calls</li>
+                        <li>Custom model fine-tuning</li>
+                        <li>GPU cluster access</li>
+                        <li>Advanced monitoring</li>
+                        <li>99.9% uptime SLA</li>
+                        <li>Technical support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Deploy</a>
+                </div>
+                
+                <div class="pricing-card featured">
+                    <div class="plan-name">Enterprise</div>
+                    <div class="plan-price">$4,999</div>
+                    <div class="plan-period">per month</div>
+                    <ul class="plan-features">
+                        <li>10M hardcore API calls</li>
+                        <li>Multiple custom models</li>
+                        <li>Dedicated GPU clusters</li>
+                        <li>Real-time analytics</li>
+                        <li>99.95% uptime SLA</li>
+                        <li>24/7 expert support</li>
+                        <li>Custom integrations</li>
+                        <li>Security audits</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Dominate</a>
+                </div>
+                
+                <div class="pricing-card">
+                    <div class="plan-name">Extreme</div>
+                    <div class="plan-price">Custom</div>
+                    <div class="plan-period">contact us</div>
+                    <ul class="plan-features">
+                        <li>Unlimited API calls</li>
+                        <li>Custom architecture development</li>
+                        <li>Dedicated data centers</li>
+                        <li>PhD-level research team</li>
+                        <li>99.99% uptime SLA</li>
+                        <li>White-glove service</li>
+                        <li>Open-source contributions</li>
+                        <li>Research partnerships</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Conquer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Deploy Hardcore AI</h2>
+            <p>Ready to push the boundaries of artificial intelligence? Let's build something legendary.</p>
+            
+            <div class="contact-form">
+                <iframe 
+                    data-tally-src="https://tally.so/embed/mVa5X8?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                    loading="lazy" 
+                    width="100%" 
+                    height="500" 
+                    frameborder="0" 
+                    marginheight="0" 
+                    marginwidth="0" 
+                    title="GPT Hard Contact Form"
+                    style="border-radius: 0;">
+                </iframe>
+            </div>
+            
+            <script>
+                var d=document,w="https://tally.so/widgets/embed.js",v=function(){"undefined"!=typeof Tally?Tally.loadEmbeds():d.querySelectorAll("iframe[data-tally-src]:not([src])").forEach((function(e){e.src=e.dataset.tallySrc}))};if("undefined"!=typeof Tally)v();else if(d.querySelector('script[src="'+w+'"]')==null){var s=d.createElement("script");s.src=w,s.onload=v,s.onerror=v,d.head.appendChild(s);}
+            </script>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 GPT_HARD // HARDCORE AI DEVELOPMENT FOR THE ELITE</p>
+        </div>
+    </footer>
+</body>
+</html>
