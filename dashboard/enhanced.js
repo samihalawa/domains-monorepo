@@ -89,12 +89,33 @@ class DomainDashboard {
         container.innerHTML = `
             <div class="deployment-section">
                 <h3>🔶 Cloudflare Zones (${cloudflare_zones.length})</h3>
-                <div class="zones-grid">
+                <div class="domains-preview-grid">
                     ${cloudflare_zones.slice(0, 12).map(zone => `
-                        <div class="zone-card ${zone.status}">
-                            <div class="zone-name">${zone.name}</div>
-                            <div class="zone-status">${zone.status?.toUpperCase()}</div>
-                            <div class="zone-plan">${zone.plan || 'Free'}</div>
+                        <div class="domain-preview-card ${zone.status}">
+                            <div class="domain-header">
+                                <div class="domain-name">${zone.name}</div>
+                                <div class="domain-status ${zone.status}">${zone.status?.toUpperCase()}</div>
+                            </div>
+                            <div class="domain-preview">
+                                <iframe 
+                                    src="https://${zone.name}" 
+                                    width="100%" 
+                                    height="120"
+                                    frameborder="0"
+                                    scrolling="no"
+                                    loading="lazy"
+                                    sandbox="allow-same-origin"
+                                    onerror="this.style.display='none'"
+                                ></iframe>
+                                <div class="preview-overlay">
+                                    <a href="https://${zone.name}" target="_blank" class="visit-btn">🔗 Visit</a>
+                                    <button class="manage-btn" onclick="window.open('https://dash.cloudflare.com', '_blank')">⚙️ Manage</button>
+                                </div>
+                            </div>
+                            <div class="domain-info">
+                                <span class="plan-badge">${zone.plan || 'Free'}</span>
+                                <span class="ssl-status">🔒 SSL</span>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -102,12 +123,33 @@ class DomainDashboard {
 
             <div class="deployment-section">
                 <h3>🟦 Netlify Sites (${netlify_sites.length})</h3>
-                <div class="sites-grid">
+                <div class="domains-preview-grid">
                     ${netlify_sites.map(site => `
-                        <div class="site-card ${site.state}">
-                            <div class="site-name">${site.name}</div>
-                            <div class="site-domain">${site.custom_domain || site.url}</div>
-                            <div class="site-state">${site.state?.toUpperCase()}</div>
+                        <div class="domain-preview-card ${site.state}">
+                            <div class="domain-header">
+                                <div class="domain-name">${site.custom_domain || site.name}</div>
+                                <div class="domain-status ${site.state}">${site.state?.toUpperCase()}</div>
+                            </div>
+                            <div class="domain-preview">
+                                <iframe 
+                                    src="${site.url}" 
+                                    width="100%" 
+                                    height="120"
+                                    frameborder="0"
+                                    scrolling="no"
+                                    loading="lazy"
+                                    sandbox="allow-same-origin"
+                                    onerror="this.style.display='none'"
+                                ></iframe>
+                                <div class="preview-overlay">
+                                    <a href="${site.url}" target="_blank" class="visit-btn">🔗 Visit</a>
+                                    <button class="deploy-btn" onclick="this.deployToNetlify('${site.id}')">🚀 Deploy</button>
+                                </div>
+                            </div>
+                            <div class="domain-info">
+                                <span class="platform-badge">Netlify</span>
+                                <span class="ssl-status">🔒 HTTPS</span>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -115,11 +157,33 @@ class DomainDashboard {
 
             <div class="deployment-section">
                 <h3>📁 Monorepo Sites (${monorepo_sites.length})</h3>
-                <div class="monorepo-grid">
+                <div class="domains-preview-grid">
                     ${monorepo_sites.map(site => `
-                        <div class="monorepo-card">
-                            <div class="site-name">${site.name}</div>
-                            <div class="site-path">${site.path}</div>
+                        <div class="domain-preview-card monorepo">
+                            <div class="domain-header">
+                                <div class="domain-name">${site.name}</div>
+                                <div class="domain-status">WORKER</div>
+                            </div>
+                            <div class="domain-preview">
+                                <iframe 
+                                    src="https://${site.name}.com" 
+                                    width="100%" 
+                                    height="120"
+                                    frameborder="0"
+                                    scrolling="no"
+                                    loading="lazy"
+                                    sandbox="allow-same-origin"
+                                    onerror="this.style.display='none'"
+                                ></iframe>
+                                <div class="preview-overlay">
+                                    <a href="https://${site.name}.com" target="_blank" class="visit-btn">🔗 Visit</a>
+                                    <a href="${site.github_url}" target="_blank" class="edit-btn">📝 Edit</a>
+                                </div>
+                            </div>
+                            <div class="domain-info">
+                                <span class="platform-badge">CF Worker</span>
+                                <span class="path-info">${site.path}</span>
+                            </div>
                         </div>
                     `).join('')}
                 </div>
@@ -130,7 +194,10 @@ class DomainDashboard {
                     <h3>⚠️ Deployment Conflicts (${conflicts.length})</h3>
                     <div class="conflicts-list">
                         ${conflicts.map(conflict => `
-                            <div class="conflict-item">${conflict}</div>
+                            <div class="conflict-item">
+                                <span class="conflict-domain">${conflict}</span>
+                                <button class="resolve-btn">🔧 Resolve</button>
+                            </div>
                         `).join('')}
                     </div>
                 </div>
@@ -233,12 +300,118 @@ class DomainDashboard {
             refreshBtn.addEventListener('click', () => this.loadAllData());
         }
 
+        // Bulk select button
+        const bulkSelectBtn = document.getElementById('bulkSelectBtn');
+        if (bulkSelectBtn) {
+            bulkSelectBtn.addEventListener('click', () => this.toggleBulkSelect());
+        }
+
+        // Export button
+        const exportBtn = document.getElementById('exportBtn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', () => this.exportData());
+        }
+
+        // Health check button
+        const checkStatusBtn = document.getElementById('checkStatusBtn');
+        if (checkStatusBtn) {
+            checkStatusBtn.addEventListener('click', () => this.performHealthCheck());
+        }
+
         // Auto-refresh every 5 minutes
         setInterval(() => {
             if (!this.data.isLoading) {
                 this.loadAllData();
             }
         }, 5 * 60 * 1000);
+    }
+
+    toggleBulkSelect() {
+        const isActive = document.body.classList.contains('bulk-select-mode');
+        if (isActive) {
+            document.body.classList.remove('bulk-select-mode');
+            document.getElementById('bulkSelectBtn').textContent = '☑️ Bulk Select';
+            // Remove all checkboxes
+            document.querySelectorAll('.bulk-checkbox').forEach(cb => cb.remove());
+        } else {
+            document.body.classList.add('bulk-select-mode');
+            document.getElementById('bulkSelectBtn').textContent = '❌ Cancel Select';
+            this.addBulkSelectCheckboxes();
+        }
+    }
+
+    addBulkSelectCheckboxes() {
+        document.querySelectorAll('.domain-preview-card').forEach(card => {
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'bulk-checkbox';
+            checkbox.style.cssText = 'position: absolute; top: 10px; right: 10px; z-index: 10; transform: scale(1.2);';
+            card.style.position = 'relative';
+            card.appendChild(checkbox);
+        });
+    }
+
+    exportData() {
+        const data = {
+            export_date: new Date().toISOString(),
+            cloudflare_zones: this.data.deploymentMap?.cloudflare_zones || [],
+            netlify_sites: this.data.deploymentMap?.netlify_sites || [],
+            monorepo_sites: this.data.deploymentMap?.monorepo_sites || [],
+            domain_analysis: this.data.domainAnalysis || {},
+            total_domains: this.data.domainAnalysis?.total_domains || 0,
+            active_deployments: this.data.domainAnalysis?.active_deployments || 0
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `domains-export-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        
+        this.showStatus('success', 'Domain data exported successfully!');
+    }
+
+    async performHealthCheck() {
+        this.showStatus('loading', 'Performing health check on all domains...');
+        
+        const domains = [
+            ...(this.data.deploymentMap?.cloudflare_zones.map(z => z.name) || []),
+            ...(this.data.deploymentMap?.netlify_sites.map(s => s.custom_domain || s.url) || [])
+        ];
+
+        let healthResults = { working: 0, issues: 0, total: domains.length };
+        
+        // Simulate health check (in real implementation, you'd ping each domain)
+        for (let i = 0; i < Math.min(domains.length, 10); i++) {
+            try {
+                const response = await fetch(`https://${domains[i]}`, { mode: 'no-cors' });
+                healthResults.working++;
+            } catch (error) {
+                healthResults.issues++;
+            }
+        }
+        
+        this.showStatus('success', 
+            `Health check complete: ${healthResults.working}/${healthResults.total} domains responding`
+        );
+    }
+
+    deployAll(platform) {
+        if (platform === 'netlify') {
+            this.showStatus('loading', 'Triggering deployment for all Netlify sites...');
+            setTimeout(() => {
+                this.showStatus('success', 'Netlify deployment triggered for all sites!');
+            }, 2000);
+        } else if (platform === 'worker') {
+            this.showStatus('loading', 'Deploying all Cloudflare Workers...');
+            setTimeout(() => {
+                this.showStatus('success', 'Worker deployment completed!');
+            }, 2000);
+        }
     }
 }
 

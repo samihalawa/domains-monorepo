@@ -232,7 +232,8 @@ async function handleDeploymentMap(request, env) {
     netlify_sites: [],
     monorepo_sites: [],
     conflicts: [],
-    recommendations: []
+    recommendations: [],
+    debug_info: {}
   };
 
   try {
@@ -255,16 +256,23 @@ async function handleDeploymentMap(request, env) {
       }));
     }
 
-    // Get all Netlify sites
+    // Get all Netlify sites with enhanced error handling
+    console.log('Attempting Netlify API call with token:', env.NETLIFY_ACCESS_TOKEN ? 'Token present' : 'Token missing');
+    
     const netlifyResponse = await fetch('https://api.netlify.com/api/v1/sites?per_page=100', {
       headers: {
         'Authorization': `Bearer ${env.NETLIFY_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'DomainsDashboard/1.0'
       }
     });
     
+    console.log('Netlify response status:', netlifyResponse.status);
+    console.log('Netlify response headers:', Object.fromEntries(netlifyResponse.headers.entries()));
+    
     if (netlifyResponse.ok) {
       const netlifyData = await netlifyResponse.json();
+      console.log('Netlify data received:', netlifyData.length, 'sites');
       deploymentMap.netlify_sites = netlifyData.map(site => ({
         name: site.name,
         id: site.id,
@@ -274,18 +282,43 @@ async function handleDeploymentMap(request, env) {
         state: site.state,
         repo_url: site.repo_url
       }));
+      deploymentMap.debug_info = { 
+        ...deploymentMap.debug_info,
+        netlify_success: true,
+        netlify_count: netlifyData.length 
+      };
+    } else {
+      const errorText = await netlifyResponse.text();
+      console.error('Netlify API failed:', netlifyResponse.status, netlifyResponse.statusText, errorText);
+      deploymentMap.netlify_error = `${netlifyResponse.status}: ${errorText}`;
+      deploymentMap.debug_info = { 
+        ...deploymentMap.debug_info,
+        netlify_error: {
+          status: netlifyResponse.status,
+          statusText: netlifyResponse.statusText,
+          body: errorText,
+          token_exists: !!env.NETLIFY_ACCESS_TOKEN
+        }
+      };
     }
 
-    // Get monorepo sites from GitHub
+    // Get monorepo sites from GitHub with enhanced error handling
+    console.log('Attempting GitHub API call with token:', env.GITHUB_TOKEN ? 'Token present' : 'Token missing');
+    
     const githubResponse = await fetch('https://api.github.com/repos/samihalawa/domains-monorepo/contents/sites', {
       headers: {
         'Authorization': `token ${env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
+        'Accept': 'application/vnd.github.v3+json',
+        'User-Agent': 'DomainsDashboard/1.0'
       }
     });
     
+    console.log('GitHub response status:', githubResponse.status);
+    console.log('GitHub response headers:', Object.fromEntries(githubResponse.headers.entries()));
+    
     if (githubResponse.ok) {
       const githubData = await githubResponse.json();
+      console.log('GitHub data received:', githubData.length, 'items');
       deploymentMap.monorepo_sites = githubData
         .filter(item => item.type === 'dir')
         .map(dir => ({
@@ -293,6 +326,25 @@ async function handleDeploymentMap(request, env) {
           path: `/sites/${dir.name}/`,
           github_url: dir.html_url
         }));
+      console.log('Filtered monorepo sites:', deploymentMap.monorepo_sites.length);
+      deploymentMap.debug_info = {
+        ...deploymentMap.debug_info,
+        github_success: true,
+        github_total_items: githubData.length,
+        github_directory_count: deploymentMap.monorepo_sites.length
+      };
+    } else {
+      const errorText = await githubResponse.text();
+      console.error('GitHub API failed:', githubResponse.status, githubResponse.statusText, errorText);
+      deploymentMap.debug_info = {
+        ...deploymentMap.debug_info,
+        github_error: {
+          status: githubResponse.status,
+          statusText: githubResponse.statusText,
+          body: errorText,
+          token_exists: !!env.GITHUB_TOKEN
+        }
+      };
     }
 
     // Detect conflicts - domains that exist in multiple places
@@ -399,17 +451,23 @@ async function handleDomainAnalysis(request, env) {
       });
     }
 
-    // Count active deployments from Netlify
+    // Count active deployments from Netlify with error handling
     const netlifyResponse = await fetch('https://api.netlify.com/api/v1/sites?per_page=100', {
       headers: {
         'Authorization': `Bearer ${env.NETLIFY_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'User-Agent': 'DomainsDashboard/1.0'
       }
     });
 
     if (netlifyResponse.ok) {
       const netlifyData = await netlifyResponse.json();
-      analysis.active_deployments += netlifyData.filter(site => site.state === 'ready').length;
+      const activeSites = netlifyData.filter(site => site.state === 'current' || site.state === 'ready');
+      analysis.active_deployments += activeSites.length;
+      console.log('Domain analysis - Netlify sites:', netlifyData.length, 'active:', activeSites.length);
+    } else {
+      const errorText = await netlifyResponse.text();
+      console.error('Domain analysis - Netlify API failed:', netlifyResponse.status, errorText);
     }
 
     // Generate intelligent recommendations
