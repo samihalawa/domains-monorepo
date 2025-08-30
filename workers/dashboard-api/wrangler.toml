@@ -1,14 +1,8 @@
 name = "domains-dashboard-api"
 main = "index.js"
-compatibility_date = "2023-12-01"
+compatibility_date = "2024-03-01"
 
-# Environment variables (set via wrangler secret put)
+# Production secrets (set via: wrangler secret put)
 # CLOUDFLARE_API_TOKEN
 # NETLIFY_ACCESS_TOKEN  
 # GITHUB_TOKEN
-
-[env.production]
-vars = { ENVIRONMENT = "production" }
-
-[env.development]
-vars = { ENVIRONMENT = "development" }

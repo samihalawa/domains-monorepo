@@ -39,12 +39,8 @@ export default {
         return await handleDeploymentMap(request, env);
       } else if (path === '/api/domain-analysis') {
         return await handleDomainAnalysis(request, env);
-      } else if (path === '/dashboard' || path === '/dashboard/') {
+      } else if (path === '/' || path === '/dashboard' || path === '/dashboard/') {
         return serveDashboard();
-      } else if (path === '/dashboard/enhanced.html') {
-        return serveDashboard();
-      } else if (path === '/') {
-        return serveIndex();
       }
 
       return jsonResponse({ error: 'Not found' }, 404);
@@ -263,7 +259,6 @@ async function handleDeploymentMap(request, env) {
     }
 
     // Get all Netlify sites with enhanced error handling
-    console.log('Attempting Netlify API call with token:', env.NETLIFY_ACCESS_TOKEN ? 'Token present' : 'Token missing');
     
     const netlifyResponse = await fetch('https://api.netlify.com/api/v1/sites?per_page=100', {
       headers: {
@@ -273,12 +268,9 @@ async function handleDeploymentMap(request, env) {
       }
     });
     
-    console.log('Netlify response status:', netlifyResponse.status);
-    console.log('Netlify response headers:', Object.fromEntries(netlifyResponse.headers.entries()));
     
     if (netlifyResponse.ok) {
       const netlifyData = await netlifyResponse.json();
-      console.log('Netlify data received:', netlifyData.length, 'sites');
       deploymentMap.netlify_sites = netlifyData.map(site => ({
         name: site.name,
         id: site.id,
@@ -309,7 +301,6 @@ async function handleDeploymentMap(request, env) {
     }
 
     // Get monorepo sites from GitHub with enhanced error handling
-    console.log('Attempting GitHub API call with token:', env.GITHUB_TOKEN ? 'Token present' : 'Token missing');
     
     const githubResponse = await fetch('https://api.github.com/repos/samihalawa/domains-monorepo/contents/sites', {
       headers: {
@@ -319,12 +310,9 @@ async function handleDeploymentMap(request, env) {
       }
     });
     
-    console.log('GitHub response status:', githubResponse.status);
-    console.log('GitHub response headers:', Object.fromEntries(githubResponse.headers.entries()));
     
     if (githubResponse.ok) {
       const githubData = await githubResponse.json();
-      console.log('GitHub data received:', githubData.length, 'items');
       deploymentMap.monorepo_sites = githubData
         .filter(item => item.type === 'dir')
         .map(dir => ({
@@ -332,7 +320,6 @@ async function handleDeploymentMap(request, env) {
           path: `/sites/${dir.name}/`,
           github_url: dir.html_url
         }));
-      console.log('Filtered monorepo sites:', deploymentMap.monorepo_sites.length);
       deploymentMap.debug_info = {
         ...deploymentMap.debug_info,
         github_success: true,
@@ -470,7 +457,6 @@ async function handleDomainAnalysis(request, env) {
       const netlifyData = await netlifyResponse.json();
       const activeSites = netlifyData.filter(site => site.state === 'current' || site.state === 'ready');
       analysis.active_deployments += activeSites.length;
-      console.log('Domain analysis - Netlify sites:', netlifyData.length, 'active:', activeSites.length);
     } else {
       const errorText = await netlifyResponse.text();
       console.error('Domain analysis - Netlify API failed:', netlifyResponse.status, errorText);
@@ -1547,13 +1533,11 @@ function serveDashboard() {
     </div>
     
     <script>
-console.log('🚀 Dashboard script starting...');
 // Remove alert, add immediate DOM test
 document.body.style.border = '5px solid red';
 
 class EnhancedDomainDashboard {
     constructor() {
-        console.log('🏗️  Dashboard constructor started');
         this.config = {
             apiWorker: window.location.origin,
             endpoints: {
@@ -1580,12 +1564,10 @@ class EnhancedDomainDashboard {
             category: 'all'
         };
         
-        console.log('📝 Dashboard configuration ready, calling init()');
         this.init();
     }
 
     async init() {
-        console.log('🎯 Initializing Enhanced Domain Command Center');
         this.setupEventListeners();
         await this.loadAllData();
         this.processData();
@@ -1594,29 +1576,23 @@ class EnhancedDomainDashboard {
     }
 
     async loadAllData() {
-        console.log('📊 Starting data load...');
         this.data.isLoading = true;
         this.showLoadingState();
 
         try {
             this.updateDebugInfo('Making API calls...');
-            console.log('🔄 Making API calls...');
             const [deploymentMap, domainAnalysis] = await Promise.all([
                 this.fetchAPI(this.config.endpoints.deploymentMap),
                 this.fetchAPI(this.config.endpoints.domainAnalysis)
             ]);
 
             this.updateDebugInfo('API responses received');
-            console.log('📨 API responses received');
-            console.log('   - Deployment map:', deploymentMap);
-            console.log('   - Domain analysis:', domainAnalysis);
 
             this.data.deploymentMap = deploymentMap.data;
             this.data.domainAnalysis = domainAnalysis.data;
             this.data.lastUpdate = new Date();
             
             this.updateDebugInfo('Data assigned, processing...');
-            console.log('✅ Data loaded successfully');
             this.processData();
             this.applyFilters();
             this.renderDashboard();
@@ -1627,7 +1603,6 @@ class EnhancedDomainDashboard {
             this.showAlert('error', 'Failed to load data: ' + error.message);
         } finally {
             this.data.isLoading = false;
-            console.log('🏁 Loading complete');
         }
     }
 
@@ -1640,21 +1615,8 @@ class EnhancedDomainDashboard {
     }
 
     processData() {
-        console.log('🔧 Processing data...');
-        console.log('   - Deployment map exists:', !!this.data.deploymentMap);
-        console.log('   - Domain analysis exists:', !!this.data.domainAnalysis);
-        console.log('   - Deployment map structure:', this.data.deploymentMap);
-        console.log('   - Domain analysis structure:', this.data.domainAnalysis);
+        if (!this.data.deploymentMap || !this.data.domainAnalysis) return;
         
-        if (!this.data.deploymentMap || !this.data.domainAnalysis) {
-            console.error('❌ Missing data for processing:', {
-                deploymentMap: !!this.data.deploymentMap,
-                domainAnalysis: !!this.data.domainAnalysis
-            });
-            return;
-        }
-        
-        console.log('✅ Data validation passed, proceeding with processing...');
 
         this.data.allDomains = [];
 
@@ -1901,13 +1863,11 @@ class EnhancedDomainDashboard {
 }
 
 window.performQuickAction = function(domainName, action) {
-    console.log('Performing ' + action + ' on ' + domainName);
     if (window.dashboard) {
         window.dashboard.showAlert('success', action + ' action performed on ' + domainName);
     }
 };
 
-console.log('🚀 Dashboard script loaded');
 
 // Add immediate visual indicator
 setTimeout(() => {
@@ -1918,7 +1878,6 @@ setTimeout(() => {
 }, 100);
 
 document.addEventListener('DOMContentLoaded', () => {
-    console.log('🎯 DOM loaded, initializing dashboard');
     
     // Add DOM ready indicator
     const domDiv = document.createElement('div');
@@ -1928,7 +1887,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     try {
         window.dashboard = new EnhancedDomainDashboard();
-        console.log('✅ Dashboard initialized successfully');
         
         // Add success indicator
         const successDiv = document.createElement('div');
@@ -1958,44 +1916,3 @@ document.addEventListener('DOMContentLoaded', () => {
 }
 
 
-/**
- * Serve a simple index page
- */
-function serveIndex() {
-  const html = `<!DOCTYPE html>
-<html>
-<head>
-    <title>Domains Dashboard API</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 40px; background: #0D1421; color: #E2E8F0; }
-        .container { max-width: 600px; margin: 0 auto; }
-        h1 { color: #60A5FA; }
-        .links { margin: 30px 0; }
-        .links a { display: block; margin: 10px 0; color: #60A5FA; text-decoration: none; }
-        .links a:hover { text-decoration: underline; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🧠 Domains Dashboard API</h1>
-        <p>Intelligent domain detection and management system</p>
-        
-        <div class="links">
-            <a href="/dashboard">📊 Access Dashboard</a>
-            <a href="/api/health">🔍 API Health Check</a>
-            <a href="/api/deployment-map">🗺️ Deployment Map</a>
-            <a href="/api/domain-analysis">📊 Domain Analysis</a>
-        </div>
-        
-        <p><small>Powered by Cloudflare Workers</small></p>
-    </div>
-</body>
-</html>`;
-  
-  return new Response(html, {
-    headers: {
-      'Content-Type': 'text/html; charset=UTF-8',
-      ...CORS_HEADERS
-    }
-  });
-}
