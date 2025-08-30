@@ -1548,6 +1548,7 @@ function serveDashboard() {
     
     <script>
 console.log('🚀 Dashboard script starting...');
+alert('JAVASCRIPT IS RUNNING!');
 
 class EnhancedDomainDashboard {
     constructor() {
