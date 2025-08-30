@@ -1907,13 +1907,40 @@ window.performQuickAction = function(domainName, action) {
 
 console.log('🚀 Dashboard script loaded');
 
+// Add immediate visual indicator
+setTimeout(() => {
+    const debugDiv = document.createElement('div');
+    debugDiv.style.cssText = 'position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
+    debugDiv.textContent = 'JS LOADED';
+    document.body.appendChild(debugDiv);
+}, 100);
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('🎯 DOM loaded, initializing dashboard');
+    
+    // Add DOM ready indicator
+    const domDiv = document.createElement('div');
+    domDiv.style.cssText = 'position: fixed; top: 40px; right: 10px; background: blue; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
+    domDiv.textContent = 'DOM READY';
+    document.body.appendChild(domDiv);
+    
     try {
         window.dashboard = new EnhancedDomainDashboard();
         console.log('✅ Dashboard initialized successfully');
+        
+        // Add success indicator
+        const successDiv = document.createElement('div');
+        successDiv.style.cssText = 'position: fixed; top: 70px; right: 10px; background: green; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
+        successDiv.textContent = 'DASHBOARD INIT';
+        document.body.appendChild(successDiv);
     } catch (error) {
         console.error('❌ Dashboard initialization failed:', error);
+        
+        // Add error indicator
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = 'position: fixed; top: 70px; right: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
+        errorDiv.textContent = 'INIT ERROR: ' + error.message;
+        document.body.appendChild(errorDiv);
     }
 });
     </script>
