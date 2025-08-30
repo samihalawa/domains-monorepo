@@ -1547,7 +1547,6 @@ function serveDashboard() {
     </div>
     
     <script>
-alert('JavaScript is working!');
 console.log('🚀 Dashboard script starting...');
 
 class EnhancedDomainDashboard {
