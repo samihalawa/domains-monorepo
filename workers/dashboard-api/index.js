@@ -1778,7 +1778,7 @@ class EnhancedDomainDashboard {
                 '</div>' +
             '</div>' +
             '<div class="domain-preview">' +
-                '<iframe class="domain-iframe" src="' + domain.url + '" loading="lazy" sandbox="allow-same-origin" onerror="this.style.display=\'none\'"></iframe>' +
+                '<iframe class="domain-iframe" src="' + domain.url + '" loading="lazy" sandbox="allow-same-origin"></iframe>' +
                 '<div class="preview-overlay">' +
                     '<a href="' + domain.url + '" target="_blank" class="action-btn primary">🔗 Visit</a>' +
                     '<button class="action-btn" onclick="window.performQuickAction(\'' + domain.name + '\', \'manage\')">⚙️ Manage</button>' +
