@@ -46,8 +46,8 @@ These domains are ONLY in the monorepo and served through Cloudflare Worker:
 | apilord.com | /sites/apilord/ | ✅ Active |
 | gptabsolute.com | /sites/gptabsolute/ | ✅ Active |
 | gpthard.com | /sites/gpthard/ | ✅ Active |
-| ministerio.ai | /sites/ministerio/ | ✅ Active |
-| octbot.ai | /sites/octbot/ | ✅ Active |
+| ministerio.ai | /sites/ministerio/ | ❌ Broken (TIMEOUT) |
+| octbot.ai | /sites/octbot/ | ❌ Broken (404) |
 
 ## 🔧 ACTION ITEMS
 

@@ -41,10 +41,8 @@ export default {
       'sort.services': 'sort',
       'www.sort.services': 'sort',
       // REMOVED: agentsai.ltd - has Netlify app (agentsai.netlify.app)
-      'ministerio.ai': 'ministerio',
-      'www.ministerio.ai': 'ministerio',
-      'octbot.ai': 'octbot',
-      'www.octbot.ai': 'octbot',
+      // REMOVED: ministerio.ai - TIMEOUT
+      // REMOVED: octbot.ai - 404
       'apilord.com': 'apilord',
       'www.apilord.com': 'apilord',
       'gptabsolute.com': 'gptabsolute',

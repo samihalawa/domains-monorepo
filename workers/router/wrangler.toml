@@ -23,8 +23,8 @@ routes = [
   { pattern = "mcp.blue/*", zone_name = "mcp.blue" },
   { pattern = "sort.services/*", zone_name = "sort.services" },
   # REMOVED: agentsai.ltd - hosted on Netlify
-  { pattern = "ministerio.ai/*", zone_name = "ministerio.ai" },
-  { pattern = "octbot.ai/*", zone_name = "octbot.ai" },
+  # REMOVED: ministerio.ai - returns TIMEOUT, site broken
+  # REMOVED: octbot.ai - returns 404, site broken
   { pattern = "apilord.com/*", zone_name = "apilord.com" },
   { pattern = "gptabsolute.com/*", zone_name = "gptabsolute.com" },
   { pattern = "gpthard.com/*", zone_name = "gpthard.com" }
