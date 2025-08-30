@@ -1597,12 +1597,14 @@ class EnhancedDomainDashboard {
         this.showLoadingState();
 
         try {
+            this.updateDebugInfo('Making API calls...');
             console.log('🔄 Making API calls...');
             const [deploymentMap, domainAnalysis] = await Promise.all([
                 this.fetchAPI(this.config.endpoints.deploymentMap),
                 this.fetchAPI(this.config.endpoints.domainAnalysis)
             ]);
 
+            this.updateDebugInfo('API responses received');
             console.log('📨 API responses received');
             console.log('   - Deployment map:', deploymentMap);
             console.log('   - Domain analysis:', domainAnalysis);
@@ -1611,12 +1613,15 @@ class EnhancedDomainDashboard {
             this.data.domainAnalysis = domainAnalysis.data;
             this.data.lastUpdate = new Date();
             
+            this.updateDebugInfo('Data assigned, processing...');
             console.log('✅ Data loaded successfully');
             this.processData();
             this.applyFilters();
             this.renderDashboard();
+            this.updateDebugInfo('Rendering complete!');
         } catch (error) {
             console.error('❌ Failed to load dashboard data:', error);
+            this.updateDebugInfo('ERROR: ' + error.message);
             this.showAlert('error', 'Failed to load data: ' + error.message);
         } finally {
             this.data.isLoading = false;
@@ -1848,7 +1853,14 @@ class EnhancedDomainDashboard {
 
     showLoadingState() {
         const container = document.getElementById('domainsContainer');
-        container.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div></div>';
+        container.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><div style="margin-top: 20px; color: #94A3B8; font-size: 14px;" id="debug-info">Loading data...</div></div>';
+    }
+
+    updateDebugInfo(message) {
+        const debugElement = document.getElementById('debug-info');
+        if (debugElement) {
+            debugElement.innerHTML += '<br>' + message;
+        }
     }
 
     setupEventListeners() {
