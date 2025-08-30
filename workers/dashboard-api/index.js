@@ -1636,6 +1636,8 @@ class EnhancedDomainDashboard {
         console.log('🔧 Processing data...');
         console.log('   - Deployment map exists:', !!this.data.deploymentMap);
         console.log('   - Domain analysis exists:', !!this.data.domainAnalysis);
+        console.log('   - Deployment map structure:', this.data.deploymentMap);
+        console.log('   - Domain analysis structure:', this.data.domainAnalysis);
         
         if (!this.data.deploymentMap || !this.data.domainAnalysis) {
             console.error('❌ Missing data for processing:', {
@@ -1644,6 +1646,8 @@ class EnhancedDomainDashboard {
             });
             return;
         }
+        
+        console.log('✅ Data validation passed, proceeding with processing...');
 
         this.data.allDomains = [];
 
