@@ -1612,6 +1612,9 @@ class EnhancedDomainDashboard {
             this.data.lastUpdate = new Date();
             
             console.log('✅ Data loaded successfully');
+            this.processData();
+            this.applyFilters();
+            this.renderDashboard();
         } catch (error) {
             console.error('❌ Failed to load dashboard data:', error);
             this.showAlert('error', 'Failed to load data: ' + error.message);
