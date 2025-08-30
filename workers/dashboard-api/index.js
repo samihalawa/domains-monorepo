@@ -1633,7 +1633,17 @@ class EnhancedDomainDashboard {
     }
 
     processData() {
-        if (!this.data.deploymentMap || !this.data.domainAnalysis) return;
+        console.log('🔧 Processing data...');
+        console.log('   - Deployment map exists:', !!this.data.deploymentMap);
+        console.log('   - Domain analysis exists:', !!this.data.domainAnalysis);
+        
+        if (!this.data.deploymentMap || !this.data.domainAnalysis) {
+            console.error('❌ Missing data for processing:', {
+                deploymentMap: !!this.data.deploymentMap,
+                domainAnalysis: !!this.data.domainAnalysis
+            });
+            return;
+        }
 
         this.data.allDomains = [];
 
