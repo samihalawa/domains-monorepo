@@ -1548,7 +1548,8 @@ function serveDashboard() {
     
     <script>
 console.log('🚀 Dashboard script starting...');
-alert('JAVASCRIPT IS RUNNING!');
+// Remove alert, add immediate DOM test
+document.body.style.border = '5px solid red';
 
 class EnhancedDomainDashboard {
     constructor() {
