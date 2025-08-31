@@ -191,8 +191,8 @@ export default {
       }
     }
 
-    // Dashboard route - serve the dashboard UI
-    if (pathname === "/dashboard" || pathname === "/admin") {
+    // Dashboard route - serve the dashboard UI at root only
+    if (pathname === "/" && hostname === "domains-monorepo.trigox.workers.dev") {
       const dashboardHTML = getDashboardHTML();
       return new Response(dashboardHTML, {
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
