@@ -1,6 +1,10 @@
-name = "domains-router"
+name = "domains-monorepo"
 main = "index.js"
 compatibility_date = "2024-12-20"
+
+# Environment variables
+[env.production.vars]
+CF_API_TOKEN = "ApoFqt5zg9KX_UVstFqq4NPR2V3wi2ZGz8qX63vJ"
 
 # Routes for domains served by this worker (excludes Netlify-hosted domains)
 routes = [
