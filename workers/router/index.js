@@ -32,6 +32,58 @@ export default {
         return jsonResponse({ error: 'get_failed', message: String(e) }, 500);
       }
     }
+
+    // CORS Proxy functionality
+    if (pathname === "/cors") {
+      try {
+        const targetUrl = url.searchParams.get('url');
+        if (!targetUrl) return jsonResponse({ error: 'missing_url' }, 400);
+        
+        const response = await fetch(targetUrl, {
+          method: request.method,
+          headers: request.headers,
+          body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : null
+        });
+        
+        const corsHeaders = {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Access-Control-Max-Age': '86400'
+        };
+        
+        if (request.method === 'OPTIONS') {
+          return new Response(null, { status: 200, headers: corsHeaders });
+        }
+        
+        const responseHeaders = new Headers(response.headers);
+        Object.entries(corsHeaders).forEach(([key, value]) => {
+          responseHeaders.set(key, value);
+        });
+        
+        return new Response(response.body, {
+          status: response.status,
+          headers: responseHeaders
+        });
+      } catch (e) {
+        return jsonResponse({ error: 'cors_failed', message: String(e) }, 500);
+      }
+    }
+
+    // Redirect functionality
+    if (pathname === "/redirect") {
+      try {
+        const targetUrl = url.searchParams.get('url');
+        const code = parseInt(url.searchParams.get('code') || '302');
+        
+        if (!targetUrl) return jsonResponse({ error: 'missing_url' }, 400);
+        if (![301, 302, 307, 308].includes(code)) return jsonResponse({ error: 'invalid_code' }, 400);
+        
+        return Response.redirect(targetUrl, code);
+      } catch (e) {
+        return jsonResponse({ error: 'redirect_failed', message: String(e) }, 500);
+      }
+    }
     
     // Map domains to their Pages deployment paths
     // NOTE: Domains on Netlify (agentsai.ltd, autotinder.ai, detectar.ai) are NOT included here
