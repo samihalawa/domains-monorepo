@@ -28,4 +28,26 @@ routes = [
   { pattern = "apilord.com/*", zone_name = "apilord.com" },
   { pattern = "gptabsolute.com/*", zone_name = "gptabsolute.com" },
   { pattern = "gpthard.com/*", zone_name = "gpthard.com" }
+  ,
+  # Newly added domains (unused → now routed by this worker)
+  { pattern = "cryptoadiccion.com/*", zone_name = "cryptoadiccion.com" },
+  { pattern = "www.cryptoadiccion.com/*", zone_name = "cryptoadiccion.com" },
+  { pattern = "gptenespanol.com/*", zone_name = "gptenespanol.com" },
+  { pattern = "www.gptenespanol.com/*", zone_name = "gptenespanol.com" },
+  { pattern = "gptvenezuela.com/*", zone_name = "gptvenezuela.com" },
+  { pattern = "www.gptvenezuela.com/*", zone_name = "gptvenezuela.com" },
+  { pattern = "gptaddicts.com/*", zone_name = "gptaddicts.com" },
+  { pattern = "www.gptaddicts.com/*", zone_name = "gptaddicts.com" },
+  { pattern = "gptautoweb.com/*", zone_name = "gptautoweb.com" },
+  { pattern = "www.gptautoweb.com/*", zone_name = "gptautoweb.com" },
+  { pattern = "gptmundo.com/*", zone_name = "gptmundo.com" },
+  { pattern = "www.gptmundo.com/*", zone_name = "gptmundo.com" },
+  { pattern = "gptplugindatabase.com/*", zone_name = "gptplugindatabase.com" },
+  { pattern = "www.gptplugindatabase.com/*", zone_name = "gptplugindatabase.com" },
+  { pattern = "gptpowerpoint.com/*", zone_name = "gptpowerpoint.com" },
+  { pattern = "www.gptpowerpoint.com/*", zone_name = "gptpowerpoint.com" },
+  { pattern = "gptveteran.com/*", zone_name = "gptveteran.com" },
+  { pattern = "www.gptveteran.com/*", zone_name = "gptveteran.com" },
+  { pattern = "maximagpt.com/*", zone_name = "maximagpt.com" }
+  ,{ pattern = "www.maximagpt.com/*", zone_name = "maximagpt.com" }
 ]
