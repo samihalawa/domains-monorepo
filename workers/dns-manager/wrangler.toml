@@ -1,0 +1,7 @@
+name = "dns-manager"
+main = "index.js"
+compatibility_date = "2024-03-01"
+
+# Secrets required:
+# - CF_API_TOKEN (Zone:Read, DNS:Edit)
+
