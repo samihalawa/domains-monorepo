@@ -49,6 +49,21 @@ These domains are ONLY in the monorepo and served through Cloudflare Worker:
 | ministerio.ai | /sites/ministerio/ | ❌ Broken (TIMEOUT) |
 | octbot.ai | /sites/octbot/ | ❌ Broken (404) |
 
+### Newly added (pending DNS)
+
+| Domain | Folder | Status |
+|--------|--------|--------|
+| cryptoadiccion.com | /sites/cryptoadiccion/ | 🆕 Added |
+| gptenespanol.com | /sites/gptenespanol/ | 🆕 Added |
+| gptvenezuela.com | /sites/gptvenezuela/ | 🆕 Added |
+| gptaddicts.com | /sites/gptaddicts/ | 🆕 Added |
+| gptautoweb.com | /sites/gptautoweb/ | 🆕 Added |
+| gptmundo.com | /sites/gptmundo/ | 🆕 Added |
+| gptplugindatabase.com | /sites/gptplugindatabase/ | 🆕 Added |
+| gptpowerpoint.com | /sites/gptpowerpoint/ | 🆕 Added |
+| gptveteran.com | /sites/gptveteran/ | 🆕 Added |
+| maximagpt.com | /sites/maximagpt/ | 🆕 Added |
+
 ## 🔧 ACTION ITEMS
 
 ### 1. Remove Conflicting Folders

@@ -48,7 +48,29 @@ export default {
       'gptabsolute.com': 'gptabsolute',
       'www.gptabsolute.com': 'gptabsolute',
       'gpthard.com': 'gpthard',
-      'www.gpthard.com': 'gpthard'
+      'www.gpthard.com': 'gpthard',
+
+      // New domains (monorepo sites)
+      'cryptoadiccion.com': 'cryptoadiccion',
+      'www.cryptoadiccion.com': 'cryptoadiccion',
+      'gptenespanol.com': 'gptenespanol',
+      'www.gptenespanol.com': 'gptenespanol',
+      'gptvenezuela.com': 'gptvenezuela',
+      'www.gptvenezuela.com': 'gptvenezuela',
+      'gptaddicts.com': 'gptaddicts',
+      'www.gptaddicts.com': 'gptaddicts',
+      'gptautoweb.com': 'gptautoweb',
+      'www.gptautoweb.com': 'gptautoweb',
+      'gptmundo.com': 'gptmundo',
+      'www.gptmundo.com': 'gptmundo',
+      'gptplugindatabase.com': 'gptplugindatabase',
+      'www.gptplugindatabase.com': 'gptplugindatabase',
+      'gptpowerpoint.com': 'gptpowerpoint',
+      'www.gptpowerpoint.com': 'gptpowerpoint',
+      'gptveteran.com': 'gptveteran',
+      'www.gptveteran.com': 'gptveteran',
+      'maximagpt.com': 'maximagpt',
+      'www.maximagpt.com': 'maximagpt'
     };
 
     const siteFolder = domainMap[hostname];

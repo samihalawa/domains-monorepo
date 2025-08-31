@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GPTPowerPoint.com — Generate Slide Decks with GPT</title>
+  <meta name="description" content="Create professional slide decks from briefs. GPT drafts outlines, slides and speaker notes; export to PPTX/Google Slides." />
+  <link rel="canonical" href="https://gptpowerpoint.com" />
+  <meta property="og:title" content="GPT PowerPoint — AI slide generator" />
+  <meta property="og:description" content="Turn a brief into a polished deck with GPT." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://gptpowerpoint.com" />
+  <script async src="https://zarazscript.trigox.workers.dev/"></script>
+  <style>
+    :root { --bg:#0b132b; --card:#1c2541; --text:#e6edf7; --muted:#a1aecb; --brand:#ef4444; --brand2:#60a5fa; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(135deg,#0b132b,#1c2541);color:var(--text)}
+    header{position:sticky;top:0;backdrop-filter:blur(12px);background:rgba(28,37,65,.7);border-bottom:1px solid rgba(226,232,240,.06)}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px 20px}
+    .row{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-weight:700}
+    .logo b{background:linear-gradient(90deg,var(--brand),var(--brand2));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+    .hero{padding:90px 20px 40px;text-align:center}
+    h1{font-size:44px;line-height:1.1;margin-bottom:14px}
+    p.lead{color:var(--muted);font-size:18px;max-width:760px;margin:0 auto 28px}
+    .cta{display:inline-block;background:#fff;color:#111827;padding:12px 22px;border-radius:10px;font-weight:600;text-decoration:none}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;padding:32px 20px 70px;max-width:1100px;margin:0 auto}
+    .card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:14px;padding:18px}
+    .card h3{font-size:18px;margin:8px 0}
+    footer{border-top:1px solid rgba(226,232,240,.06);text-align:center;color:var(--muted);padding:28px 20px}
+    @media (max-width:720px){h1{font-size:32px}}
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script>function track(e,p){try{trackUniversalEvent&&trackUniversalEvent(e,p)}catch(_){}}</script>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="logo">gpt<b>powerpoint</b>.com</div>
+      <nav><a class="cta" href="mailto:hi@gptpowerpoint.com" onclick="track('contact_click',{d:'gptpowerpoint.com'})">Request beta</a></nav>
+    </div>
+  </header>
+  <section class="hero">
+    <h1>Turn a brief into a polished deck</h1>
+    <p class="lead">Paste your outline or upload a doc. GPT drafts structure, slide content and speaker notes. Export to PPTX or Google Slides in seconds.</p>
+    <a class="cta" href="#usecases" onclick="track('cta_usecases',{d:'gptpowerpoint.com'})">Use cases</a>
+  </section>
+  <section class="grid" id="usecases">
+    <div class="card"><h3>Sales decks</h3><p>Tailored to vertical and persona.</p></div>
+    <div class="card"><h3>Reports</h3><p>Summarize findings with charts.</p></div>
+    <div class="card"><h3>Education</h3><p>Lesson plans and course slides.</p></div>
+    <div class="card"><h3>Internal</h3><p>Project updates and planning.</p></div>
+  </section>
+  <footer>© 2024 gptpowerpoint.com — Coming soon.</footer>
+</body>
+</html>
+
