@@ -24,7 +24,8 @@ routes = [
   { pattern = "sort.services/*", zone_name = "sort.services" },
   # REMOVED: agentsai.ltd - hosted on Netlify
   # REMOVED: ministerio.ai - returns TIMEOUT, site broken
-  # REMOVED: octbot.ai - returns 404, site broken
+  { pattern = "octbot.ai/*", zone_name = "octbot.ai" },
+  { pattern = "www.octbot.ai/*", zone_name = "octbot.ai" },
   { pattern = "apilord.com/*", zone_name = "apilord.com" },
   { pattern = "gptabsolute.com/*", zone_name = "gptabsolute.com" },
   { pattern = "gpthard.com/*", zone_name = "gpthard.com" }
