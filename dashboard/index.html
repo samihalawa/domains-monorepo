@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domains Control Center</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .glass { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.05); }
+        .status-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+        .gradient-border { background: linear-gradient(90deg, #3B82F6, #8B5CF6, #EC4899); }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <div id="root"></div>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@headlessui/react@1.7.17/dist/headlessui.umd.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect, Fragment } = React;
+        const { Dialog, Transition, Menu, Switch, Listbox } = HeadlessUI;
+
+        // Domain data structure
+        const DOMAINS = {
+            internal: [
+                { domain: 'octbot.ai', status: 'online', ssl: true, traffic: '12.5k', folder: '/sites/octbot/' },
+                { domain: 'gptcoins.com', status: 'online', ssl: true, traffic: '8.3k', folder: '/sites/gptcoins/' },
+                { domain: 'gptmundo.com', status: 'online', ssl: true, traffic: '5.1k', folder: '/sites/gptmundo/' },
+                { domain: 'gptenespanol.com', status: 'online', ssl: true, traffic: '3.2k', folder: '/sites/gptenespanol/' },
+                { domain: 'gptvenezuela.com', status: 'online', ssl: true, traffic: '2.8k', folder: '/sites/gptvenezuela/' },
+                { domain: 'maximagpt.com', status: 'online', ssl: true, traffic: '4.7k', folder: '/sites/maximagpt/' },
+                { domain: 'gptaddicts.com', status: 'online', ssl: true, traffic: '1.9k', folder: '/sites/gptaddicts/' },
+                { domain: 'gptautoweb.com', status: 'online', ssl: true, traffic: '2.3k', folder: '/sites/gptautoweb/' },
+                { domain: 'gptplugindatabase.com', status: 'online', ssl: true, traffic: '6.4k', folder: '/sites/gptplugindatabase/' },
+                { domain: 'gptpowerpoint.com', status: 'online', ssl: true, traffic: '3.7k', folder: '/sites/gptpowerpoint/' },
+                { domain: 'gptveteran.com', status: 'online', ssl: true, traffic: '1.2k', folder: '/sites/gptveteran/' },
+                { domain: 'cryptoadiccion.com', status: 'propagating', ssl: true, traffic: '0', folder: '/sites/cryptoadiccion/' },
+                { domain: 'damecoins.com', status: 'dns-issue', ssl: true, traffic: '0', folder: '/sites/damecoins/' },
+                { domain: 'ministerio.ai', status: 'dns-issue', ssl: true, traffic: '0', folder: '/sites/ministerio/' },
+                { domain: 'instantvirtualcards.com', status: 'dns-issue', ssl: true, traffic: '0', folder: '/sites/instantvirtualcards/' }
+            ],
+            external: [
+                { domain: 'autorad.automedical.ai', status: 'online', ssl: true, traffic: '45.2k', provider: 'Netlify', app: 'auto-rad.netlify.app' },
+                { domain: 'pime.ai', status: 'online', ssl: true, traffic: '28.7k', provider: 'Netlify', app: 'pime-ai.netlify.app' },
+                { domain: 'samihalawa.com', status: 'online', ssl: true, traffic: '15.9k', provider: 'Netlify', app: 'samihalawa-unified.netlify.app' },
+                { domain: 'autoclient.ai', status: 'online', ssl: true, traffic: '22.1k', provider: 'Netlify', app: 'papaya-biscotti-5572d9.netlify.app' }
+            ]
+        };
+
+        function StatusBadge({ status }) {
+            const statusConfig = {
+                online: { color: 'bg-green-500', text: 'Online', pulse: true },
+                offline: { color: 'bg-red-500', text: 'Offline', pulse: true },
+                'dns-issue': { color: 'bg-yellow-500', text: 'DNS Issue', pulse: true },
+                propagating: { color: 'bg-blue-500', text: 'Propagating', pulse: true }
+            };
+            
+            const config = statusConfig[status] || statusConfig.offline;
+            
+            return (
+                <div className="flex items-center gap-2">
+                    <div className={`w-2 h-2 rounded-full ${config.color} ${config.pulse ? 'status-pulse' : ''}`}></div>
+                    <span className="text-xs font-medium">{config.text}</span>
+                </div>
+            );
+        }
+
+        function DomainCard({ domain, isExternal = false }) {
+            const [isOpen, setIsOpen] = useState(false);
+            
+            return (
+                <>
+                    <div className="glass border border-gray-800 rounded-xl p-5 hover:border-gray-700 transition-all cursor-pointer group"
+                         onClick={() => setIsOpen(true)}>
+                        <div className="flex items-start justify-between mb-4">
+                            <div>
+                                <h3 className="font-semibold text-lg text-white group-hover:text-blue-400 transition-colors">
+                                    {domain.domain}
+                                </h3>
+                                {isExternal && (
+                                    <p className="text-xs text-gray-500 mt-1">{domain.app}</p>
+                                )}
+                            </div>
+                            <StatusBadge status={domain.status} />
+                        </div>
+                        
+                        <div className="grid grid-cols-2 gap-3 text-sm">
+                            <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                                <span className="text-gray-400">Traffic</span>
+                                <span className="text-white font-medium ml-auto">{domain.traffic}</span>
+                            </div>
+                            
+                            <div className="flex items-center gap-2">
+                                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                                <span className="text-gray-400">SSL</span>
+                                <span className={`ml-auto ${domain.ssl ? 'text-green-400' : 'text-red-400'}`}>
+                                    {domain.ssl ? '✓' : '✗'}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        {isExternal && (
+                            <div className="mt-4 pt-3 border-t border-gray-800">
+                                <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full">
+                                    {domain.provider}
+                                </span>
+                            </div>
+                        )}
+                        
+                        <div className="mt-4 flex gap-2">
+                            <button className="flex-1 px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors">
+                                Visit
+                            </button>
+                            <button className="flex-1 px-3 py-1.5 text-xs bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors">
+                                Manage
+                            </button>
+                        </div>
+                    </div>
+
+                    <Transition appear show={isOpen} as={Fragment}>
+                        <Dialog as="div" className="relative z-50" onClose={() => setIsOpen(false)}>
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0"
+                                enterTo="opacity-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100"
+                                leaveTo="opacity-0"
+                            >
+                                <div className="fixed inset-0 bg-black/80 backdrop-blur-sm" />
+                            </Transition.Child>
+
+                            <div className="fixed inset-0 overflow-y-auto">
+                                <div className="flex min-h-full items-center justify-center p-4">
+                                    <Transition.Child
+                                        as={Fragment}
+                                        enter="ease-out duration-300"
+                                        enterFrom="opacity-0 scale-95"
+                                        enterTo="opacity-100 scale-100"
+                                        leave="ease-in duration-200"
+                                        leaveFrom="opacity-100 scale-100"
+                                        leaveTo="opacity-0 scale-95"
+                                    >
+                                        <Dialog.Panel className="w-full max-w-2xl transform glass border border-gray-800 rounded-2xl p-6 shadow-xl transition-all">
+                                            <Dialog.Title as="h3" className="text-xl font-bold text-white mb-4">
+                                                {domain.domain}
+                                            </Dialog.Title>
+                                            
+                                            <div className="space-y-4">
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div className="glass rounded-lg p-4 border border-gray-800">
+                                                        <p className="text-gray-400 text-sm mb-1">Status</p>
+                                                        <StatusBadge status={domain.status} />
+                                                    </div>
+                                                    <div className="glass rounded-lg p-4 border border-gray-800">
+                                                        <p className="text-gray-400 text-sm mb-1">Traffic (24h)</p>
+                                                        <p className="text-xl font-bold">{domain.traffic}</p>
+                                                    </div>
+                                                </div>
+                                                
+                                                {!isExternal && (
+                                                    <div className="glass rounded-lg p-4 border border-gray-800">
+                                                        <p className="text-gray-400 text-sm mb-2">Quick Actions</p>
+                                                        <div className="grid grid-cols-3 gap-2">
+                                                            <button className="px-3 py-2 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg text-sm transition-colors">
+                                                                Edit Content
+                                                            </button>
+                                                            <button className="px-3 py-2 bg-green-500/20 hover:bg-green-500/30 text-green-400 rounded-lg text-sm transition-colors">
+                                                                Deploy Changes
+                                                            </button>
+                                                            <button className="px-3 py-2 bg-purple-500/20 hover:bg-purple-500/30 text-purple-400 rounded-lg text-sm transition-colors">
+                                                                DNS Settings
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                
+                                                <div className="flex justify-end gap-2 mt-6">
+                                                    <button 
+                                                        onClick={() => setIsOpen(false)}
+                                                        className="px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-colors"
+                                                    >
+                                                        Close
+                                                    </button>
+                                                    <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors">
+                                                        Open Manager
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </Dialog.Panel>
+                                    </Transition.Child>
+                                </div>
+                            </div>
+                        </Dialog>
+                    </Transition>
+                </>
+            );
+        }
+
+        function Dashboard() {
+            const [view, setView] = useState('grid');
+            const [filter, setFilter] = useState('all');
+            const [searchQuery, setSearchQuery] = useState('');
+            
+            const stats = {
+                total: DOMAINS.internal.length + DOMAINS.external.length,
+                online: [...DOMAINS.internal, ...DOMAINS.external].filter(d => d.status === 'online').length,
+                issues: [...DOMAINS.internal, ...DOMAINS.external].filter(d => d.status !== 'online').length
+            };
+            
+            const filteredInternal = DOMAINS.internal.filter(d => {
+                if (searchQuery && !d.domain.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+                if (filter === 'online') return d.status === 'online';
+                if (filter === 'issues') return d.status !== 'online';
+                return true;
+            });
+            
+            const filteredExternal = DOMAINS.external.filter(d => {
+                if (searchQuery && !d.domain.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+                if (filter === 'online') return d.status === 'online';
+                if (filter === 'issues') return d.status !== 'online';
+                return true;
+            });
+            
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+                    {/* Header */}
+                    <header className="glass border-b border-gray-800 sticky top-0 z-40">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center gap-4">
+                                    <div className="gradient-border p-[2px] rounded-lg">
+                                        <div className="bg-gray-950 px-3 py-1.5 rounded-lg">
+                                            <h1 className="font-bold text-xl bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                                                Domains Control
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <span className="text-gray-500 text-sm">
+                                        Unified Management System
+                                    </span>
+                                </div>
+                                
+                                <div className="flex items-center gap-4">
+                                    <button className="p-2 glass rounded-lg hover:bg-gray-800 transition-colors">
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                    </button>
+                                    <button className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors font-medium text-sm">
+                                        Deploy All
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    {/* Stats Cards */}
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        <div className="grid grid-cols-3 gap-6 mb-8">
+                            <div className="glass border border-gray-800 rounded-xl p-6">
+                                <div className="flex items-center justify-between mb-2">
+                                    <p className="text-gray-400">Total Domains</p>
+                                    <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+                                    </svg>
+                                </div>
+                                <p className="text-3xl font-bold text-white">{stats.total}</p>
+                                <p className="text-sm text-gray-500 mt-1">Managed sites</p>
+                            </div>
+                            
+                            <div className="glass border border-gray-800 rounded-xl p-6">
+                                <div className="flex items-center justify-between mb-2">
+                                    <p className="text-gray-400">Online</p>
+                                    <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <p className="text-3xl font-bold text-white">{stats.online}</p>
+                                <p className="text-sm text-gray-500 mt-1">Working perfectly</p>
+                            </div>
+                            
+                            <div className="glass border border-gray-800 rounded-xl p-6">
+                                <div className="flex items-center justify-between mb-2">
+                                    <p className="text-gray-400">Issues</p>
+                                    <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                    </svg>
+                                </div>
+                                <p className="text-3xl font-bold text-white">{stats.issues}</p>
+                                <p className="text-sm text-gray-500 mt-1">Need attention</p>
+                            </div>
+                        </div>
+                        
+                        {/* Filters and Search */}
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-4">
+                                <div className="flex gap-2 p-1 glass rounded-lg border border-gray-800">
+                                    <button 
+                                        onClick={() => setFilter('all')}
+                                        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                                            filter === 'all' ? 'bg-blue-500 text-white' : 'text-gray-400 hover:text-white'
+                                        }`}>
+                                        All
+                                    </button>
+                                    <button 
+                                        onClick={() => setFilter('online')}
+                                        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                                            filter === 'online' ? 'bg-green-500 text-white' : 'text-gray-400 hover:text-white'
+                                        }`}>
+                                        Online
+                                    </button>
+                                    <button 
+                                        onClick={() => setFilter('issues')}
+                                        className={`px-3 py-1.5 rounded text-sm font-medium transition-colors ${
+                                            filter === 'issues' ? 'bg-yellow-500 text-white' : 'text-gray-400 hover:text-white'
+                                        }`}>
+                                        Issues
+                                    </button>
+                                </div>
+                                
+                                <div className="relative">
+                                    <input 
+                                        type="text"
+                                        placeholder="Search domains..."
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        className="pl-10 pr-4 py-2 glass border border-gray-800 rounded-lg focus:outline-none focus:border-blue-500 transition-colors"
+                                    />
+                                    <svg className="w-5 h-5 absolute left-3 top-2.5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                    </svg>
+                                </div>
+                            </div>
+                            
+                            <div className="flex gap-2">
+                                <button 
+                                    onClick={() => setView('grid')}
+                                    className={`p-2 rounded-lg transition-colors ${
+                                        view === 'grid' ? 'glass bg-gray-800' : 'hover:bg-gray-800'
+                                    }`}>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                                    </svg>
+                                </button>
+                                <button 
+                                    onClick={() => setView('list')}
+                                    className={`p-2 rounded-lg transition-colors ${
+                                        view === 'list' ? 'glass bg-gray-800' : 'hover:bg-gray-800'
+                                    }`}>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        {/* Internal Domains Section */}
+                        <div className="mb-12">
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-1 h-6 bg-blue-500 rounded-full"></div>
+                                <h2 className="text-xl font-bold">Worker-Managed Domains</h2>
+                                <span className="text-sm text-gray-500">({filteredInternal.length})</span>
+                            </div>
+                            
+                            <div className={view === 'grid' ? 'grid grid-cols-3 gap-4' : 'space-y-3'}>
+                                {filteredInternal.map(domain => (
+                                    <DomainCard key={domain.domain} domain={domain} />
+                                ))}
+                            </div>
+                        </div>
+                        
+                        {/* External Domains Section */}
+                        <div>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="w-1 h-6 bg-purple-500 rounded-full"></div>
+                                <h2 className="text-xl font-bold">External Services</h2>
+                                <span className="text-sm text-gray-500">({filteredExternal.length})</span>
+                            </div>
+                            
+                            <div className={view === 'grid' ? 'grid grid-cols-3 gap-4' : 'space-y-3'}>
+                                {filteredExternal.map(domain => (
+                                    <DomainCard key={domain.domain} domain={domain} isExternal={true} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<Dashboard />, document.getElementById('root'));
+    </script>
+</body>
+</html>
