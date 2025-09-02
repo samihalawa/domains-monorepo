@@ -1,3 +1,18 @@
 storages/
 tinder-session/
 *.png
+node_modules/
+.env
+.env.local
+.wrangler/
+.dev.vars
+*.log
+.DS_Store
+dist/
+build/
+
+# NEVER commit API tokens!
+wrangler.toml.backup
+*-token.txt
+*-secret.txt
+.env.production

@@ -9,5 +9,8 @@
   },
   "workspaces": [
     "sites/*"
-  ]
+  ],
+  "dependencies": {
+    "playwright": "^1.55.0"
+  }
 }

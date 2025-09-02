@@ -3,8 +3,10 @@ main = "index.js"
 compatibility_date = "2024-12-20"
 
 # Environment variables
+# NEVER commit tokens to git! Use wrangler secret instead:
+# npx wrangler secret put CF_API_TOKEN
 [env.production.vars]
-CF_API_TOKEN = "ApoFqt5zg9KX_UVstFqq4NPR2V3wi2ZGz8qX63vJ"
+# CF_API_TOKEN should be set as a secret, not here
 
 # Routes for domains served by this worker (excludes Netlify-hosted domains)
 routes = [

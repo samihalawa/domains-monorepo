@@ -159,6 +159,14 @@ export default {
 
     const siteFolder = domainMap[hostname];
     
+    // Serve dashboard at root for worker domain
+    if (hostname.includes('workers.dev') && pathname === '/') {
+      const dashboardHTML = getDashboardHTML();
+      return new Response(dashboardHTML, {
+        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      });
+    }
+    
     // Dashboard API - Get all domains status
     if (pathname === "/api/domains/status") {
       try {
