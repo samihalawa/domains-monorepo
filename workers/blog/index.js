@@ -72,6 +72,10 @@ export default {
       } else if (blogPath === 'sitemap.xml') {
         // Sitemap
         response = await generateSitemap(blog, env);
+      } else if (blogPath.startsWith('tag/')) {
+        // Tag listing
+        const tag = decodeURIComponent(blogPath.slice(4));
+        response = await renderTagPage(blog, tag, env);
       } else {
         // Blog post
         response = await renderBlogPost(blog, blogPath, env);
@@ -258,7 +262,7 @@ async function getAllBlogs(env) {
   }
 }
 
-// Get blog posts
+// Get blog posts (published)
 async function getBlogPosts(blogId, env) {
   try {
     const data = await airtableRequest(
@@ -274,6 +278,23 @@ async function getBlogPosts(blogId, env) {
         id: r.id,
         ...r.fields
       }))
+    };
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+
+// Get blog posts by tag (published)
+async function getBlogPostsByTag(blogId, tag, env) {
+  try {
+    const formula = `AND({blogId}="${blogId}",{status}="Published",FIND(LOWER(\"${tag}\"),LOWER({tags})))`;
+    const data = await airtableRequest(
+      `/Posts?filterByFormula=${encodeURIComponent(formula)}&sort[0][field]=publishDate&sort[0][direction]=desc`,
+      {}, env
+    );
+    return {
+      success: true,
+      posts: data.records.map(r => ({ id: r.id, ...r.fields }))
     };
   } catch (error) {
     return { error: error.message };
@@ -369,6 +390,23 @@ async function renderBlogHome(blog, env) {
     year: new Date().getFullYear()
   });
   
+  return new Response(html, {
+    headers: {
+      'Content-Type': 'text/html; charset=utf-8',
+      'Cache-Control': 'public, max-age=3600'
+    }
+  });
+}
+
+// Render tag page
+async function renderTagPage(blog, tag, env) {
+  const posts = await getBlogPostsByTag(blog.id, tag, env);
+  const template = getTemplate(blog.theme || 'default');
+  const html = template.home({
+    blog: { ...blog, name: `${blog.name} — #${tag}` },
+    posts: posts.posts || [],
+    year: new Date().getFullYear()
+  });
   return new Response(html, {
     headers: {
       'Content-Type': 'text/html; charset=utf-8',
