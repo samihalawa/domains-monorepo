@@ -194,7 +194,7 @@
         <div class="container">
             <h1>Coming Soon</h1>
             <p class="tagline">Something Amazing is in the Works</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'example.com'})">Get Notified</a>
+            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: window.location.hostname})">Get Notified</a>
         </div>
     </div>
     
@@ -220,8 +220,18 @@
     </div>
     
     <footer>
-        <p>&copy; 2024 example.com. All rights reserved.</p>
+        <p>&copy; 2024 <span class="footer-domain"></span>. All rights reserved.</p>
         <p>Part of the Sami Halawa Digital Portfolio</p>
     </footer>
+    <script>
+      (function(){
+        try {
+          var host = (window.location && window.location.hostname || '').replace(/^www\./,'');
+          var logo = document.querySelector('.logo');
+          if (logo) logo.textContent = host || logo.textContent;
+          document.querySelectorAll('.footer-domain').forEach(function(el){ el.textContent = host; });
+        } catch (_) {}
+      })();
+    </script>
 </body>
 </html>

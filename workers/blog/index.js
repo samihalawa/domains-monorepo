@@ -36,7 +36,8 @@ export default {
       }
       
       // Blog rendering routes
-      const blogPath = pathname.replace(/^\/blog\/?/, '').replace(/\/$/, '');
+      let blogPath = pathname.replace(/^\/blog\/?/, '').replace(/\/$/, '');
+      if (blogPath.startsWith('/')) blogPath = blogPath.slice(1);
       
       // Try to get blog config from hostname
       const blog = await getBlogByDomain(hostname, env);
@@ -95,7 +96,6 @@ export default {
       return response;
       
     } catch (error) {
-      console.error('Worker error:', error);
       return new Response(`Error: ${error.message}`, { status: 500 });
     }
   }
@@ -198,7 +198,6 @@ async function airtableRequest(path, options = {}, env) {
   const text = await response.text();
   
   if (!response.ok) {
-    console.error('Airtable error:', text);
     throw new Error(`Airtable API error: ${response.status}`);
   }
   
@@ -240,7 +239,6 @@ async function getBlogByDomain(domain, env) {
       return blog;
     }
   } catch (error) {
-    console.error('Error fetching blog:', error);
   }
   
   return null;

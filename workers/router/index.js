@@ -422,6 +422,20 @@ function getDashboardHTML() {
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                                         </svg>
                                     </button>
+                                    <a 
+                                        href="https://domains-dashboard-api.trigox.workers.dev/dashboard"
+                                        target="_blank"
+                                        className="px-3 py-2 glass rounded-lg hover:bg-gray-800 transition-colors"
+                                    >
+                                        Analytics
+                                    </a>
+                                    <a 
+                                        href="https://autoblog-cms.trigox.workers.dev/dashboard"
+                                        target="_blank"
+                                        className="px-3 py-2 glass rounded-lg hover:bg-gray-800 transition-colors"
+                                    >
+                                        Blog Manager
+                                    </a>
                                 </div>
                             </div>
                         </div>

@@ -20,7 +20,7 @@ export default {
         pay_to_email: env.SUMUP_PAY_TO_EMAIL,
         merchant_code: env.SUMUP_MERCHANT_CODE,
         description,
-        return_url: env.SUMUP_RETURN_URL || 'https://example.com/confirmation'
+        return_url: env.SUMUP_RETURN_URL || `https://${url.hostname}/confirmation`
       };
 
       const r = await fetch('https://api.sumup.com/v0.1/checkouts', {
