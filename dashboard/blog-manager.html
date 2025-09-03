@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Manager - Autoblog CMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .glass { backdrop-filter: blur(10px); background: rgba(255, 255, 255, 0.1); }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .slide-in { animation: slideIn 0.3s ease-out; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen">
+    <div id="root"></div>
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+        
+        // API configuration
+        const API_BASE = '/api'; // Will use current domain
+        
+        function BlogManager() {
+            const [blogs, setBlogs] = useState([]);
+            const [selectedBlog, setSelectedBlog] = useState(null);
+            const [posts, setPosts] = useState([]);
+            const [loading, setLoading] = useState(false);
+            const [showNewBlog, setShowNewBlog] = useState(false);
+            const [showAIGenerator, setShowAIGenerator] = useState(false);
+            const [activeTab, setActiveTab] = useState('blogs');
+            
+            // Load blogs on mount
+            useEffect(() => {
+                loadBlogs();
+            }, []);
+            
+            // Load posts when blog selected
+            useEffect(() => {
+                if (selectedBlog) {
+                    loadPosts(selectedBlog.id);
+                }
+            }, [selectedBlog]);
+            
+            const loadBlogs = async () => {
+                setLoading(true);
+                try {
+                    const response = await fetch(`${API_BASE}/blogs`);
+                    const data = await response.json();
+                    setBlogs(data);
+                } catch (error) {
+                    console.error('Failed to load blogs:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            
+            const loadPosts = async (blogId) => {
+                setLoading(true);
+                try {
+                    const response = await fetch(`${API_BASE}/blogs/${blogId}/posts`);
+                    const data = await response.json();
+                    setPosts(data);
+                } catch (error) {
+                    console.error('Failed to load posts:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            
+            const createBlog = async (blogData) => {
+                try {
+                    const response = await fetch(`${API_BASE}/blogs`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(blogData)
+                    });
+                    const newBlog = await response.json();
+                    setBlogs([...blogs, newBlog]);
+                    setShowNewBlog(false);
+                } catch (error) {
+                    console.error('Failed to create blog:', error);
+                }
+            };
+            
+            const generateAIContent = async (data) => {
+                try {
+                    const response = await fetch(`${API_BASE}/generate`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            blogId: selectedBlog.id,
+                            ...data
+                        })
+                    });
+                    const result = await response.json();
+                    loadPosts(selectedBlog.id);
+                    setShowAIGenerator(false);
+                } catch (error) {
+                    console.error('Failed to generate content:', error);
+                }
+            };
+            
+            const publishPost = async (postId) => {
+                try {
+                    await fetch(`${API_BASE}/posts/${postId}/publish`, {
+                        method: 'POST'
+                    });
+                    loadPosts(selectedBlog.id);
+                } catch (error) {
+                    console.error('Failed to publish post:', error);
+                }
+            };
+            
+            const clearCache = async () => {
+                if (!selectedBlog) return;
+                try {
+                    await fetch(`${API_BASE}/cache/clear`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ blogId: selectedBlog.id })
+                    });
+                    alert('Cache cleared successfully!');
+                } catch (error) {
+                    console.error('Failed to clear cache:', error);
+                }
+            };
+            
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-gray-950">
+                    {/* Header */}
+                    <header className="glass border-b border-gray-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="flex items-center justify-between h-16">
+                                <div className="flex items-center gap-6">
+                                    <h1 className="text-xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+                                        Autoblog CMS
+                                    </h1>
+                                    <nav className="flex gap-4">
+                                        <button
+                                            onClick={() => setActiveTab('blogs')}
+                                            className={`px-3 py-1 rounded ${activeTab === 'blogs' ? 'bg-blue-500' : 'hover:bg-gray-800'}`}
+                                        >
+                                            Blogs
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('posts')}
+                                            className={`px-3 py-1 rounded ${activeTab === 'posts' ? 'bg-blue-500' : 'hover:bg-gray-800'}`}
+                                        >
+                                            Posts
+                                        </button>
+                                        <button
+                                            onClick={() => setActiveTab('analytics')}
+                                            className={`px-3 py-1 rounded ${activeTab === 'analytics' ? 'bg-blue-500' : 'hover:bg-gray-800'}`}
+                                        >
+                                            Analytics
+                                        </button>
+                                    </nav>
+                                </div>
+                                <div className="flex items-center gap-4">
+                                    {selectedBlog && (
+                                        <span className="text-sm text-gray-400">
+                                            Active: {selectedBlog.name}
+                                        </span>
+                                    )}
+                                    <button
+                                        onClick={clearCache}
+                                        className="px-4 py-2 text-sm bg-gray-800 hover:bg-gray-700 rounded-lg"
+                                    >
+                                        Clear Cache
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </header>
+                    
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        {/* Blogs Tab */}
+                        {activeTab === 'blogs' && (
+                            <div>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold">Your Blogs</h2>
+                                    <button
+                                        onClick={() => setShowNewBlog(true)}
+                                        className="px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg"
+                                    >
+                                        + New Blog
+                                    </button>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    {blogs.map(blog => (
+                                        <div
+                                            key={blog.id}
+                                            onClick={() => setSelectedBlog(blog)}
+                                            className={`glass border ${selectedBlog?.id === blog.id ? 'border-blue-500' : 'border-gray-800'} rounded-xl p-6 cursor-pointer hover:border-gray-700 transition`}
+                                        >
+                                            <h3 className="text-lg font-semibold mb-2">{blog.name}</h3>
+                                            <p className="text-gray-400 text-sm mb-4">{blog.domain}</p>
+                                            <div className="flex justify-between text-sm">
+                                                <span className="text-gray-500">Posts: {blog.postCount || 0}</span>
+                                                <span className={`px-2 py-1 rounded ${blog.aiEnabled ? 'bg-green-900 text-green-300' : 'bg-gray-800 text-gray-400'}`}>
+                                                    {blog.aiEnabled ? 'AI Enabled' : 'Manual'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Posts Tab */}
+                        {activeTab === 'posts' && selectedBlog && (
+                            <div>
+                                <div className="flex justify-between items-center mb-6">
+                                    <h2 className="text-2xl font-bold">Posts - {selectedBlog.name}</h2>
+                                    <button
+                                        onClick={() => setShowAIGenerator(true)}
+                                        className="px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-lg"
+                                    >
+                                        🤖 Generate with AI
+                                    </button>
+                                </div>
+                                
+                                <div className="space-y-4">
+                                    {posts.map(post => (
+                                        <div key={post.id} className="glass border border-gray-800 rounded-lg p-6">
+                                            <div className="flex justify-between items-start">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold mb-2">{post.title}</h3>
+                                                    <p className="text-gray-400 text-sm">{post.excerpt}</p>
+                                                    <div className="flex gap-4 mt-4 text-sm text-gray-500">
+                                                        <span>Status: {post.status}</span>
+                                                        <span>•</span>
+                                                        <span>{new Date(post.publishDate || post.createdAt).toLocaleDateString()}</span>
+                                                    </div>
+                                                </div>
+                                                <div className="flex gap-2">
+                                                    {post.status === 'Draft' && (
+                                                        <button
+                                                            onClick={() => publishPost(post.id)}
+                                                            className="px-3 py-1 bg-green-500 hover:bg-green-600 rounded text-sm"
+                                                        >
+                                                            Publish
+                                                        </button>
+                                                    )}
+                                                    <a
+                                                        href={`https://${selectedBlog.domain}${selectedBlog.subpath || '/blog'}/${post.slug}`}
+                                                        target="_blank"
+                                                        className="px-3 py-1 bg-gray-800 hover:bg-gray-700 rounded text-sm"
+                                                    >
+                                                        View
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                        
+                        {/* Analytics Tab */}
+                        {activeTab === 'analytics' && selectedBlog && (
+                            <div>
+                                <h2 className="text-2xl font-bold mb-6">Analytics - {selectedBlog.name}</h2>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    <div className="glass border border-gray-800 rounded-xl p-6">
+                                        <p className="text-gray-400 mb-2">Total Posts</p>
+                                        <p className="text-3xl font-bold">{posts.length}</p>
+                                    </div>
+                                    <div className="glass border border-gray-800 rounded-xl p-6">
+                                        <p className="text-gray-400 mb-2">Published</p>
+                                        <p className="text-3xl font-bold text-green-400">
+                                            {posts.filter(p => p.status === 'Published').length}
+                                        </p>
+                                    </div>
+                                    <div className="glass border border-gray-800 rounded-xl p-6">
+                                        <p className="text-gray-400 mb-2">Drafts</p>
+                                        <p className="text-3xl font-bold text-yellow-400">
+                                            {posts.filter(p => p.status === 'Draft').length}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                    
+                    {/* New Blog Modal */}
+                    {showNewBlog && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                            <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full slide-in">
+                                <h3 className="text-xl font-bold mb-4">Create New Blog</h3>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const formData = new FormData(e.target);
+                                    createBlog({
+                                        name: formData.get('name'),
+                                        domain: formData.get('domain'),
+                                        subpath: formData.get('subpath') || '/blog',
+                                        description: formData.get('description'),
+                                        aiEnabled: formData.get('aiEnabled') === 'on',
+                                        theme: formData.get('theme')
+                                    });
+                                }}>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm mb-1">Blog Name</label>
+                                            <input
+                                                name="name"
+                                                required
+                                                className="w-full px-3 py-2 bg-gray-800 rounded-lg"
+                                                placeholder="My Awesome Blog"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-1">Domain</label>
+                                            <select name="domain" required className="w-full px-3 py-2 bg-gray-800 rounded-lg">
+                                                <option value="">Select a domain</option>
+                                                {['gptcoins.com', 'damecoins.com', 'detectar.ai', 'ministerio.ai', 'mcp.blue'].map(d => (
+                                                    <option key={d} value={d}>{d}</option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-1">Subpath (optional)</label>
+                                            <input
+                                                name="subpath"
+                                                className="w-full px-3 py-2 bg-gray-800 rounded-lg"
+                                                placeholder="/blog"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-1">Description</label>
+                                            <textarea
+                                                name="description"
+                                                className="w-full px-3 py-2 bg-gray-800 rounded-lg"
+                                                rows="3"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-1">Theme</label>
+                                            <select name="theme" className="w-full px-3 py-2 bg-gray-800 rounded-lg">
+                                                <option value="default">Default</option>
+                                                <option value="minimal">Minimal</option>
+                                                <option value="magazine">Magazine</option>
+                                            </select>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <input type="checkbox" name="aiEnabled" id="aiEnabled" defaultChecked />
+                                            <label htmlFor="aiEnabled" className="text-sm">Enable AI Content Generation</label>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3 mt-6">
+                                        <button
+                                            type="submit"
+                                            className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 rounded-lg"
+                                        >
+                                            Create Blog
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowNewBlog(false)}
+                                            className="flex-1 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                    
+                    {/* AI Generator Modal */}
+                    {showAIGenerator && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                            <div className="bg-gray-900 rounded-xl p-6 max-w-md w-full slide-in">
+                                <h3 className="text-xl font-bold mb-4">🤖 AI Content Generator</h3>
+                                <form onSubmit={(e) => {
+                                    e.preventDefault();
+                                    const formData = new FormData(e.target);
+                                    generateAIContent({
+                                        title: formData.get('title'),
+                                        keywords: formData.get('keywords')
+                                    });
+                                }}>
+                                    <div className="space-y-4">
+                                        <div>
+                                            <label className="block text-sm mb-1">Post Title</label>
+                                            <input
+                                                name="title"
+                                                required
+                                                className="w-full px-3 py-2 bg-gray-800 rounded-lg"
+                                                placeholder="10 Ways to Improve Your Productivity"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label className="block text-sm mb-1">Keywords</label>
+                                            <input
+                                                name="keywords"
+                                                className="w-full px-3 py-2 bg-gray-800 rounded-lg"
+                                                placeholder="productivity, time management, tips"
+                                            />
+                                        </div>
+                                        <div className="p-4 bg-gray-800 rounded-lg text-sm text-gray-400">
+                                            <p className="mb-2">✨ AI will generate:</p>
+                                            <ul className="list-disc list-inside space-y-1">
+                                                <li>800-1200 word article</li>
+                                                <li>SEO-optimized content</li>
+                                                <li>Meta description</li>
+                                                <li>Social media posts</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-3 mt-6">
+                                        <button
+                                            type="submit"
+                                            className="flex-1 px-4 py-2 bg-purple-500 hover:bg-purple-600 rounded-lg"
+                                        >
+                                            Generate Content
+                                        </button>
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowAIGenerator(false)}
+                                            className="flex-1 px-4 py-2 bg-gray-800 hover:bg-gray-700 rounded-lg"
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+        
+        ReactDOM.render(<BlogManager />, document.getElementById('root'));
+    </script>
+</body>
+</html>

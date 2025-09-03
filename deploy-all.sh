@@ -39,44 +39,48 @@ fi
 cd ../..
 echo ""
 
-# Deploy the dashboard API worker
-echo "3️⃣  Deploying Dashboard API Worker..."
-echo "   This handles API calls for the management dashboard"
-cd workers/dashboard-api
-wrangler deploy
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}✅ Dashboard API deployed successfully${NC}"
-else
-    echo -e "${RED}❌ Dashboard API deployment failed${NC}"
-    exit 1
-fi
-cd ../..
-echo ""
-
-# Check if secrets are set
-echo "4️⃣  Checking API secrets configuration..."
-cd workers/dashboard-api
-
-# Check each secret
-MISSING_SECRETS=()
-for secret in CLOUDFLARE_API_TOKEN NETLIFY_ACCESS_TOKEN GITHUB_TOKEN; do
-    if ! wrangler secret list 2>/dev/null | grep -q "$secret"; then
-        MISSING_SECRETS+=($secret)
+# Deploy the dashboard API worker (if exists)
+if [ -d "workers/dashboard-api" ]; then
+    echo "3️⃣  Deploying Dashboard API Worker..."
+    echo "   This handles API calls for the management dashboard"
+    cd workers/dashboard-api
+    wrangler deploy
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}✅ Dashboard API deployed successfully${NC}"
+    else
+        echo -e "${RED}❌ Dashboard API deployment failed${NC}"
+        exit 1
     fi
-done
-
-if [ ${#MISSING_SECRETS[@]} -gt 0 ]; then
-    echo -e "${YELLOW}⚠️  Missing secrets: ${MISSING_SECRETS[@]}${NC}"
+    cd ../..
     echo ""
-    echo "To set secrets, run:"
-    for secret in "${MISSING_SECRETS[@]}"; do
-        echo "  wrangler secret put $secret --config workers/dashboard-api/wrangler.toml"
-    done
-else
-    echo -e "${GREEN}✅ All secrets configured${NC}"
 fi
-cd ../..
-echo ""
+
+# Check if secrets are set (if dashboard API exists)
+if [ -d "workers/dashboard-api" ]; then
+    echo "4️⃣  Checking API secrets configuration..."
+    cd workers/dashboard-api
+    
+    # Check each secret
+    MISSING_SECRETS=()
+    for secret in CLOUDFLARE_API_TOKEN; do
+        if ! wrangler secret list 2>/dev/null | grep -q "$secret"; then
+            MISSING_SECRETS+=($secret)
+        fi
+    done
+    
+    if [ ${#MISSING_SECRETS[@]} -gt 0 ]; then
+        echo -e "${YELLOW}⚠️  Missing secrets: ${MISSING_SECRETS[@]}${NC}"
+        echo ""
+        echo "To set secrets, run:"
+        for secret in "${MISSING_SECRETS[@]}"; do
+            echo "  wrangler secret put $secret --config workers/dashboard-api/wrangler.toml"
+        done
+    else
+        echo -e "${GREEN}✅ All secrets configured${NC}"
+    fi
+    cd ../..
+    echo ""
+fi
 
 # Summary
 echo "=========================================="

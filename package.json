@@ -4,13 +4,11 @@
   "description": "Domain management platform with intelligent dashboard",
   "private": true,
   "scripts": {
-    "deploy": "cd workers/dashboard-api && wrangler deploy",
-    "dev": "cd workers/dashboard-api && wrangler dev"
+    "deploy": "./deploy-all.sh",
+    "deploy:router": "cd workers/router && wrangler deploy",
+    "dev:router": "cd workers/router && wrangler dev"
   },
   "workspaces": [
     "sites/*"
-  ],
-  "dependencies": {
-    "playwright": "^1.55.0"
-  }
+  ]
 }

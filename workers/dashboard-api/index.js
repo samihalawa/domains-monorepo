@@ -46,7 +46,6 @@ export default {
       return jsonResponse({ error: 'Not found' }, 404);
 
     } catch (error) {
-      console.error('Worker error:', error);
       return jsonResponse({ error: error.message }, 500);
     }
   }
@@ -287,7 +286,6 @@ async function handleDeploymentMap(request, env) {
       };
     } else {
       const errorText = await netlifyResponse.text();
-      console.error('Netlify API failed:', netlifyResponse.status, netlifyResponse.statusText, errorText);
       deploymentMap.netlify_error = `${netlifyResponse.status}: ${errorText}`;
       deploymentMap.debug_info = { 
         ...deploymentMap.debug_info,
@@ -328,7 +326,6 @@ async function handleDeploymentMap(request, env) {
       };
     } else {
       const errorText = await githubResponse.text();
-      console.error('GitHub API failed:', githubResponse.status, githubResponse.statusText, errorText);
       deploymentMap.debug_info = {
         ...deploymentMap.debug_info,
         github_error: {
@@ -459,7 +456,6 @@ async function handleDomainAnalysis(request, env) {
       analysis.active_deployments += activeSites.length;
     } else {
       const errorText = await netlifyResponse.text();
-      console.error('Domain analysis - Netlify API failed:', netlifyResponse.status, errorText);
     }
 
     // Generate intelligent recommendations
@@ -1533,8 +1529,6 @@ function serveDashboard() {
     </div>
     
     <script>
-// Remove alert, add immediate DOM test
-document.body.style.border = '5px solid red';
 
 class EnhancedDomainDashboard {
     constructor() {
@@ -1580,26 +1574,19 @@ class EnhancedDomainDashboard {
         this.showLoadingState();
 
         try {
-            this.updateDebugInfo('Making API calls...');
             const [deploymentMap, domainAnalysis] = await Promise.all([
                 this.fetchAPI(this.config.endpoints.deploymentMap),
                 this.fetchAPI(this.config.endpoints.domainAnalysis)
             ]);
 
-            this.updateDebugInfo('API responses received');
-
             this.data.deploymentMap = deploymentMap.data;
             this.data.domainAnalysis = domainAnalysis.data;
             this.data.lastUpdate = new Date();
             
-            this.updateDebugInfo('Data assigned, processing...');
             this.processData();
             this.applyFilters();
             this.renderDashboard();
-            this.updateDebugInfo('Rendering complete!');
         } catch (error) {
-            console.error('❌ Failed to load dashboard data:', error);
-            this.updateDebugInfo('ERROR: ' + error.message);
             this.showAlert('error', 'Failed to load data: ' + error.message);
         } finally {
             this.data.isLoading = false;
@@ -1817,14 +1804,7 @@ class EnhancedDomainDashboard {
 
     showLoadingState() {
         const container = document.getElementById('domainsContainer');
-        container.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div><div style="margin-top: 20px; color: #94A3B8; font-size: 14px;" id="debug-info">Loading data...</div></div>';
-    }
-
-    updateDebugInfo(message) {
-        const debugElement = document.getElementById('debug-info');
-        if (debugElement) {
-            debugElement.innerHTML += '<br>' + message;
-        }
+        container.innerHTML = '<div class="loading-overlay"><div class="loading-spinner"></div></div>';
     }
 
     setupEventListeners() {
@@ -1869,39 +1849,8 @@ window.performQuickAction = function(domainName, action) {
 };
 
 
-// Add immediate visual indicator
-setTimeout(() => {
-    const debugDiv = document.createElement('div');
-    debugDiv.style.cssText = 'position: fixed; top: 10px; right: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
-    debugDiv.textContent = 'JS LOADED';
-    document.body.appendChild(debugDiv);
-}, 100);
-
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // Add DOM ready indicator
-    const domDiv = document.createElement('div');
-    domDiv.style.cssText = 'position: fixed; top: 40px; right: 10px; background: blue; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
-    domDiv.textContent = 'DOM READY';
-    document.body.appendChild(domDiv);
-    
-    try {
-        window.dashboard = new EnhancedDomainDashboard();
-        
-        // Add success indicator
-        const successDiv = document.createElement('div');
-        successDiv.style.cssText = 'position: fixed; top: 70px; right: 10px; background: green; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
-        successDiv.textContent = 'DASHBOARD INIT';
-        document.body.appendChild(successDiv);
-    } catch (error) {
-        console.error('❌ Dashboard initialization failed:', error);
-        
-        // Add error indicator
-        const errorDiv = document.createElement('div');
-        errorDiv.style.cssText = 'position: fixed; top: 70px; right: 10px; background: red; color: white; padding: 10px; z-index: 9999; font-size: 12px;';
-        errorDiv.textContent = 'INIT ERROR: ' + error.message;
-        document.body.appendChild(errorDiv);
-    }
+    window.dashboard = new EnhancedDomainDashboard();
 });
     </script>
 </body>

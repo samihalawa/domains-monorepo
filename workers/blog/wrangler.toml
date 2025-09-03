@@ -1,0 +1,32 @@
+name = "autoblog-cms"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+# KV Namespaces for caching
+kv_namespaces = [
+  { binding = "BLOG_CACHE", id = "1bc87c14d7004031942240b64fb7bdc1" },
+  { binding = "BLOG_CONFIG", id = "845f9c2af7a24ad1badd3e88814cd848" }
+]
+
+# Environment variables (set via wrangler secret)
+# AIRTABLE_BASE - Your Airtable base ID
+# AIRTABLE_TOKEN - Your Airtable API token
+
+[env.production]
+# Routes for blog subdomains and subpaths
+routes = [
+  # Subdomain blogs
+  { pattern = "blog.*.com/*", zone_name = "*.com" },
+  { pattern = "blog.*.ai/*", zone_name = "*.ai" },
+  { pattern = "blog.*.app/*", zone_name = "*.app" },
+  
+  # Subpath blogs
+  { pattern = "*/blog/*", zone_name = "*" }
+]
+
+# Cron triggers for scheduled tasks
+[triggers]
+crons = [
+  "0 */6 * * *",  # Content generation check every 6 hours
+  "0 9 * * *"     # Daily publishing schedule
+]

@@ -1,5 +1,5 @@
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const hostname = url.hostname;
     const pathname = url.pathname;
@@ -85,6 +85,33 @@ export default {
       }
     }
 
+    // Check for blog routes first
+    if (pathname.startsWith('/blog') || hostname.startsWith('blog.')) {
+      // Forward to blog worker
+      const blogWorkerUrl = `https://autoblog-cms.${env.WORKER_DOMAIN || 'workers.dev'}${pathname}`;
+      
+      // Add original hostname header for blog identification
+      const headers = new Headers(request.headers);
+      headers.set('X-Original-Host', hostname);
+      
+      return fetch(blogWorkerUrl, {
+        method: request.method,
+        headers: headers,
+        body: request.method !== 'GET' && request.method !== 'HEAD' ? request.body : null
+      });
+    }
+    
+    // RSS/Sitemap for main sites
+    if (pathname === '/feed.xml' || pathname === '/rss.xml' || pathname === '/sitemap.xml') {
+      const blogWorkerUrl = `https://autoblog-cms.${env.WORKER_DOMAIN || 'workers.dev'}${pathname}`;
+      const headers = new Headers(request.headers);
+      headers.set('X-Original-Host', hostname);
+      return fetch(blogWorkerUrl, {
+        method: request.method,
+        headers: headers
+      });
+    }
+    
     // Map domains to their Pages deployment paths
     // NOTE: Domains on Netlify (agentsai.ltd, autotinder.ai, detectar.ai) are NOT included here
     const domainMap = {
@@ -174,11 +201,16 @@ export default {
         const statuses = await Promise.all(
           domains.map(async (domain) => {
             try {
+              const controller = new AbortController();
+              const timeoutId = setTimeout(() => controller.abort(), 5000);
+              
               const response = await fetch(`https://${domain}/`, { 
                 method: 'HEAD',
-                signal: AbortSignal.timeout(5000)
+                signal: controller.signal
               });
-              return { 
+              
+              clearTimeout(timeoutId);
+              return {
                 domain, 
                 status: response.status === 200 ? 'online' : 'error',
                 statusCode: response.status 
@@ -330,7 +362,7 @@ function getDashboardHTML() {
                         setDomains(data.domains);
                     }
                 } catch (error) {
-                    console.error('Failed to fetch domain status:', error);
+                    // Silently handle errors
                 } finally {
                     setLoading(false);
                 }
