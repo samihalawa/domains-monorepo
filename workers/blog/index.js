@@ -337,14 +337,20 @@ async function getBlogByDomain(domain, env) {
   
   try {
     const data = await airtableRequest(
-      `/Blogs?filterByFormula=${encodeURIComponent(`{domain}="${cleanDomain}"`)}`,
+      `/Blogs?filterByFormula=${encodeURIComponent(`{Domain}="${cleanDomain}"`)}`,
       {}, env
     );
     
     if (data.records && data.records.length > 0) {
       const blog = {
         id: data.records[0].id,
-        ...data.records[0].fields
+        ...data.records[0].fields,
+        // Normalize field names
+        name: data.records[0].fields.Name || data.records[0].fields.name,
+        domain: data.records[0].fields.Domain || data.records[0].fields.domain,
+        description: data.records[0].fields.Description || data.records[0].fields.description,
+        theme: data.records[0].fields.Theme || data.records[0].fields.theme,
+        primaryColor: data.records[0].fields.PrimaryColor || data.records[0].fields.primaryColor || '#3B82F6'
       };
       
       // Cache for 5 minutes
@@ -398,10 +404,11 @@ async function getAllPosts(env) {
 // Get blog posts (published)
 async function getBlogPosts(blogId, env) {
   try {
-    const data = await airtableRequest(
+    // Try with Blog field (linked records)
+    let data = await airtableRequest(
       `/Posts?filterByFormula=${encodeURIComponent(
-        `AND({blogId}="${blogId}",{status}="Published")`
-      )}&sort[0][field]=publishDate&sort[0][direction]=desc`,
+        `AND(SEARCH("${blogId}", ARRAYJOIN({Blog})), {Status}="Published")`
+      )}&sort[0][field]=PublishedAt&sort[0][direction]=desc`,
       {}, env
     );
     
@@ -409,7 +416,16 @@ async function getBlogPosts(blogId, env) {
       success: true,
       posts: data.records.map(r => ({
         id: r.id,
-        ...r.fields
+        ...r.fields,
+        // Normalize field names
+        title: r.fields.Title || r.fields.title,
+        slug: r.fields.Slug || r.fields.slug,
+        content: r.fields.Content || r.fields.content,
+        excerpt: r.fields.Excerpt || r.fields.excerpt,
+        author: r.fields.Author || r.fields.author,
+        publishDate: r.fields.PublishedAt || r.fields.publishDate,
+        status: r.fields.Status || r.fields.status,
+        tags: r.fields.Tags || r.fields.tags
       }))
     };
   } catch (error) {
