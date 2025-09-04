@@ -111,6 +111,21 @@ export default {
         headers: headers
       });
     }
+
+    // Blog preview proxy for internal dashboard usage
+    if (pathname === '/_preview/blog') {
+      const hostParam = url.searchParams.get('host');
+      const pathParam = url.searchParams.get('path') || '/blog';
+      if (!hostParam) {
+        return new Response(JSON.stringify({ error: 'missing_host_param' }), { status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' } });
+      }
+      const blogWorkerUrl = `https://autoblog-cms.${env.WORKER_DOMAIN || 'workers.dev'}${pathParam.startsWith('/') ? pathParam : '/' + pathParam}`;
+      const headers = new Headers(request.headers);
+      headers.set('X-Original-Host', hostParam.replace(/^www\./, ''));
+      const resp = await fetch(blogWorkerUrl, { method: 'GET', headers });
+      const body = await resp.text();
+      return new Response(body, { status: resp.status, headers: { 'Content-Type': resp.headers.get('Content-Type') || 'text/html; charset=utf-8', 'Access-Control-Allow-Origin': '*' } });
+    }
     
     // Map domains to their Pages deployment paths
     // NOTE: Domains on Netlify (agentsai.ltd, autotinder.ai, detectar.ai) are NOT included here
@@ -183,6 +198,25 @@ export default {
       'maximagpt.com': 'maximagpt',
       'www.maximagpt.com': 'maximagpt'
     };
+
+    // Expose domain map for other services (e.g., dashboard) with CORS
+    if (pathname === "/api/router/map") {
+      const entries = Object.entries(domainMap)
+        .filter(([d]) => !d.startsWith('www.'))
+        .map(([domain, folder]) => ({
+          domain,
+          folder,
+          preview_url: `https://domains-monorepo.pages.dev/${folder}/`
+        }));
+      return new Response(JSON.stringify({ domains: entries }, null, 2), {
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type'
+        }
+      });
+    }
 
     const siteFolder = domainMap[hostname];
     

@@ -168,6 +168,16 @@ async function handleAPI(request, env, pathname, ctx, corsHeaders) {
     await clearCache(env);
     return jsonResponse({ success: true, message: 'Cache cleared' }, corsHeaders);
   }
+
+  // Ensure Airtable tables exist (uses Metadata API)
+  if (path === 'ensure-tables' && (request.method === 'POST' || request.method === 'GET')) {
+    try {
+      const result = await ensureAirtableTables(env);
+      return jsonResponse({ success: true, ...result }, corsHeaders);
+    } catch (e) {
+      return jsonResponse({ success: false, error: String(e) }, corsHeaders, 500);
+    }
+  }
   
   // Generate content (stub)
   if (path === 'generate' && request.method === 'POST') {
@@ -206,6 +216,88 @@ async function airtableRequest(path, options = {}, env) {
   } catch {
     return text;
   }
+}
+
+// Ensure Airtable Tables via Metadata API
+async function ensureAirtableTables(env) {
+  const token = env.AIRTABLE_TOKEN;
+  const base = env.AIRTABLE_BASE;
+  if (!token || !base) throw new Error('Missing Airtable configuration');
+
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+
+  const listResp = await fetch(`https://api.airtable.com/v0/meta/bases/${base}/tables`, { headers });
+  const list = await listResp.json();
+  const existing = (list.tables || []).map(t => t.name);
+
+  const defs = [];
+  if (!existing.includes('Blogs')) {
+    defs.push({
+      name: 'Blogs',
+      fields: [
+        { name: 'name', type: 'singleLineText' },
+        { name: 'domain', type: 'singleLineText' },
+        { name: 'subpath', type: 'singleLineText' },
+        { name: 'theme', type: 'singleSelect', options: { choices: [ { name: 'default' }, { name: 'minimal' }, { name: 'magazine' } ] } },
+        { name: 'description', type: 'multilineText' },
+        { name: 'primaryColor', type: 'singleLineText' },
+        { name: 'aiEnabled', type: 'checkbox' },
+        { name: 'aiTone', type: 'singleSelect', options: { choices: [ { name: 'professional' }, { name: 'casual' }, { name: 'friendly' }, { name: 'authoritative' } ] } },
+        { name: 'aiAudience', type: 'singleLineText' },
+        { name: 'aiKeywords', type: 'multilineText' },
+        { name: 'autoGenerate', type: 'checkbox' },
+        { name: 'postsPerWeek', type: 'number' },
+        { name: 'bufferSize', type: 'number' }
+      ]
+    });
+  }
+  if (!existing.includes('Posts')) {
+    defs.push({
+      name: 'Posts',
+      fields: [
+        { name: 'title', type: 'singleLineText' },
+        { name: 'slug', type: 'singleLineText' },
+        { name: 'blogId', type: 'singleLineText' },
+        { name: 'content', type: 'multilineText' },
+        { name: 'aiContent', type: 'multilineText' },
+        { name: 'excerpt', type: 'multilineText' },
+        { name: 'status', type: 'singleSelect', options: { choices: [ { name: 'Draft' }, { name: 'Published' }, { name: 'Scheduled' }, { name: 'Review' }, { name: 'Archived' } ] } },
+        { name: 'publishDate', type: 'dateTime' },
+        { name: 'author', type: 'singleLineText' },
+        { name: 'tags', type: 'multilineText' },
+        { name: 'featuredImage', type: 'url' },
+        { name: 'readTime', type: 'number' },
+        { name: 'aiGenerated', type: 'checkbox' }
+      ]
+    });
+  }
+  if (!existing.includes('ContentIdeas')) {
+    defs.push({
+      name: 'ContentIdeas',
+      fields: [
+        { name: 'topic', type: 'singleLineText' },
+        { name: 'blogId', type: 'singleLineText' },
+        { name: 'keywords', type: 'multilineText' },
+        { name: 'priority', type: 'singleSelect', options: { choices: [ { name: 'High' }, { name: 'Medium' }, { name: 'Low' } ] } },
+        { name: 'converted', type: 'checkbox' }
+      ]
+    });
+  }
+
+  if (defs.length > 0) {
+    const createResp = await fetch(`https://api.airtable.com/v0/meta/bases/${base}/tables`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ tables: defs })
+    });
+    const created = await createResp.json();
+    if (!createResp.ok) throw new Error(`Failed creating tables: ${JSON.stringify(created)}`);
+    return { created: (created.tables || []).map(t => t.name) };
+  }
+  return { created: [] };
 }
 
 // Get blog by domain

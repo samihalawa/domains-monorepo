@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domains Monorepo - Visual Verification Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            background: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tab:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .tab.active {
+            background: #4c51bf;
+            color: white;
+        }
+        
+        .content {
+            display: none;
+        }
+        
+        .content.active {
+            display: block;
+        }
+        
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .domain-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .domain-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .domain-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .domain-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        
+        .domain-status {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.8rem;
+        }
+        
+        .iframe-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: #f5f5f5;
+        }
+        
+        .iframe-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #666;
+        }
+        
+        .actions {
+            padding: 15px;
+            background: #f8f9fa;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: #4c51bf;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #e2e8f0;
+            color: #2d3748;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+        
+        .workers-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+        }
+        
+        .worker-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .worker-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+        }
+        
+        .worker-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .worker-url {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+        
+        .endpoints-list {
+            padding: 20px;
+        }
+        
+        .endpoint-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .endpoint-path {
+            font-family: monospace;
+            color: #2d3748;
+        }
+        
+        .endpoint-test {
+            padding: 6px 12px;
+            background: #48bb78;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .endpoint-test:hover {
+            background: #38a169;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🌐 Domains Monorepo Verification Dashboard</h1>
+        <p>Visual verification of all deployed domains, workers, and APIs</p>
+    </div>
+    
+    <div class="tabs">
+        <button class="tab active" onclick="switchTab('static-sites')">Static Sites</button>
+        <button class="tab" onclick="switchTab('blog-sites')">Blog-Enabled Sites</button>
+        <button class="tab" onclick="switchTab('workers')">Workers & APIs</button>
+        <button class="tab" onclick="switchTab('all-domains')">All Domains Grid</button>
+    </div>
+    
+    <!-- Static Sites -->
+    <div id="static-sites" class="content active">
+        <div class="domains-grid">
+            <!-- Default site -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">default (dynamic placeholder)</span>
+                    <div class="domain-status">
+                        <span class="status-badge">Static</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-monorepo.pages.dev/default/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://domains-monorepo.pages.dev/default/', '_blank')">Open Full</button>
+                    <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                </div>
+            </div>
+            
+            <!-- GPT PowerPoint -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">gptpowerpoint.com</span>
+                    <div class="domain-status">
+                        <span class="status-badge">Marketing</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-monorepo.pages.dev/gptpowerpoint/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://gptpowerpoint.com', '_blank')">Open Live</button>
+                    <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                </div>
+            </div>
+            
+            <!-- Detectar.ai -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">detectar.ai</span>
+                    <div class="domain-status">
+                        <span class="status-badge">AI Tool</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-monorepo.pages.dev/detectar/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://detectar.ai', '_blank')">Open Live</button>
+                    <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                </div>
+            </div>
+            
+            <!-- Contalents -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">contalents.com</span>
+                    <div class="domain-status">
+                        <span class="status-badge">Service</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-monorepo.pages.dev/contalents/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://contalents.com', '_blank')">Open Live</button>
+                    <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Blog-Enabled Sites -->
+    <div id="blog-sites" class="content">
+        <div class="domains-grid">
+            <!-- GPT Coins Blog -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">gptcoins.com/blog</span>
+                    <div class="domain-status">
+                        <span class="status-badge">Blog</span>
+                        <span class="status-badge">CMS</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://autoblog-cms.trigox.workers.dev/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://gptcoins.com/blog', '_blank')">Open Blog</button>
+                    <button class="btn btn-secondary" onclick="window.open('https://autoblog-cms.trigox.workers.dev/api/blogs', '_blank')">API</button>
+                </div>
+            </div>
+            
+            <!-- Dame Coins Blog -->
+            <div class="domain-card">
+                <div class="domain-header">
+                    <span class="domain-name">damecoins.com/blog</span>
+                    <div class="domain-status">
+                        <span class="status-badge">Blog</span>
+                        <span class="status-badge">Finance</span>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://autoblog-cms.trigox.workers.dev/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="window.open('https://damecoins.com/blog', '_blank')">Open Blog</button>
+                    <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Workers & APIs -->
+    <div id="workers" class="content">
+        <div class="workers-section">
+            <!-- Dashboard API -->
+            <div class="worker-card">
+                <div class="worker-header">
+                    <div class="worker-name">Dashboard API</div>
+                    <div class="worker-url">https://domains-dashboard-api.trigox.workers.dev</div>
+                </div>
+                <div class="endpoints-list">
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-dashboard-api.trigox.workers.dev/')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/domains</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-dashboard-api.trigox.workers.dev/api/domains')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/check-domain/{domain}</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-dashboard-api.trigox.workers.dev/api/check-domain/gptcoins.com')">Test</button>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-dashboard-api.trigox.workers.dev/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+            </div>
+            
+            <!-- Blog CMS Worker -->
+            <div class="worker-card">
+                <div class="worker-header">
+                    <div class="worker-name">AutoBlog CMS</div>
+                    <div class="worker-url">https://autoblog-cms.trigox.workers.dev</div>
+                </div>
+                <div class="endpoints-list">
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/blogs</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://autoblog-cms.trigox.workers.dev/api/blogs')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/generate</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://autoblog-cms.trigox.workers.dev/api/generate')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /blog-manager</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://autoblog-cms.trigox.workers.dev/blog-manager')">Test</button>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://autoblog-cms.trigox.workers.dev/blog-manager" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+            </div>
+            
+            <!-- Router Worker -->
+            <div class="worker-card">
+                <div class="worker-header">
+                    <div class="worker-name">Domain Router</div>
+                    <div class="worker-url">https://domains-monorepo.trigox.workers.dev</div>
+                </div>
+                <div class="endpoints-list">
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-monorepo.trigox.workers.dev/')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/proxy</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-monorepo.trigox.workers.dev/api/proxy?url=https://api.github.com')">Test</button>
+                    </div>
+                    <div class="endpoint-item">
+                        <span class="endpoint-path">GET /api/domain-status</span>
+                        <button class="endpoint-test" onclick="testEndpoint('https://domains-monorepo.trigox.workers.dev/api/domain-status')">Test</button>
+                    </div>
+                </div>
+                <div class="iframe-container">
+                    <div class="loading">Loading...</div>
+                    <iframe src="https://domains-monorepo.trigox.workers.dev/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- All Domains Grid -->
+    <div id="all-domains" class="content">
+        <div class="domains-grid" id="all-domains-grid">
+            <!-- Will be populated dynamically -->
+        </div>
+    </div>
+    
+    <script>
+        const domains = [
+            'gptcoins.com', 'damecoins.com', 'detectar.ai', 'contalents.com',
+            'gptpowerpoint.com', 'ministerio.ai', 'unidelta.de', 'sensetrax.ai',
+            'sensetrax.com', 'synclabs.ai', 'synclabs.so', 'autotinder.ai',
+            'neurodopa.com', 'dxbinteract.com', 'higgsfield.ai', 'luxu.ai',
+            'murmur.fyi', 'taskflow.cx', 'vectorxdb.com', 'loci.live',
+            'getabby.ai', 'mypime.ai', 'pime.ai'
+        ];
+        
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update content
+            document.querySelectorAll('.content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.getElementById(tabName).classList.add('active');
+            
+            // Populate all domains grid if needed
+            if (tabName === 'all-domains') {
+                populateAllDomainsGrid();
+            }
+        }
+        
+        function populateAllDomainsGrid() {
+            const grid = document.getElementById('all-domains-grid');
+            if (grid.children.length > 0) return; // Already populated
+            
+            domains.forEach(domain => {
+                const folderName = domain.replace('.com', '').replace('.ai', '').replace('.de', '').replace('.so', '').replace('.fyi', '').replace('.cx', '').replace('.live', '');
+                const card = document.createElement('div');
+                card.className = 'domain-card';
+                card.innerHTML = `
+                    <div class="domain-header">
+                        <span class="domain-name">${domain}</span>
+                        <div class="domain-status">
+                            <span class="status-badge">Live</span>
+                        </div>
+                    </div>
+                    <div class="iframe-container">
+                        <div class="loading">Loading...</div>
+                        <iframe src="https://domains-monorepo.pages.dev/${folderName}/" onload="this.parentElement.querySelector('.loading').style.display='none'"></iframe>
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-primary" onclick="window.open('https://${domain}', '_blank')">Open Live</button>
+                        <button class="btn btn-secondary" onclick="refreshIframe(this)">Refresh</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+        
+        function refreshIframe(button) {
+            const iframe = button.closest('.domain-card, .worker-card').querySelector('iframe');
+            const src = iframe.src;
+            iframe.src = '';
+            setTimeout(() => {
+                iframe.src = src;
+            }, 100);
+        }
+        
+        async function testEndpoint(url, method = 'GET') {
+            try {
+                const options = { method };
+                if (method === 'POST') {
+                    options.headers = { 'Content-Type': 'application/json' };
+                    options.body = JSON.stringify({ 
+                        amount: 100,
+                        currency: 'USD',
+                        description: 'Test payment'
+                    });
+                }
+                
+                const response = await fetch(url, options);
+                const data = await response.text();
+                
+                let displayData = data;
+                try {
+                    const jsonData = JSON.parse(data);
+                    displayData = JSON.stringify(jsonData, null, 2);
+                } catch (e) {
+                    // Not JSON, show as is
+                }
+                
+                alert(`Endpoint: ${url}\nStatus: ${response.status} ${response.statusText}\nResponse:\n${displayData.substring(0, 500)}${displayData.length > 500 ? '...' : ''}`);
+            } catch (error) {
+                alert(`Error testing ${url}:\n${error.message}`);
+            }
+        }
+    </script>
+</body>
+</html>
