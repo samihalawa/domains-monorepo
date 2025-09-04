@@ -121,6 +121,30 @@ async function handleAPI(request, env, pathname, ctx, corsHeaders) {
     return jsonResponse(blogs, corsHeaders);
   }
   
+  // Get posts (with optional domain filter)
+  if (path === 'posts' && request.method === 'GET') {
+    const url = new URL(request.url);
+    const domain = url.searchParams.get('domain');
+    const blogId = url.searchParams.get('blog');
+    
+    if (domain) {
+      // Get blog by domain first
+      const blog = await getBlogByDomain(domain, env);
+      if (!blog) {
+        return jsonResponse({ error: 'Blog not found for domain' }, corsHeaders, 404);
+      }
+      const posts = await getBlogPosts(blog.id, env);
+      return jsonResponse({ success: true, blog, posts }, corsHeaders);
+    } else if (blogId) {
+      const posts = await getBlogPosts(blogId, env);
+      return jsonResponse({ success: true, posts }, corsHeaders);
+    } else {
+      // Return all posts
+      const allPosts = await getAllPosts(env);
+      return jsonResponse({ success: true, posts: allPosts }, corsHeaders);
+    }
+  }
+  
   // Get specific blog posts
   if (path.match(/^blogs\/(.+)\/posts$/)) {
     const blogId = path.split('/')[1];
@@ -349,6 +373,25 @@ async function getAllBlogs(env) {
     };
   } catch (error) {
     return { error: error.message };
+  }
+}
+
+// Get all posts (published)
+async function getAllPosts(env) {
+  try {
+    const data = await airtableRequest(
+      `/Posts?filterByFormula=${encodeURIComponent(
+        `{status}="Published"`
+      )}&sort[0][field]=publishDate&sort[0][direction]=desc`,
+      {}, env
+    );
+    
+    return data.records.map(r => ({
+      id: r.id,
+      ...r.fields
+    }));
+  } catch (error) {
+    return [];
   }
 }
 
