@@ -2,22 +2,47 @@ name = "autoblog-cms"
 main = "index.js"
 compatibility_date = "2024-01-01"
 
-# Routes for all blog domains
+# Routes for ALL blog domains (32+ domains)
 routes = [
+  # AI/GPT Domains
   { pattern = "gptmundo.com/*", zone_name = "gptmundo.com" },
   { pattern = "gptcoins.com/*", zone_name = "gptcoins.com" },
   { pattern = "empleados.ai/*", zone_name = "empleados.ai" },
   { pattern = "autoword.ai/*", zone_name = "autoword.ai" },
   { pattern = "ministerio.ai/*", zone_name = "ministerio.ai" },
   { pattern = "octbot.ai/*", zone_name = "octbot.ai" },
+  { pattern = "gpt-excel.com/*", zone_name = "gpt-excel.com" },
+  { pattern = "gptpowerpoint.com/*", zone_name = "gptpowerpoint.com" },
+  { pattern = "gptmeeting.com/*", zone_name = "gptmeeting.com" },
+  { pattern = "chatgptbrowser.com/*", zone_name = "chatgptbrowser.com" },
+  { pattern = "workaholic.ai/*", zone_name = "workaholic.ai" },
+  { pattern = "pime.ai/*", zone_name = "pime.ai" },
+  { pattern = "onlineresume.ai/*", zone_name = "onlineresume.ai" },
+  { pattern = "autotinder.ai/*", zone_name = "autotinder.ai" },
+  { pattern = "agents.software/*", zone_name = "agents.software" },
+  { pattern = "autoresume.pro/*", zone_name = "autoresume.pro" },
+  { pattern = "autocode.bot/*", zone_name = "autocode.bot" },
+  
+  # Fintech/Crypto Domains
   { pattern = "damecoins.com/*", zone_name = "damecoins.com" },
   { pattern = "instantvirtualcards.com/*", zone_name = "instantvirtualcards.com" },
   { pattern = "cryptoupdated.com/*", zone_name = "cryptoupdated.com" },
   { pattern = "flywallex.com/*", zone_name = "flywallex.com" },
+  
+  # Education/Tools Domains
   { pattern = "megacursos.com/*", zone_name = "megacursos.com" },
   { pattern = "visualingo.app/*", zone_name = "visualingo.app" },
-  { pattern = "gpt-excel.com/*", zone_name = "gpt-excel.com" },
-  { pattern = "mcp.blue/*", zone_name = "mcp.blue" }
+  
+  # Other Domains
+  { pattern = "mcp.blue/*", zone_name = "mcp.blue" },
+  { pattern = "neuralink.gift/*", zone_name = "neuralink.gift" },
+  { pattern = "giftgenius.app/*", zone_name = "giftgenius.app" },
+  { pattern = "openrequest.net/*", zone_name = "openrequest.net" },
+  { pattern = "taskflow.fun/*", zone_name = "taskflow.fun" },
+  { pattern = "neurodopa.com/*", zone_name = "neurodopa.com" },
+  { pattern = "contalents.com/*", zone_name = "contalents.com" },
+  { pattern = "domarino.com/*", zone_name = "domarino.com" },
+  { pattern = "getmesa.com/*", zone_name = "getmesa.com" }
 ]
 
 # KV Namespaces for caching
