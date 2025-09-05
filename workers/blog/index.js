@@ -73,7 +73,7 @@ async function handleHomepage(domain, env, ctx, cacheKey) {
 async function handlePost(slug, domain, env, ctx, cacheKey) {
   const response = await fetch(
     `https://api.airtable.com/v0/${env.AIRTABLE_BASE_ID || 'appLattdbxMhK4I0y'}/Posts?` +
-    `filterByFormula=${encodeURIComponent(`AND({Slug}='${slug}',{Status}='Published')`)}` +
+    `filterByFormula=${encodeURIComponent(`AND({Slug}='${slug}',{Blog Name}='${domain}',{Status}='Published')`)}` +
     `&maxRecords=1`,
     {
       headers: {
