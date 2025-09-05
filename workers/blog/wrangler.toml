@@ -2,6 +2,24 @@ name = "autoblog-cms"
 main = "index.js"
 compatibility_date = "2024-01-01"
 
+# Routes for all blog domains
+routes = [
+  { pattern = "gptmundo.com/*", zone_name = "gptmundo.com" },
+  { pattern = "gptcoins.com/*", zone_name = "gptcoins.com" },
+  { pattern = "empleados.ai/*", zone_name = "empleados.ai" },
+  { pattern = "autoword.ai/*", zone_name = "autoword.ai" },
+  { pattern = "ministerio.ai/*", zone_name = "ministerio.ai" },
+  { pattern = "octbot.ai/*", zone_name = "octbot.ai" },
+  { pattern = "damecoins.com/*", zone_name = "damecoins.com" },
+  { pattern = "instantvirtualcards.com/*", zone_name = "instantvirtualcards.com" },
+  { pattern = "cryptoupdated.com/*", zone_name = "cryptoupdated.com" },
+  { pattern = "flywallex.com/*", zone_name = "flywallex.com" },
+  { pattern = "megacursos.com/*", zone_name = "megacursos.com" },
+  { pattern = "visualingo.app/*", zone_name = "visualingo.app" },
+  { pattern = "gpt-excel.com/*", zone_name = "gpt-excel.com" },
+  { pattern = "mcp.blue/*", zone_name = "mcp.blue" }
+]
+
 # KV Namespaces for caching
 kv_namespaces = [
   { binding = "BLOG_CACHE", id = "1bc87c14d7004031942240b64fb7bdc1" },
@@ -12,17 +30,7 @@ kv_namespaces = [
 # AIRTABLE_BASE - Your Airtable base ID
 # AIRTABLE_TOKEN - Your Airtable API token
 
-[env.production]
-# Routes for blog subdomains and subpaths
-routes = [
-  # Subdomain blogs
-  { pattern = "blog.*.com/*", zone_name = "*.com" },
-  { pattern = "blog.*.ai/*", zone_name = "*.ai" },
-  { pattern = "blog.*.app/*", zone_name = "*.app" },
-  
-  # Subpath blogs
-  { pattern = "*/blog/*", zone_name = "*" }
-]
+# Production environment config removed - routes are in main config
 
 # Cron triggers for scheduled tasks
 [triggers]
