@@ -228,22 +228,22 @@ function jsonResponse(data, status = 200) {
  * Enhanced Deployment Detection - Dynamically map all domains
  */
 async function handleDeploymentMap(request, env) {
-  // Static monorepo sites data for when API tokens are missing
+  // Static monorepo sites data with working blog URLs
   const STATIC_MONOREPO_SITES = [
-    { name: 'gptmundo.com', path: 'Blog', status: 'active' },
-    { name: 'gptcoins.com', path: 'Blog', status: 'active' },
-    { name: 'empleados.ai', path: 'Blog', status: 'active' },
-    { name: 'damecoins.com', path: 'Exchange', status: 'active' },
-    { name: 'instantvirtualcards.com', path: 'Fintech', status: 'active' },
-    { name: 'megacursos.com', path: 'Education', status: 'active' },
-    { name: 'cryptoupdated.com', path: 'News', status: 'active' },
-    { name: 'gpt-excel.com', path: 'Tools', status: 'active' },
-    { name: 'autoword.ai', path: 'AI', status: 'active' },
-    { name: 'flywallex.com', path: 'Fintech', status: 'active' },
-    { name: 'visualingo.app', path: 'Education', status: 'active' },
-    { name: 'mcp.blue', path: 'Protocol', status: 'active' },
-    { name: 'ministerio.ai', path: 'Government', status: 'active' },
-    { name: 'octbot.ai', path: 'Bots', status: 'active' }
+    { name: 'gptmundo.com', path: 'Blog', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'gptcoins.com', path: 'Blog', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'empleados.ai', path: 'Blog', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'damecoins.com', path: 'Exchange', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'instantvirtualcards.com', path: 'Fintech', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'megacursos.com', path: 'Education', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'cryptoupdated.com', path: 'News', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'gpt-excel.com', path: 'Tools', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'autoword.ai', path: 'AI', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'flywallex.com', path: 'Fintech', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'visualingo.app', path: 'Education', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'mcp.blue', path: 'Protocol', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'ministerio.ai', path: 'Government', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' },
+    { name: 'octbot.ai', path: 'Bots', status: 'active', url: 'https://autoblog-cms.trigox.workers.dev', previewUrl: 'https://autoblog-cms.trigox.workers.dev' }
   ];
 
   const deploymentMap = {
@@ -1807,13 +1807,13 @@ class EnhancedDomainDashboard {
                 '</div>' +
             '</div>' +
             '<div class="domain-preview">' +
-                '<iframe class="domain-iframe" src="' + domain.url + '" loading="lazy" sandbox="allow-same-origin"></iframe>' +
+                '<iframe class="domain-iframe" src="' + domain.url + '" loading="lazy" sandbox="allow-same-origin allow-scripts"></iframe>' +
                 '<div class="preview-overlay">' +
                     '<a href="' + domain.url + '" target="_blank" class="action-btn primary">🔗 Visit</a>' +
                     '<button class="action-btn" onclick="window.performQuickAction(&quot;' + domain.name + '&quot;, &quot;manage&quot;)">⚙️ Manage</button>' +
                     '<button class="action-btn success" onclick="window.performQuickAction(&quot;' + domain.name + '&quot;, &quot;deploy&quot;)">🚀 Deploy</button>' +
                 '</div>' +
-            '</div>' +
+            '</div>'
             '<div class="domain-footer">' +
                 '<div class="domain-tags">' +
                     '<span class="domain-tag">' + domain.category + '</span>' +
