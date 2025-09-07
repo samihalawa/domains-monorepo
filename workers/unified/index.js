@@ -466,7 +466,9 @@ function getDomainMap() {
     'gptveteran.com': 'gptveteran',
     'www.gptveteran.com': 'gptveteran',
     'maximagpt.com': 'maximagpt',
-    'www.maximagpt.com': 'maximagpt'
+    'www.maximagpt.com': 'maximagpt',
+    'ministerio.ai': 'ministerio',
+    'www.ministerio.ai': 'ministerio'
   };
 }
 
