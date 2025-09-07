@@ -1,0 +1,15 @@
+{
+  "domain": "empleados.ai",
+  "title": "empleados ai Blog",
+  "description": "Latest insights and updates from empleados.ai",
+  "author": "AI Content Team",
+  "category": "AI",
+  "created": "2025-09-07T15:52:32Z",
+  "postsPerPage": 10,
+  "enableComments": false,
+  "socialLinks": {
+    "twitter": "",
+    "linkedin": "",
+    "github": ""
+  }
+}

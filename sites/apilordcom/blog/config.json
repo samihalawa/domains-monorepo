@@ -1,0 +1,15 @@
+{
+  "domain": "apilord.com",
+  "title": "apilord com Blog",
+  "description": "Latest insights and updates from apilord.com",
+  "author": "AI Content Team",
+  "category": "API",
+  "created": "2025-09-07T15:52:32Z",
+  "postsPerPage": 10,
+  "enableComments": false,
+  "socialLinks": {
+    "twitter": "",
+    "linkedin": "",
+    "github": ""
+  }
+}

@@ -18,6 +18,10 @@ WORKER_DOMAIN = "unified-domains-worker.samihalawa.workers.dev"
 # AIRTABLE_TOKEN = "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622"
 # AIRTABLE_BASE = "appLattdbxMhK4I0y"  # Multidomain Management base
 
+# Cron triggers for automated content generation
+[triggers]
+crons = ["0 */2 * * *"]  # Every 2 hours
+
 # Routes for all domains - commented out for initial deployment
 # Add route bindings later via Cloudflare dashboard or proper zone management
 # [[routes]]

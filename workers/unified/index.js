@@ -7,6 +7,12 @@
  */
 
 export default {
+  async scheduled(event, env, ctx) {
+    // Auto-generate content every 2 hours
+    console.log('🤖 Starting automated content generation...');
+    ctx.waitUntil(generateAutomaticContent(env));
+  },
+  
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const pathname = url.pathname;
@@ -627,4 +633,193 @@ function jsonResponse(data, headers = {}, status = 200) {
       ...headers
     }
   });
+}
+
+// ===== Automated Content Generation =====
+
+const HIGH_VALUE_DOMAINS = [
+  'autoword.ai', 'empleados.ai', 'gptabsolute.com', 'gpthard.com', 'maximagpt.com', 'octbot.ai',
+  'damecoins.com', 'fintechmorning.com', 'flywallex.com', 'gateway24h.com',
+  'apilord.com', 'dameapi.com', 'gptapikeys.com'
+];
+
+const CONTENT_TEMPLATES = {
+  'AI_PREMIUM': {
+    topics: [
+      'AI automation in enterprise workflows',
+      'Advanced ChatGPT integration strategies', 
+      'Machine learning model deployment',
+      'AI-powered productivity optimization',
+      'Enterprise AI adoption trends'
+    ],
+    tone: 'professional',
+    wordCount: 1200
+  },
+  'FINTECH': {
+    topics: [
+      'Digital payment innovation trends',
+      'Cryptocurrency market analysis',
+      'Fintech regulatory compliance updates',
+      'Banking technology modernization',
+      'Investment platform development'
+    ],
+    tone: 'authoritative',
+    wordCount: 1000
+  },
+  'API_DEV': {
+    topics: [
+      'API security best practices',
+      'RESTful API design patterns',
+      'GraphQL vs REST comparison',
+      'API monetization strategies',
+      'Developer experience optimization'
+    ],
+    tone: 'technical',
+    wordCount: 1500
+  }
+};
+
+function getCategoryForDomain(domain) {
+  if (['autoword.ai', 'empleados.ai', 'gptabsolute.com', 'gpthard.com', 'maximagpt.com', 'octbot.ai'].includes(domain)) {
+    return 'AI_PREMIUM';
+  }
+  if (['damecoins.com', 'fintechmorning.com', 'flywallex.com', 'gateway24h.com'].includes(domain)) {
+    return 'FINTECH';
+  }
+  if (['apilord.com', 'dameapi.com', 'gptapikeys.com'].includes(domain)) {
+    return 'API_DEV';
+  }
+  return 'AI_PREMIUM'; // default
+}
+
+async function generateAutomaticContent(env) {
+  try {
+    // Get current blogs to see which domains need content
+    const existingBlogs = await getAllBlogs(env);
+    const domainsWithBlogs = existingBlogs.map(blog => blog.domain);
+    
+    // Focus on high-value domains that don't have recent content
+    const targetDomains = HIGH_VALUE_DOMAINS.filter(domain => {
+      const hasExistingBlog = domainsWithBlogs.includes(domain);
+      // For now, prioritize domains without any content
+      return !hasExistingBlog;
+    }).slice(0, 3); // Process max 3 domains per run
+    
+    for (const domain of targetDomains) {
+      try {
+        const category = getCategoryForDomain(domain);
+        const template = CONTENT_TEMPLATES[category];
+        const topic = template.topics[Math.floor(Math.random() * template.topics.length)];
+        
+        await createAutomaticBlogPost(env, {
+          domain,
+          topic,
+          category,
+          template
+        });
+        
+        console.log(`✅ Generated content for ${domain}: ${topic}`);
+        
+        // Small delay between posts to avoid rate limits
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+      } catch (error) {
+        console.error(`❌ Failed to generate content for ${domain}:`, error);
+      }
+    }
+    
+    console.log(`🎉 Content generation completed for ${targetDomains.length} domains`);
+    
+  } catch (error) {
+    console.error('❌ Automated content generation failed:', error);
+  }
+}
+
+async function createAutomaticBlogPost(env, { domain, topic, category, template }) {
+  const slug = topic.toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .trim();
+    
+  const title = `${topic} - ${domain}`;
+  const excerpt = `Discover the latest insights on ${topic.toLowerCase()} and how it impacts your business.`;
+  
+  // Generate content based on category
+  const content = generateContentByCategory(topic, category, template);
+  
+  const postData = {
+    fields: {
+      'Title': title,
+      'Slug': slug,
+      'Blog Name': domain,
+      'Author': 'AI Content Generator',
+      'Content': content,
+      'Excerpt': excerpt,
+      'Status': 'Published',
+      'Published Date': new Date().toISOString(),
+      'SEO Title': `${topic} | ${domain}`,
+      'SEO Description': excerpt,
+      'Keywords': generateKeywords(topic, category),
+      'Reading Time': Math.ceil(template.wordCount / 200).toString()
+    }
+  };
+  
+  return await airtableRequest('/Posts', {
+    method: 'POST',
+    body: JSON.stringify(postData)
+  }, env);
+}
+
+function generateContentByCategory(topic, category, template) {
+  const baseContent = `# ${topic}
+
+## Introduction
+
+In today's rapidly evolving ${category.toLowerCase().replace('_', ' ')} landscape, understanding ${topic.toLowerCase()} has become crucial for businesses and professionals alike.
+
+## Key Insights
+
+### 1. Current Market Trends
+
+The industry is experiencing significant shifts in how organizations approach ${topic.toLowerCase()}. Recent developments show:
+
+- Increased adoption of automated solutions
+- Enhanced focus on user experience
+- Growing emphasis on scalability and performance
+- Integration with emerging technologies
+
+### 2. Best Practices
+
+When implementing ${topic.toLowerCase()} strategies, consider these proven approaches:
+
+- **Strategic Planning**: Develop a comprehensive roadmap
+- **User-Centric Design**: Prioritize end-user needs and experiences  
+- **Continuous Monitoring**: Implement robust analytics and feedback loops
+- **Iterative Improvement**: Embrace agile methodologies for constant enhancement
+
+### 3. Future Outlook
+
+Looking ahead, we can expect continued innovation in ${topic.toLowerCase()}. Organizations that invest in understanding and implementing these concepts now will be better positioned for future success.
+
+## Conclusion
+
+${topic} represents a significant opportunity for organizations to improve efficiency, enhance user satisfaction, and drive competitive advantage. By staying informed about these developments and implementing best practices, businesses can navigate the changing landscape successfully.
+
+---
+
+*Stay tuned for more insights on ${category.toLowerCase().replace('_', ' ')} topics and industry trends.*`;
+
+  return baseContent;
+}
+
+function generateKeywords(topic, category) {
+  const baseKeywords = topic.split(' ').slice(0, 3);
+  const categoryKeywords = {
+    'AI_PREMIUM': ['artificial intelligence', 'automation', 'machine learning', 'AI tools'],
+    'FINTECH': ['financial technology', 'digital payments', 'blockchain', 'fintech solutions'],
+    'API_DEV': ['API development', 'software integration', 'developer tools', 'programming']
+  };
+  
+  return [...baseKeywords, ...(categoryKeywords[category] || [])].join(', ');
 }
