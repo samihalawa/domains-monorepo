@@ -3,7 +3,7 @@
 ## Base Information
 - **Base ID**: `appLattdbxMhK4I0y`
 - **Base Name**: "Multidomain Management"
-- **Token**: `patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622`
+- **Auth**: Use worker secrets (AIRTABLE_TOKEN, AIRTABLE_BASE) — do not commit tokens.
 
 ## Schema Analysis
 
