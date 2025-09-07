@@ -956,6 +956,10 @@
                         <p class="stat-number" id="netlify-domains-stat">7</p>
                         <p class="stat-label">Netlify</p>
                     </div>
+                    <div class="stat-item">
+                        <p class="stat-number" id="cloudflare-domains-stat">0</p>
+                        <p class="stat-label">Cloudflare</p>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -1019,6 +1023,7 @@
                     <span class="filter-chip active" data-filter="all">All</span>
                     <span class="filter-chip" data-filter="monorepo">Monorepo</span>
                     <span class="filter-chip" data-filter="netlify">Netlify</span>
+                    <span class="filter-chip" data-filter="cloudflare">Cloudflare</span>
                     <span class="filter-chip status-healthy" data-filter="live">Live</span>
                     <span class="filter-chip status-warning" data-filter="pending">Pending</span>
                     <span class="filter-chip status-error" data-filter="down">Down</span>
@@ -1306,7 +1311,7 @@ Top 5 AI Tools for Developers..."></textarea>
                         const status = card.dataset.status;
                         if (filterValue === 'all') {
                             card.style.display = 'block';
-                        } else if (filterValue === 'monorepo' || filterValue === 'netlify') {
+            } else if (['monorepo','netlify','cloudflare'].includes(filterValue)) {
                             if (platform === filterValue) {
                                 card.style.display = 'block';
                             } else {
@@ -1329,10 +1334,12 @@ Top 5 AI Tools for Developers..."></textarea>
                 const live = document.getElementById('live-sites-stat');
                 const mono = document.getElementById('monorepo-domains-stat');
                 const net = document.getElementById('netlify-domains-stat');
+        const cf = document.getElementById('cloudflare-domains-stat');
                 if (total) total.textContent = counts.total;
                 if (live) live.textContent = counts.live;
                 if (mono) mono.textContent = counts.monorepo;
                 if (net) net.textContent = counts.netlify;
+        if (cf) cf.textContent = counts.cloudflare || 0;
             }
 
             // Start loading data
