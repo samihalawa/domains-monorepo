@@ -171,106 +171,50 @@ export default {
   }
 };
 
-// Embedded projects data (source: /projects-data.json)
-// Note: Kept minimal to avoid huge bundle; includes owned domains and labeled subsets
-const PROJECTS_DATA = {
-  domains: {
-    owned_domains: {
-      cloudflare_managed: [
-        "adsator.com","agentsai.ltd","allnicenails.com","apilord.com","aprendiendogpt.com","arbitrox.com","autoclient.ai","automedical.ai","autotinder.ai","autoword.ai","awscheaper.com","bizumpay.net","btcshidai.com","buyfbgroups.com","calendarvirus.com","cashouter.com","chinototal.com","crearwebgpt.com","creatupropiacriptomoneda.com","cryptoadiccion.com","cryptojuridical.com","cryptoupdated.com","currencybyip.com","cursochinoonline.com","cursoexocad.com","dameapi.com","damecoins.com","damehosting.com","damepay.com","damesender.com","damestaff.com","dametranslate.com","desktoping.com","detectar.ai","dominaae.com","easecoins.com","easylista.com","econonews.co.uk","empleados.ai","exocadcourse.com","fintechmorning.com","flywallex.com","gateway24h.com","geair.es","gpt-excel.com","gptabsolute.com","gptaddicts.com","gptapikeys.com","gptautoweb.com","gptcoins.com","gptenespanol.com","gpthard.com","gptmundo.com","gptplugindatabase.com","gptpowerpoint.com","gptvenezuela.com","gptveteran.com","gptwild.com","hispanoinfo.com","hkpaymentprocessor.com","hollesa.com","housemoney.es","hsktotal.com","iaexpertos.es","imprimirgpt.com","indosy.com","instantvirtualcards.com","learnexocad.com","leccionesgpt.com","lessonsia.com","libreriagpt.com","losmegacursos.com","maccado.com","maximagpt.com","mcp.blue","megacursos.com","megawebs.com","ministerio.ai","mubago.com","octbot.ai","paymentimes.com","pime.ai","samihalawa.com","sort.services","viogenia.es","visualingo.app"
-      ]
-    },
-    monorepo_sites: [
-      { domain: "damecoins.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/damecoins/", url: "https://damecoins.com", value: "high" },
-      { domain: "gptcoins.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/gptcoins/", url: "https://gptcoins.com", value: "high" },
-      { domain: "empleados.ai", status: "live", platform: "Cloudflare Pages", folder: "/sites/empleados/", url: "https://empleados.ai", value: "high" },
-      { domain: "instantvirtualcards.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/instantvirtualcards/", url: "https://instantvirtualcards.com", value: "high" },
-      { domain: "gptapikeys.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/gptapikeys/", url: "https://gptapikeys.com", value: "medium" },
-      { domain: "megacursos.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/megacursos/", url: "https://megacursos.com", value: "medium" },
-      { domain: "cryptoupdated.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/cryptoupdated/", url: "https://cryptoupdated.com", value: "medium" },
-      { domain: "gpt-excel.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/gpt-excel/", url: "https://gpt-excel.com", value: "medium" },
-      { domain: "autoword.ai", status: "live", platform: "Cloudflare Pages", folder: "/sites/autoword/", url: "https://autoword.ai", value: "medium" },
-      { domain: "dameapi.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/dameapi/", url: "https://dameapi.com", value: "medium" },
-      { domain: "flywallex.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/flywallex/", url: "https://flywallex.com", value: "high" },
-      { domain: "gateway24h.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/gateway24h/", url: "https://gateway24h.com", value: "high" },
-      { domain: "fintechmorning.com", status: "live", platform: "Cloudflare Pages", folder: "/sites/fintechmorning/", url: "https://fintechmorning.com", value: "medium" },
-      { domain: "visualingo.app", status: "live", platform: "Cloudflare Pages", folder: "/sites/visualingo/", url: "https://visualingo.app", value: "high" },
-      { domain: "mcp.blue", status: "live", platform: "Cloudflare Pages", folder: "/sites/mcp/", url: "https://mcp.blue", value: "high" },
-      { domain: "sort.services", status: "live", platform: "Cloudflare Pages", folder: "/sites/sort/", url: "https://sort.services", value: "low" },
-      { domain: "ministerio.ai", status: "live", platform: "Cloudflare Pages", folder: "/sites/ministerio/", url: "https://ministerio.ai", value: "ultra-high" },
-      { domain: "octbot.ai", status: "live", platform: "Cloudflare Pages", folder: "/sites/octbot/", url: "https://octbot.ai", value: "medium" }
-    ],
-    premium_deployed: [
-      { domain: "pime.ai", status: "live", platform: "Netlify", url: "https://pime.ai", value: "ultra-high" },
-      { domain: "samihalawa.com", status: "live", platform: "Netlify", url: "https://samihalawa.com", value: "high" },
-      { domain: "autoclient.ai", status: "live", platform: "Netlify", url: "https://autoclient.ai", value: "high" },
-      { domain: "automedical.ai", status: "live", platform: "Netlify", url: "https://automedical.ai", value: "ultra-high" },
-      { domain: "agentsai.ltd", status: "live", platform: "Netlify", url: "https://agentsai.ltd", value: "medium" },
-      { domain: "autotinder.ai", status: "live", platform: "Netlify", url: "https://autotinder.ai", value: "high" },
-      { domain: "detectar.ai", status: "live", platform: "Netlify", url: "https://detectar.ai", value: "high" }
-    ],
-    down: [
-      { domain: "apilord.com", status: "down", platform: "Cloudflare Pages", folder: "/sites/apilord/", value: "medium" },
-      { domain: "gptabsolute.com", status: "down", platform: "Cloudflare Pages", folder: "/sites/gptabsolute/", value: "medium" },
-      { domain: "gpthard.com", status: "down", platform: "Cloudflare Pages", folder: "/sites/gpthard/", value: "medium" }
-    ]
-  }
-};
-
-function buildDomainsResponse() {
-  const owned = new Set(PROJECTS_DATA.domains.owned_domains.cloudflare_managed || []);
+// Build domains dynamically: from router map (monorepo) and Netlify API
+async function buildDomainsResponse(env) {
   const byDomain = new Map();
 
-  // Seed with owned domains as pending/undeployed
-  for (const d of owned) {
-    byDomain.set(d, { name: d, platform: 'Undeployed', status: 'pending', value: 'medium', url: `https://${d}` });
-  }
-
-  // Monorepo sites
-  for (const s of PROJECTS_DATA.domains.monorepo_sites || []) {
-    const prev = byDomain.get(s.domain) || { name: s.domain };
-    byDomain.set(s.domain, { 
-      ...prev,
-      name: s.domain,
+  // 1) Monorepo from router map
+  const routerMap = getDomainMap();
+  const seen = new Set();
+  for (const host of Object.keys(routerMap)) {
+    const apex = host.replace(/^www\./, '');
+    if (seen.has(apex)) continue;
+    seen.add(apex);
+    byDomain.set(apex, {
+      name: apex,
       platform: 'Monorepo',
-      status: s.status || prev.status || 'live',
-      folder: s.folder,
-      url: s.url || prev.url || `https://${s.domain}`,
-      value: s.value || prev.value || 'medium'
+      status: 'pending',
+      url: `https://${apex}`,
+      value: 'medium'
     });
   }
 
-  // Premium/Netlify
-  for (const p of PROJECTS_DATA.domains.premium_deployed || []) {
-    const prev = byDomain.get(p.domain) || { name: p.domain };
-    byDomain.set(p.domain, {
-      ...prev,
-      name: p.domain,
-      platform: 'Netlify',
-      status: p.status || prev.status || 'live',
-      url: p.url || prev.url || `https://${p.domain}`,
-      value: p.value || prev.value || 'medium'
-    });
+  // 2) Netlify sites (if token provided)
+  try {
+    const netlifyToken = env.NETLIFY_TOKEN || env.NETLIFY_API_TOKEN;
+    if (netlifyToken) {
+      const sites = await fetchNetlifySites(netlifyToken);
+      for (const s of sites) {
+        const name = (s.custom_domain || (s.ssl_url ? new URL(s.ssl_url).hostname : null) || (s.url ? new URL(s.url).hostname : null) || s.name).replace(/^www\./, '');
+        const live = !!(s.published_deploy && s.published_deploy.state === 'ready');
+        const status = live ? 'live' : (s.state === 'current' ? 'live' : (s.state === 'error' ? 'down' : 'pending'));
+        byDomain.set(name, {
+          name,
+          platform: 'Netlify',
+          status,
+          url: s.url || s.ssl_url || `https://${name}`,
+          value: 'high'
+        });
+      }
+    }
+  } catch (e) {
+    // Fail soft; still return monorepo
   }
 
-  // Down overrides
-  for (const d of PROJECTS_DATA.domains.down || []) {
-    const prev = byDomain.get(d.domain) || { name: d.domain };
-    byDomain.set(d.domain, {
-      ...prev,
-      name: d.domain,
-      platform: prev.platform || d.platform || 'Monorepo',
-      status: 'down',
-      folder: d.folder || prev.folder,
-      value: d.value || prev.value || 'medium'
-    });
-  }
-
-  // Include any monorepo/premium not in owned
-  for (const s of (PROJECTS_DATA.domains.monorepo_sites || [])) owned.add(s.domain);
-  for (const p of (PROJECTS_DATA.domains.premium_deployed || [])) owned.add(p.domain);
-
-  const domains = Array.from(byDomain.values()).sort((a,b) => a.name.localeCompare(b.name));
+  // 3) Optional lightweight health check (skip to keep fast)
+  const domains = Array.from(byDomain.values()).sort((a, b) => a.name.localeCompare(b.name));
   const counts = {
     total: domains.length,
     monorepo: domains.filter(d => d.platform === 'Monorepo').length,
@@ -280,6 +224,14 @@ function buildDomainsResponse() {
     pending: domains.filter(d => d.status === 'pending').length,
   };
   return { success: true, counts, domains };
+}
+
+async function fetchNetlifySites(token) {
+  const res = await fetch('https://api.netlify.com/api/v1/sites', {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  if (!res.ok) return [];
+  return res.json();
 }
 
 // Blog API Handler
@@ -357,7 +309,7 @@ async function handleDashboardAPI(request, env, pathname, ctx, corsHeaders) {
   
   // Domains list for dashboard
   if (path === 'domains' && request.method === 'GET') {
-    const payload = buildDomainsResponse();
+  const payload = await buildDomainsResponse(env);
     return jsonResponse(payload, corsHeaders);
   }
   
