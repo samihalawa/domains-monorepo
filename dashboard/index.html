@@ -48,6 +48,7 @@
             font-size: 1.4rem;
             font-weight: 700;
             background: linear-gradient(135deg, #60A5FA, #34D399, #F59E0B);
+            background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 5px;
@@ -782,6 +783,65 @@
             justify-content: flex-end;
         }
 
+        /* AI & Deployment Forms */
+        .form-container {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .form-container h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #F7FAFC;
+            border-bottom: 1px solid rgba(96, 165, 250, 0.2);
+            padding-bottom: 15px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.9rem;
+            color: #94A3B8;
+            margin-bottom: 8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(15, 20, 25, 0.7);
+            border: 1px solid rgba(96, 165, 250, 0.3);
+            border-radius: 8px;
+            color: #E2E8F0;
+            font-size: 0.95rem;
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #60A5FA;
+            background: rgba(15, 20, 25, 0.9);
+        }
+
         /* Responsive Design */
         @media (max-width: 1024px) {
             .sidebar {
@@ -838,48 +898,39 @@
 
             <nav>
                 <div class="nav-section">
-                    <h3 class="nav-section-title">Overview</h3>
-                    <div class="nav-item active" data-view="dashboard">
+                    <p class="nav-section-title">Core Modules</p>
+                    <div class="nav-item active" data-view="dashboard-view">
                         <span class="nav-icon">📊</span>
                         <span>Dashboard</span>
                     </div>
-                    <div class="nav-item" data-view="domains">
+                    <div class="nav-item" data-view="domains-view">
                         <span class="nav-icon">🌐</span>
-                        <span>All Domains</span>
+                        <span>Domains</span>
                     </div>
-                    <div class="nav-item" data-view="analytics">
+                    <div class="nav-item" data-view="ai-content-view">
+                        <span class="nav-icon">🤖</span>
+                        <span>AI Content</span>
+                    </div>
+                    <div class="nav-item" data-view="blog-deploy-view">
+                        <span class="nav-icon">🚀</span>
+                        <span>Blog Deploy</span>
+                    </div>
+                    <div class="nav-item" data-view="netlify-view">
+                        <span class="nav-icon">⚡️</span>
+                        <span>Netlify</span>
+                    </div>
+                </div>
+                <div class="nav-section">
+                    <p class="nav-section-title">Management</p>
+                    <div class="nav-item" data-view="payments-view">
+                        <span class="nav-icon">💳</span>
+                        <span>Payments</span>
+                    </div>
+                    <div class="nav-item" data-view="analytics-view">
                         <span class="nav-icon">📈</span>
                         <span>Analytics</span>
                     </div>
-                </div>
-
-                <div class="nav-section">
-                    <h3 class="nav-section-title">Management</h3>
-                    <div class="nav-item" data-view="deployments">
-                        <span class="nav-icon">🚀</span>
-                        <span>Deployments</span>
-                    </div>
-                    <div class="nav-item" data-view="monitoring">
-                        <span class="nav-icon">📡</span>
-                        <span>Monitoring</span>
-                    </div>
-                    <div class="nav-item" data-view="content">
-                        <span class="nav-icon">📝</span>
-                        <span>Content & Blogs</span>
-                    </div>
-                </div>
-
-                <div class="nav-section">
-                    <h3 class="nav-section-title">Tools</h3>
-                    <div class="nav-item" data-view="bulk-operations">
-                        <span class="nav-icon">⚡</span>
-                        <span>Bulk Operations</span>
-                    </div>
-                    <div class="nav-item" data-view="dns-management">
-                        <span class="nav-icon">🔧</span>
-                        <span>DNS Management</span>
-                    </div>
-                    <div class="nav-item" data-view="settings">
+                    <div class="nav-item" data-view="settings-view">
                         <span class="nav-icon">⚙️</span>
                         <span>Settings</span>
                     </div>
@@ -887,23 +938,23 @@
             </nav>
 
             <div class="stats-overview">
-                <h4 class="stats-title">Quick Stats</h4>
+                <p class="stats-title">Portfolio Snapshot</p>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <div class="stat-number" id="totalDomainsCount">80+</div>
-                        <div class="stat-label">Total Domains</div>
+                        <p class="stat-number" id="total-domains-stat">24</p>
+                        <p class="stat-label">Domains</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="liveDomainsCount">25</div>
-                        <div class="stat-label">Live Sites</div>
+                        <p class="stat-number" id="live-sites-stat">24</p>
+                        <p class="stat-label">Live</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="healthyPercentage">94%</div>
-                        <div class="stat-label">Healthy</div>
+                        <p class="stat-number" id="monorepo-domains-stat">17</p>
+                        <p class="stat-label">Monorepo</p>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-number" id="monthlyVisitors">50K</div>
-                        <div class="stat-label">Visitors/Mo</div>
+                        <p class="stat-number" id="netlify-domains-stat">7</p>
+                        <p class="stat-label">Netlify</p>
                     </div>
                 </div>
             </div>
@@ -911,98 +962,161 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
-            <header class="dashboard-header">
+            <div class="dashboard-header">
                 <div class="header-left">
-                    <h1 id="pageTitle">Domain Dashboard</h1>
-                    <p id="pageSubtitle">Complete overview of your domain portfolio</p>
+                    <h1 id="view-title">Dashboard</h1>
+                    <p id="view-subtitle">Welcome to your Domain Empire Command Center.</p>
                 </div>
                 <div class="header-actions">
-                    <button class="action-btn" id="refreshBtn">🔄 Refresh</button>
-                    <button class="action-btn warning" id="healthCheckBtn">🩺 Health Check</button>
-                    <button class="action-btn success" id="bulkDeployBtn">🚀 Deploy New</button>
-                    <button class="action-btn primary" id="addDomainBtn">➕ Add Domain</button>
+                    <button class="action-btn" id="quick-action-btn">
+                        <span class="icon">✨</span> Quick Action
+                    </button>
+                    <button class="action-btn primary" id="primary-action-btn">
+                        <span class="icon">🚀</span> Deploy All
+                    </button>
                 </div>
-            </header>
-
-            <!-- Global Search -->
-            <div class="global-search">
-                <span class="search-icon">🔍</span>
-                <input type="text" id="globalSearchInput" class="search-input" placeholder="Search across all domains, content, and configurations...">
             </div>
 
-            <!-- Quick Filters -->
-            <div class="quick-filters">
-                <div class="filter-chip active" data-filter="all">All Domains</div>
-                <div class="filter-chip status-healthy" data-filter="live">Live</div>
-                <div class="filter-chip status-error" data-filter="down">Down</div>
-                <div class="filter-chip status-warning" data-filter="pending">Pending</div>
-                <div class="filter-chip" data-filter="cloudflare">Cloudflare</div>
-                <div class="filter-chip" data-filter="netlify">Netlify</div>
-                <div class="filter-chip" data-filter="ai">AI</div>
-                <div class="filter-chip" data-filter="crypto">Crypto</div>
-                <div class="filter-chip" data-filter="fintech">Fintech</div>
-                <div class="filter-chip" data-filter="ultra-high">Ultra High Value</div>
-            </div>
-
-            <!-- Dashboard View -->
-            <div class="view-content active" id="dashboardView">
-                <!-- Enhanced Metrics -->
+            <div id="dashboard-view" class="view-content active">
                 <div class="metrics-grid">
-                    <div class="metric-card" data-filter="all">
-                        <div class="metric-icon">🌐</div>
-                        <div class="metric-number" id="totalDomains">80+</div>
-                        <div class="metric-label">Total Domains</div>
-                        <div class="metric-trend up">↗ +5 this month</div>
-                    </div>
-                    <div class="metric-card" data-filter="live">
-                        <div class="metric-icon">✅</div>
-                        <div class="metric-number" id="liveDomains">25</div>
-                        <div class="metric-label">Live & Active</div>
-                        <div class="metric-trend up">↗ 94% uptime</div>
-                    </div>
-                    <div class="metric-card" data-filter="down">
-                        <div class="metric-icon">⚠️</div>
-                        <div class="metric-number" id="issuesDomains">3</div>
-                        <div class="metric-label">Need Attention</div>
-                        <div class="metric-trend down">↘ -2 since fix</div>
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <span class="metric-icon">📈</span>
+                            <span class="metric-trend up">+5.2%</span>
+                        </div>
+                        <p class="metric-number">1.2M</p>
+                        <p class="metric-label">Total Pageviews</p>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-icon">💰</div>
-                        <div class="metric-number">$1M+</div>
-                        <div class="metric-label">Portfolio Value</div>
-                        <div class="metric-trend up">↗ High potential</div>
+                        <div class="metric-header">
+                            <span class="metric-icon">👥</span>
+                            <span class="metric-trend up">+12%</span>
+                        </div>
+                        <p class="metric-number">850K</p>
+                        <p class="metric-label">Unique Visitors</p>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-icon">🚀</div>
-                        <div class="metric-number" id="deployments">18</div>
-                        <div class="metric-label">Active Deployments</div>
-                        <div class="metric-trend up">↗ Monorepo</div>
+                        <div class="metric-header">
+                            <span class="metric-icon">💰</span>
+                            <span class="metric-trend down">-1.5%</span>
+                        </div>
+                        <p class="metric-number">$5,430</p>
+                        <p class="metric-label">Estimated Revenue</p>
                     </div>
                     <div class="metric-card">
-                        <div class="metric-icon">📈</div>
-                        <div class="metric-number">50K</div>
-                        <div class="metric-label">Monthly Visitors</div>
-                        <div class="metric-trend up">↗ +15% growth</div>
+                        <div class="metric-header">
+                            <span class="metric-icon">🤖</span>
+                            <span class="metric-trend up">+30</span>
+                        </div>
+                        <p class="metric-number">152</p>
+                        <p class="metric-label">AI Posts Generated</p>
                     </div>
-                </div>
-
-                <!-- Domains Grid -->
-                <div class="domains-grid" id="domainsGrid">
-                    <!-- Dynamic content loaded here -->
                 </div>
             </div>
 
-            <!-- Domains View -->
-            <div class="view-content" id="domainsView">
+            <div id="domains-view" class="view-content">
+                <div class="quick-filters">
+                    <span class="filter-chip active" data-filter="all">All</span>
+                    <span class="filter-chip" data-filter="monorepo">Monorepo</span>
+                    <span class="filter-chip" data-filter="netlify">Netlify</span>
+                    <span class="filter-chip status-healthy" data-filter="live">Live</span>
+                    <span class="filter-chip status-warning" data-filter="pending">Pending</span>
+                    <span class="filter-chip status-error" data-filter="down">Down</span>
+                </div>
+                <div class="domains-grid" id="domains-grid-main">
+                    <!-- Domain cards will be populated here -->
+                </div>
+            </div>
+
+            <div id="ai-content-view" class="view-content">
+                <div class="form-container">
+                    <h3><span class="icon">🤖</span> AI Content Generation</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="ai-target-domain">Target Domain</label>
+                            <select id="ai-target-domain">
+                                <option value="">Select Domain...</option>
+                                <!-- Domains will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="ai-tone">AI Tone</label>
+                            <select id="ai-tone">
+                                <option value="professional">Professional</option>
+                                <option value="casual">Casual</option>
+                                <option value="technical">Technical</option>
+                                <option value="witty">Witty</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="blog-topic">Blog Post Topic</label>
+                            <input type="text" id="blog-topic" placeholder="e.g., 'The Future of AI in Fintech'">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <button class="action-btn primary" onclick="generateAIPost()">
+                                <span class="icon">✨</span> Generate Single Post
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-container">
+                    <h3><span class="icon">📚</span> Bulk Content Generation</h3>
+                    <div class="form-grid">
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label for="bulk-topics">Topics (one per line)</label>
+                            <textarea id="bulk-topics" placeholder="The Rise of GPT-4...
+The Impact of AI on Marketing...
+Top 5 AI Tools for Developers..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <button class="action-btn success" onclick="bulkGenerateContent()">
+                                <span class="icon">🚀</span> Generate Multiple Posts
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="blog-deploy-view" class="view-content">
+                <div class="form-container">
+                    <h3><span class="icon">🚀</span> Deploy New Blog</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="deploy-target-domain">Unused Domain</label>
+                            <select id="deploy-target-domain">
+                                <option value="">Select Domain to Activate...</option>
+                                <!-- Unused domains will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="blog-path">Blog Path</label>
+                            <input type="text" id="blog-path" value="/blog">
+                        </div>
+                        <div class="form-group">
+                            <button class="action-btn primary" onclick="deployNewBlog()">
+                                <span class="icon">⚡️</span> Deploy Blog
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="netlify-view" class="view-content">
+                <div class="form-container">
+                    <h3><span class="icon">⚡️</span> Netlify Projects Supervision</h3>
+                    <div id="netlify-projects-grid" class="domains-grid" style="grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));">
+                        <!-- Netlify projects will be populated here -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="payments-view" class="view-content">
                 <div class="loading-overlay">
-                    <div class="loading-spinner"></div>
-                    <div class="loading-text">Loading all domains...</div>
+                    <div class="loading-text">Payments management coming soon...</div>
                 </div>
             </div>
 
-            <!-- Analytics View -->
-            <div class="view-content" id="analyticsView">
+            <div id="analytics-view" class="view-content">
                 <div class="analytics-grid">
                     <div class="analytics-card">
                         <h3 class="analytics-title">📊 Domain Categories</h3>
@@ -1019,38 +1133,7 @@
                 </div>
             </div>
 
-            <!-- Other views (deployments, monitoring, etc.) -->
-            <div class="view-content" id="deploymentsView">
-                <div class="loading-overlay">
-                    <div class="loading-text">Deployment tools coming soon...</div>
-                </div>
-            </div>
-
-            <div class="view-content" id="monitoringView">
-                <div class="loading-overlay">
-                    <div class="loading-text">Advanced monitoring dashboard coming soon...</div>
-                </div>
-            </div>
-
-            <div class="view-content" id="contentView">
-                <div class="loading-overlay">
-                    <div class="loading-text">Content management system coming soon...</div>
-                </div>
-            </div>
-
-            <div class="view-content" id="bulk-operationsView">
-                <div class="loading-overlay">
-                    <div class="loading-text">Bulk operations panel coming soon...</div>
-                </div>
-            </div>
-
-            <div class="view-content" id="dns-managementView">
-                <div class="loading-overlay">
-                    <div class="loading-text">DNS management tools coming soon...</div>
-                </div>
-            </div>
-
-            <div class="view-content" id="settingsView">
+            <div id="settings-view" class="view-content">
                 <div class="loading-overlay">
                     <div class="loading-text">Settings panel coming soon...</div>
                 </div>
@@ -1090,630 +1173,204 @@
     </div>
 
     <script>
-        class SuperUnifiedDashboard {
-            constructor() {
-                this.config = {
-                    apiWorker: window.location.origin,
-                    endpoints: {
-                        deploymentMap: '/api/deployment-map',
-                        domainAnalysis: '/api/domain-analysis',
-                        health: '/api/health',
-                        blogs: '/api/blog/blogs',
-                        posts: '/api/blog/posts'
-                    }
-                };
+        document.addEventListener('DOMContentLoaded', () => {
+            const navItems = document.querySelectorAll('.nav-item');
+            const views = document.querySelectorAll('.view-content');
+            const viewTitle = document.getElementById('view-title');
+            const viewSubtitle = document.getElementById('view-subtitle');
 
-                this.data = {
-                    allDomains: [],
-                    filteredDomains: [],
-                    selectedDomains: new Set(),
-                    deploymentMap: null,
-                    domainAnalysis: null,
-                    isLoading: false,
-                    currentView: 'dashboard',
-                    currentFilter: 'all'
-                };
-
-                this.init();
-            }
-
-            async init() {
-                this.setupEventListeners();
-                await this.loadInitialData();
-                this.renderDashboard();
-            }
-
-            setupEventListeners() {
-                // Navigation
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        const view = e.currentTarget.dataset.view;
-                        this.switchView(view);
-                    });
-                });
-
-                // Search
-                const searchInput = document.getElementById('globalSearchInput');
-                if (searchInput) {
-                    searchInput.addEventListener('input', (e) => {
-                        this.handleSearch(e.target.value);
-                    });
-                }
-
-                // Filters
-                document.querySelectorAll('.filter-chip').forEach(chip => {
-                    chip.addEventListener('click', (e) => {
-                        this.handleFilterChange(e.currentTarget);
-                    });
-                });
-
-                // Header actions
-                document.getElementById('refreshBtn')?.addEventListener('click', () => this.refreshData());
-                document.getElementById('healthCheckBtn')?.addEventListener('click', () => this.runHealthCheck());
-                document.getElementById('bulkDeployBtn')?.addEventListener('click', () => this.showBulkDeployModal());
-                document.getElementById('addDomainBtn')?.addEventListener('click', () => this.showAddDomainModal());
-
-                // Modal controls
-                document.getElementById('modalClose')?.addEventListener('click', () => this.hideModal());
-                document.getElementById('modalCancel')?.addEventListener('click', () => this.hideModal());
-
-                // Bulk actions
-                document.getElementById('bulkHealthCheck')?.addEventListener('click', () => this.bulkHealthCheck());
-                document.getElementById('bulkDeploy')?.addEventListener('click', () => this.bulkDeploy());
-                document.getElementById('bulkExport')?.addEventListener('click', () => this.bulkExport());
-
-                // Metric card filters
-                document.querySelectorAll('.metric-card[data-filter]').forEach(card => {
-                    card.addEventListener('click', (e) => {
-                        const filter = e.currentTarget.dataset.filter;
-                        this.applyQuickFilter(filter);
-                    });
-                });
-            }
-
-            switchView(viewName) {
-                // Update navigation
-                document.querySelectorAll('.nav-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                document.querySelector(`[data-view="${viewName}"]`).classList.add('active');
-
-                // Update content
-                document.querySelectorAll('.view-content').forEach(view => {
-                    view.classList.remove('active');
-                });
-                document.getElementById(`${viewName}View`).classList.add('active');
-
-                // Update header
-                this.updateHeader(viewName);
-                this.data.currentView = viewName;
-
-                // Load view-specific data
-                this.loadViewData(viewName);
-            }
-
-            updateHeader(viewName) {
-                const titles = {
-                    dashboard: { title: 'Domain Dashboard', subtitle: 'Complete overview of your domain portfolio' },
-                    domains: { title: 'All Domains', subtitle: 'Manage and monitor all 80+ domains' },
-                    analytics: { title: 'Analytics & Insights', subtitle: 'Performance metrics and domain intelligence' },
-                    deployments: { title: 'Deployment Center', subtitle: 'Deploy and manage sites across platforms' },
-                    monitoring: { title: 'Real-time Monitoring', subtitle: 'Status, uptime, and performance tracking' },
-                    content: { title: 'Content Management', subtitle: 'Blog posts and content across all domains' }
-                };
-
-                const config = titles[viewName] || { title: 'Domain Empire', subtitle: 'Command Center' };
-                document.getElementById('pageTitle').textContent = config.title;
-                document.getElementById('pageSubtitle').textContent = config.subtitle;
-            }
-
-            async loadInitialData() {
-                this.data.isLoading = true;
-                this.showLoadingState();
-
+            // Live Data
+            let allDomains = [];
+            let netlifyProjects = [];
+            let unusedDomains = [];
+            async function loadDomains() {
                 try {
-                    // Load static data from projects-data.json
-                    this.data.allDomains = this.getStaticDomainData();
-                    
-                    // Try to load dynamic data
-                    const [deploymentMap, domainAnalysis] = await Promise.allSettled([
-                        this.fetchAPI(this.config.endpoints.deploymentMap).catch(() => null),
-                        this.fetchAPI(this.config.endpoints.domainAnalysis).catch(() => null)
-                    ]);
-
-                    if (deploymentMap.status === 'fulfilled' && deploymentMap.value) {
-                        this.data.deploymentMap = deploymentMap.value.data;
+                    const res = await fetch('/api/dashboard/domains');
+                    const data = await res.json();
+                    if (data && data.success) {
+                        allDomains = (data.domains || []).map(d => ({
+                            name: d.name || d.domain,
+                            platform: d.platform,
+                            status: d.status,
+                            value: d.value || 'medium',
+                            url: d.url || `https://${d.name || d.domain}`
+                        }));
+                        netlifyProjects = allDomains.filter(d => d.platform === 'Netlify');
+                        unusedDomains = allDomains.filter(d => d.status === 'pending' || d.status === 'down');
+                        populateDropdowns();
+                        renderNetlifyProjects();
+                        renderDomainsGrid();
+                        updateStats(data.counts);
                     }
-
-                    if (domainAnalysis.status === 'fulfilled' && domainAnalysis.value) {
-                        this.data.domainAnalysis = domainAnalysis.value.data;
-                    }
-
-                    this.processData();
-                    this.applyFilters();
-
-                } catch (error) {
-                    console.error('Error loading data:', error);
-                    this.showAlert('error', 'Failed to load some data. Using cached information.');
-                } finally {
-                    this.data.isLoading = false;
+                } catch (err) {
+                    console.error('Failed loading domains', err);
                 }
             }
 
-            getStaticDomainData() {
-                // Based on your projects-data.json
-                const domains = [];
-                
-                // Monorepo sites (live)
-                const monorepoSites = [
-                    { domain: 'gptcoins.com', status: 'live', platform: 'cloudflare', industry: 'AI Crypto', value: 'high' },
-                    { domain: 'empleados.ai', status: 'live', platform: 'cloudflare', industry: 'HR Solutions', value: 'high' },
-                    { domain: 'instantvirtualcards.com', status: 'live', platform: 'cloudflare', industry: 'Virtual Cards', value: 'high' },
-                    { domain: 'gptapikeys.com', status: 'live', platform: 'cloudflare', industry: 'API Management', value: 'medium' },
-                    { domain: 'megacursos.com', status: 'live', platform: 'cloudflare', industry: 'Online Courses', value: 'medium' },
-                    { domain: 'cryptoupdated.com', status: 'live', platform: 'cloudflare', industry: 'Crypto News', value: 'medium' },
-                    { domain: 'gpt-excel.com', status: 'live', platform: 'cloudflare', industry: 'Excel AI', value: 'medium' },
-                    { domain: 'autoword.ai', status: 'live', platform: 'cloudflare', industry: 'AI Writing', value: 'medium' },
-                    { domain: 'dameapi.com', status: 'live', platform: 'cloudflare', industry: 'API Marketplace', value: 'medium' },
-                    { domain: 'flywallex.com', status: 'live', platform: 'cloudflare', industry: 'Digital Wallet', value: 'high' },
-                    { domain: 'gateway24h.com', status: 'live', platform: 'cloudflare', industry: 'Payment Processing', value: 'high' },
-                    { domain: 'fintechmorning.com', status: 'live', platform: 'cloudflare', industry: 'Fintech News', value: 'medium' },
-                    { domain: 'visualingo.app', status: 'live', platform: 'cloudflare', industry: 'Language Learning', value: 'high' },
-                    { domain: 'mcp.blue', status: 'live', platform: 'cloudflare', industry: 'Model Protocol', value: 'high' },
-                    { domain: 'sort.services', status: 'live', platform: 'cloudflare', industry: 'Sorting Services', value: 'low' },
-                    { domain: 'ministerio.ai', status: 'live', platform: 'cloudflare', industry: 'Government AI', value: 'ultra-high' },
-                    { domain: 'octbot.ai', status: 'live', platform: 'cloudflare', industry: 'AI Bot', value: 'medium' },
-                    { domain: 'damecoins.com', status: 'live', platform: 'cloudflare', industry: 'Crypto Exchange', value: 'high' }
-                ];
+            function populateDropdowns() {
+                const aiTargetDomain = document.getElementById('ai-target-domain');
+                const deployTargetDomain = document.getElementById('deploy-target-domain');
 
-                // Premium deployed
-                const premiumDeployed = [
-                    { domain: 'pime.ai', status: 'live', platform: 'deployed', industry: 'AI Platform', value: 'ultra-high' },
-                    { domain: 'samihalawa.com', status: 'live', platform: 'deployed', industry: 'Personal Brand', value: 'high' },
-                    { domain: 'autoclient.ai', status: 'live', platform: 'deployed', industry: 'AI Client Services', value: 'high' },
-                    { domain: 'automedical.ai', status: 'live', platform: 'deployed', industry: 'Medical AI', value: 'ultra-high' },
-                    { domain: 'agentsai.ltd', status: 'live', platform: 'deployed', industry: 'AI Agents', value: 'medium' },
-                    { domain: 'autotinder.ai', status: 'live', platform: 'deployed', industry: 'Dating AI', value: 'high' },
-                    { domain: 'detectar.ai', status: 'live', platform: 'deployed', industry: 'AI Detection', value: 'high' }
-                ];
-
-                // Down domains
-                const downDomains = [
-                    { domain: 'apilord.com', status: 'down', platform: 'cloudflare', industry: 'API Services', value: 'medium', issue: 'DNS not configured properly' },
-                    { domain: 'gptabsolute.com', status: 'down', platform: 'cloudflare', industry: 'AI Platform', value: 'medium', issue: 'DNS not configured properly' },
-                    { domain: 'gpthard.com', status: 'down', platform: 'cloudflare', industry: 'Advanced AI', value: 'medium', issue: 'DNS not configured properly' }
-                ];
-
-                // Combine all domains
-                domains.push(...monorepoSites, ...premiumDeployed, ...downDomains);
-
-                return domains.map(domain => ({
-                    ...domain,
-                    url: `https://${domain.domain}`,
-                    category: this.getDomainCategory(domain.domain),
-                    metrics: {
-                        ssl: true,
-                        uptime: domain.status === 'live' ? 99.9 : 0,
-                        loadTime: '1.2s'
-                    }
-                }));
-            }
-
-            processData() {
-                // Enhance static data with dynamic data if available
-                if (this.data.deploymentMap) {
-                    // Update with real-time data
-                    this.data.deploymentMap.cloudflare_zones?.forEach(zone => {
-                        const existing = this.data.allDomains.find(d => d.domain === zone.name);
-                        if (existing) {
-                            existing.realStatus = zone.status;
-                            existing.plan = zone.plan?.name;
-                        }
-                    });
-                }
-
-                this.data.filteredDomains = [...this.data.allDomains];
-            }
-
-            getDomainCategory(domain) {
-                const lowerName = domain.toLowerCase();
-                if (lowerName.includes('ai') || lowerName.includes('gpt') || lowerName.includes('agents')) return 'ai';
-                if (lowerName.includes('crypto') || lowerName.includes('coin')) return 'crypto';
-                if (lowerName.includes('fintech') || lowerName.includes('pay') || lowerName.includes('card') || lowerName.includes('wallet')) return 'fintech';
-                if (lowerName.includes('medical') || lowerName.includes('health')) return 'medical';
-                if (lowerName.includes('education') || lowerName.includes('curso') || lowerName.includes('learn')) return 'education';
-                return 'other';
-            }
-
-            async fetchAPI(endpoint) {
-                const response = await fetch(this.config.apiWorker + endpoint);
-                if (!response.ok) {
-                    throw new Error(`API error: ${response.status}`);
-                }
-                return await response.json();
-            }
-
-            applyFilters() {
-                let filtered = [...this.data.allDomains];
-
-                if (this.data.currentFilter !== 'all') {
-                    filtered = filtered.filter(domain => {
-                        switch (this.data.currentFilter) {
-                            case 'live': return domain.status === 'live';
-                            case 'down': return domain.status === 'down';
-                            case 'pending': return domain.status === 'pending';
-                            case 'cloudflare': return domain.platform === 'cloudflare';
-                            case 'netlify': return domain.platform === 'netlify';
-                            case 'ai': return domain.category === 'ai';
-                            case 'crypto': return domain.category === 'crypto';
-                            case 'fintech': return domain.category === 'fintech';
-                            case 'ultra-high': return domain.value === 'ultra-high';
-                            default: return true;
-                        }
-                    });
-                }
-
-                this.data.filteredDomains = filtered;
-                this.renderDomains();
-                this.updateMetrics();
-            }
-
-            handleFilterChange(chipElement) {
-                document.querySelectorAll('.filter-chip').forEach(chip => {
-                    chip.classList.remove('active');
-                });
-                chipElement.classList.add('active');
-                
-                this.data.currentFilter = chipElement.dataset.filter;
-                this.applyFilters();
-            }
-
-            applyQuickFilter(filter) {
-                const chip = document.querySelector(`[data-filter="${filter}"]`);
-                if (chip) {
-                    this.handleFilterChange(chip);
-                }
-            }
-
-            renderDashboard() {
-                this.renderDomains();
-                this.updateMetrics();
-                this.renderAnalytics();
-            }
-
-            renderDomains() {
-                const container = document.getElementById('domainsGrid');
-                if (!container) return;
-
-                if (this.data.filteredDomains.length === 0) {
-                    container.innerHTML = `
-                        <div class="loading-overlay">
-                            <div class="loading-text">No domains match your current filters</div>
-                        </div>
-                    `;
-                    return;
-                }
-
-                let html = '';
-                this.data.filteredDomains.slice(0, 20).forEach(domain => { // Limit for performance
-                    html += this.createDomainCard(domain);
+                allDomains.forEach(domain => {
+                    const option = new Option(`${domain.name} (${domain.platform})`, domain.name);
+                    aiTargetDomain.add(option.cloneNode(true));
                 });
 
-                container.innerHTML = html;
-
-                // Add event listeners to domain cards
-                this.attachDomainCardListeners();
+                unusedDomains.forEach(domain => {
+                    const option = new Option(`${domain.name}`, domain.name);
+                    deployTargetDomain.add(option);
+                });
             }
 
-            createDomainCard(domain) {
-                const statusClass = domain.status === 'live' ? 'live' : domain.status === 'down' ? 'down' : 'pending';
-                const isSelected = this.data.selectedDomains.has(domain.domain);
-
-                return `
-                    <div class="domain-card ${isSelected ? 'selected' : ''}" data-domain="${domain.domain}">
-                        <div class="domain-header">
-                            <input type="checkbox" class="domain-checkbox" data-domain="${domain.domain}" ${isSelected ? 'checked' : ''}>
-                            <div class="domain-info">
-                                <div class="domain-name">
-                                    <span class="status-dot ${statusClass}"></span>
-                                    ${domain.domain}
+            function renderNetlifyProjects() {
+                const grid = document.getElementById('netlify-projects-grid');
+                grid.innerHTML = '';
+                netlifyProjects.forEach(p => {
+                    grid.innerHTML += `
+                        <div class="domain-card">
+                            <div class="domain-header">
+                                <div class="domain-info">
+                                    <p class="domain-name">
+                                        <span class="status-dot ${p.status}"></span>
+                                        ${p.name}
+                                    </p>
+                                    <div class="domain-meta">
+                                        <span class="platform-badge">${p.platform}</span>
+                                        <span class="value-badge value-badge-${p.value.replace(' ','-').toLowerCase()}">${p.value}</span>
+                                    </div>
                                 </div>
-                                <div class="domain-meta">
-                                    <span class="platform-badge">${domain.platform.toUpperCase()}</span>
-                                    <span class="value-badge ${domain.value}">${domain.value.replace('-', ' ').toUpperCase()}</span>
-                                    <span>📊 ${domain.metrics.uptime}% uptime</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="domain-preview">
-                            <iframe class="domain-iframe" src="${domain.url}" loading="lazy" sandbox="allow-same-origin allow-scripts"></iframe>
-                            <div class="preview-overlay">
-                                <a href="${domain.url}" target="_blank" class="preview-btn visit">🔗 Visit</a>
-                                <button class="preview-btn manage" onclick="window.manageDomain('${domain.domain}')">⚙️ Manage</button>
-                                <button class="preview-btn deploy" onclick="window.deployDomain('${domain.domain}')">🚀 Deploy</button>
-                            </div>
-                        </div>
-                        <div class="domain-footer">
-                            <div class="domain-tags">
-                                <span class="domain-tag">${domain.industry}</span>
-                                <span class="domain-tag">${domain.category}</span>
                             </div>
                             <div class="domain-actions">
-                                <button class="quick-action" title="Analytics" onclick="window.showAnalytics('${domain.domain}')">📊</button>
-                                <button class="quick-action" title="Settings" onclick="window.showSettings('${domain.domain}')">⚙️</button>
-                                <button class="quick-action" title="Health Check" onclick="window.healthCheck('${domain.domain}')">🩺</button>
+                                <button class="action-btn">View Deploys</button>
+                                <button class="action-btn primary">Trigger Deploy</button>
                             </div>
                         </div>
-                    </div>
-                `;
+                    `;
+                });
             }
 
-            attachDomainCardListeners() {
-                document.querySelectorAll('.domain-checkbox').forEach(checkbox => {
-                    checkbox.addEventListener('change', (e) => {
-                        const domain = e.target.dataset.domain;
-                        const card = e.target.closest('.domain-card');
-                        
-                        if (e.target.checked) {
-                            this.data.selectedDomains.add(domain);
-                            card.classList.add('selected');
-                        } else {
-                            this.data.selectedDomains.delete(domain);
-                            card.classList.remove('selected');
+            function renderDomainsGrid() {
+                const grid = document.getElementById('domains-grid-main');
+                grid.innerHTML = '';
+                allDomains.forEach(d => {
+                    grid.innerHTML += `
+                        <div class="domain-card" data-platform="${d.platform.toLowerCase()}" data-status="${d.status}">
+                            <div class="domain-header">
+                                <div class="domain-info">
+                                    <p class="domain-name">
+                                        <span class="status-dot ${d.status}"></span>
+                                        ${d.name}
+                                    </p>
+                                    <div class="domain-meta">
+                                        <span class="platform-badge">${d.platform}</span>
+                                        <span class="value-badge value-badge-${d.value.replace(' ','-').toLowerCase()}">${d.value}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="domain-preview">
+                                <p style="text-align:center; padding-top: 60px; color: #94A3B8;">Preview for ${d.name}</p>
+                            </div>
+                            <div class="domain-actions">
+                                <button class="action-btn">Manage</button>
+                                <a href="http://${d.name}" target="_blank" class="action-btn primary">Visit</a>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const viewId = item.getAttribute('data-view');
+
+                    navItems.forEach(i => i.classList.remove('active'));
+                    item.classList.add('active');
+
+                    views.forEach(v => v.classList.remove('active'));
+                    document.getElementById(viewId).classList.add('active');
+
+                    viewTitle.textContent = item.querySelector('span:last-child').textContent;
+                    viewSubtitle.textContent = `Manage your ${viewTitle.textContent.toLowerCase()}.`;
+                });
+            });
+
+            const filters = document.querySelectorAll('.filter-chip');
+            filters.forEach(filter => {
+                filter.addEventListener('click', () => {
+                    filters.forEach(f => f.classList.remove('active'));
+                    filter.classList.add('active');
+                    const filterValue = filter.dataset.filter;
+                    const domainCards = document.querySelectorAll('#domains-grid-main .domain-card');
+                    domainCards.forEach(card => {
+                        const platform = card.dataset.platform;
+                        const status = card.dataset.status;
+                        if (filterValue === 'all') {
+                            card.style.display = 'block';
+                        } else if (filterValue === 'monorepo' || filterValue === 'netlify') {
+                            if (platform === filterValue) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
+                        } else { // status filter
+                            if (status === filterValue) {
+                                card.style.display = 'block';
+                            } else {
+                                card.style.display = 'none';
+                            }
                         }
-                        
-                        this.updateBulkActionsBar();
                     });
                 });
+            });
+
+            function updateStats(counts) {
+                if (!counts) return;
+                const total = document.getElementById('total-domains-stat');
+                const live = document.getElementById('live-sites-stat');
+                const mono = document.getElementById('monorepo-domains-stat');
+                const net = document.getElementById('netlify-domains-stat');
+                if (total) total.textContent = counts.total;
+                if (live) live.textContent = counts.live;
+                if (mono) mono.textContent = counts.monorepo;
+                if (net) net.textContent = counts.netlify;
             }
 
-            updateBulkActionsBar() {
-                const bar = document.getElementById('bulkActionsBar');
-                const count = document.getElementById('selectedCount');
-                
-                if (this.data.selectedDomains.size > 0) {
-                    bar.style.display = 'flex';
-                    count.textContent = this.data.selectedDomains.size;
-                } else {
-                    bar.style.display = 'none';
-                }
+            // Start loading data
+            loadDomains();
+        });
+
+        // API Call Functions (mocked for now)
+        function generateAIPost() {
+            const domain = document.getElementById('ai-target-domain').value;
+            const topic = document.getElementById('blog-topic').value;
+            const tone = document.getElementById('ai-tone').value;
+            if (!domain || !topic) {
+                alert('Please select a domain and enter a topic.');
+                return;
             }
-
-            updateMetrics() {
-                const total = this.data.allDomains.length;
-                const live = this.data.allDomains.filter(d => d.status === 'live').length;
-                const issues = this.data.allDomains.filter(d => d.status === 'down').length;
-
-                document.getElementById('totalDomains').textContent = total + '+';
-                document.getElementById('liveDomains').textContent = live;
-                document.getElementById('issuesDomains').textContent = issues;
-                
-                // Update sidebar stats
-                document.getElementById('totalDomainsCount').textContent = total + '+';
-                document.getElementById('liveDomainsCount').textContent = live;
-                document.getElementById('healthyPercentage').textContent = Math.round((live / total) * 100) + '%';
-            }
-
-            renderAnalytics() {
-                // Category breakdown
-                const categories = {};
-                this.data.allDomains.forEach(domain => {
-                    categories[domain.category] = (categories[domain.category] || 0) + 1;
-                });
-
-                let categoryHTML = '';
-                Object.entries(categories).forEach(([category, count]) => {
-                    categoryHTML += `
-                        <div class="category-item">
-                            <div class="category-count">${count}</div>
-                            <div class="category-label">${category.toUpperCase()}</div>
-                        </div>
-                    `;
-                });
-                
-                const categoryContainer = document.getElementById('categoryBreakdown');
-                if (categoryContainer) {
-                    categoryContainer.innerHTML = categoryHTML;
-                }
-
-                // Platform breakdown
-                const platforms = {};
-                this.data.allDomains.forEach(domain => {
-                    platforms[domain.platform] = (platforms[domain.platform] || 0) + 1;
-                });
-
-                let platformHTML = '';
-                Object.entries(platforms).forEach(([platform, count]) => {
-                    platformHTML += `
-                        <div class="category-item">
-                            <div class="category-count">${count}</div>
-                            <div class="category-label">${platform.toUpperCase()}</div>
-                        </div>
-                    `;
-                });
-
-                const platformContainer = document.getElementById('platformBreakdown');
-                if (platformContainer) {
-                    platformContainer.innerHTML = platformHTML;
-                }
-            }
-
-            showLoadingState() {
-                const container = document.getElementById('domainsGrid');
-                if (container) {
-                    container.innerHTML = `
-                        <div class="loading-overlay">
-                            <div class="loading-spinner"></div>
-                            <div class="loading-text">Loading domain portfolio...</div>
-                        </div>
-                    `;
-                }
-            }
-
-            async loadViewData(viewName) {
-                switch (viewName) {
-                    case 'domains':
-                        if (this.data.allDomains.length === 0) {
-                            await this.loadInitialData();
-                        }
-                        break;
-                    case 'analytics':
-                        this.renderAnalytics();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            showModal(title, content) {
-                document.getElementById('modalTitle').textContent = title;
-                document.getElementById('modalContent').innerHTML = content;
-                document.getElementById('modalOverlay').style.display = 'flex';
-            }
-
-            hideModal() {
-                document.getElementById('modalOverlay').style.display = 'none';
-            }
-
-            showAlert(type, message) {
-                // Simple alert for now - could be enhanced with toast notifications
-                alert(`${type.toUpperCase()}: ${message}`);
-            }
-
-            async refreshData() {
-                await this.loadInitialData();
-                this.renderDashboard();
-                this.showAlert('success', 'Data refreshed successfully');
-            }
-
-            async runHealthCheck() {
-                this.showAlert('info', 'Running health check on all domains...');
-                // Implementation would check each domain's status
-                setTimeout(() => {
-                    this.showAlert('success', 'Health check completed. 94% of domains are healthy.');
-                }, 2000);
-            }
-
-            showBulkDeployModal() {
-                this.showModal('Bulk Deploy Domains', `
-                    <p>Deploy multiple domains to different platforms:</p>
-                    <br>
-                    <div style="text-align: left;">
-                        <label><input type="radio" name="platform" value="cloudflare"> Cloudflare Pages</label><br>
-                        <label><input type="radio" name="platform" value="netlify"> Netlify</label><br>
-                        <label><input type="radio" name="platform" value="vercel"> Vercel</label><br>
-                    </div>
-                    <br>
-                    <textarea placeholder="Enter domains (one per line)..." style="width: 100%; height: 120px; background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(96, 165, 250, 0.3); color: white; padding: 10px; border-radius: 8px;"></textarea>
-                `);
-            }
-
-            showAddDomainModal() {
-                this.showModal('Add New Domain', `
-                    <div style="text-align: left;">
-                        <p><strong>Domain Name:</strong></p>
-                        <input type="text" placeholder="example.com" style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(96, 165, 250, 0.3); color: white; border-radius: 8px;">
-                        
-                        <p><strong>Platform:</strong></p>
-                        <select style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(96, 165, 250, 0.3); color: white; border-radius: 8px;">
-                            <option>Cloudflare Pages</option>
-                            <option>Netlify</option>
-                            <option>Vercel</option>
-                        </select>
-                        
-                        <p><strong>Category:</strong></p>
-                        <select style="width: 100%; padding: 10px; margin: 10px 0; background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(96, 165, 250, 0.3); color: white; border-radius: 8px;">
-                            <option>AI</option>
-                            <option>Crypto</option>
-                            <option>Fintech</option>
-                            <option>Education</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
-                `);
-            }
-
-            bulkHealthCheck() {
-                const selected = Array.from(this.data.selectedDomains);
-                this.showAlert('info', `Running health check on ${selected.length} selected domains...`);
-                
-                setTimeout(() => {
-                    this.showAlert('success', `Health check completed on ${selected.length} domains.`);
-                }, 2000);
-            }
-
-            bulkDeploy() {
-                const selected = Array.from(this.data.selectedDomains);
-                this.showAlert('info', `Initiating deployment for ${selected.length} selected domains...`);
-            }
-
-            bulkExport() {
-                const selected = Array.from(this.data.selectedDomains);
-                const selectedDomains = this.data.allDomains.filter(d => selected.includes(d.domain));
-                
-                const csv = this.exportToCSV(selectedDomains);
-                this.downloadFile(csv, 'domains-export.csv', 'text/csv');
-            }
-
-            exportToCSV(domains) {
-                const headers = ['Domain', 'Status', 'Platform', 'Industry', 'Value', 'URL'];
-                const rows = domains.map(d => [d.domain, d.status, d.platform, d.industry, d.value, d.url]);
-                
-                return [headers, ...rows].map(row => row.join(',')).join('\n');
-            }
-
-            downloadFile(content, filename, type) {
-                const blob = new Blob([content], { type });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-
-            handleSearch(query) {
-                if (!query) {
-                    this.data.filteredDomains = [...this.data.allDomains];
-                } else {
-                    this.data.filteredDomains = this.data.allDomains.filter(domain => 
-                        domain.domain.toLowerCase().includes(query.toLowerCase()) ||
-                        domain.industry.toLowerCase().includes(query.toLowerCase()) ||
-                        domain.category.toLowerCase().includes(query.toLowerCase())
-                    );
-                }
-                
-                this.renderDomains();
-            }
+            alert(`Generating AI post for ${domain} on topic "${topic}" with a ${tone} tone.`);
+            // In a real app, this would be:
+            // fetch('/api/blog/generate-ai-post', { method: 'POST', body: JSON.stringify({ domain, topic, tone }) })
         }
 
-        // Global functions for domain actions
-        window.manageDomain = function(domain) {
-            window.dashboard.showAlert('info', `Managing ${domain}...`);
-        };
+        function bulkGenerateContent() {
+            const topics = document.getElementById('bulk-topics').value;
+            if (!topics) {
+                alert('Please enter topics for bulk generation.');
+                return;
+            }
+            alert(`Starting bulk generation for ${topics.split('\n').length} posts.`);
+        }
 
-        window.deployDomain = function(domain) {
-            window.dashboard.showAlert('info', `Deploying ${domain}...`);
-        };
-
-        window.showAnalytics = function(domain) {
-            window.dashboard.showAlert('info', `Loading analytics for ${domain}...`);
-        };
-
-        window.showSettings = function(domain) {
-            window.dashboard.showAlert('info', `Opening settings for ${domain}...`);
-        };
-
-        window.healthCheck = function(domain) {
-            window.dashboard.showAlert('info', `Running health check on ${domain}...`);
-        };
-
-        // Initialize dashboard when DOM is ready
-        document.addEventListener('DOMContentLoaded', () => {
-            window.dashboard = new SuperUnifiedDashboard();
-        });
+        function deployNewBlog() {
+            const domain = document.getElementById('deploy-target-domain').value;
+            const path = document.getElementById('blog-path').value;
+            if (!domain) {
+                alert('Please select a domain to deploy the blog to.');
+                return;
+            }
+            alert(`Deploying new blog to ${domain} at path "${path}".`);
+        }
     </script>
 </body>
 </html>
