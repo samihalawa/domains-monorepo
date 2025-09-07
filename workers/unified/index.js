@@ -1041,9 +1041,684 @@ async function getDomainAnalysis(env) {
   };
 }
 
-// Serve the Super Unified Dashboard
+// Serve the Premium Blog Management Dashboard
 function serveSuperDashboard() {
   const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Empire - Professional Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons@latest/icons-sprite.svg">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; 
+            background: #0a0a0b;
+            color: #ffffff;
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #1a1a1b; }
+        ::-webkit-scrollbar-thumb { background: #404040; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #505050; }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        /* Gradients */
+        .gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .gradient-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .gradient-warning {
+            background: linear-gradient(135deg, #ff9500 0%, #ff5722 100%);
+        }
+
+        .gradient-danger {
+            background: linear-gradient(135deg, #ff416c 0%, #ff4b2b 100%);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in {
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-100%); }
+            to { transform: translateX(0); }
+        }
+
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102, 126, 234, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(102, 126, 234, 0.6); }
+        }
+
+        /* Hover effects */
+        .hover-lift {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .hover-lift:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Status indicators */
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+        }
+
+        .status-online { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.6); }
+        .status-offline { background: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.6); }
+        .status-warning { background: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.6); }
+
+        /* Table styles */
+        .table-hover tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Modal backdrop */
+        .modal-backdrop {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+        }
+
+        /* Loading skeleton */
+        .skeleton {
+            background: linear-gradient(90deg, #1a1a1b 25%, #2a2a2b 50%, #1a1a1b 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite;
+        }
+
+        @keyframes skeleton-loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Mobile responsive fixes */
+        @media (max-width: 768px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { margin-left: 0; }
+        }
+
+        /* Custom buttons */
+        .btn {
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Charts */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-white overflow-x-hidden">
+    <div x-data="blogDashboard()" class="flex min-h-screen">
+        <!-- Sidebar -->
+        <aside class="sidebar glass-strong w-72 min-h-screen fixed left-0 top-0 z-40 slide-in" 
+               :class="{ 'open': sidebarOpen }"
+               x-show="sidebarOpen || $window.innerWidth > 768">
+            
+            <!-- Logo -->
+            <div class="p-6 border-b border-gray-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 gradient-primary rounded-xl flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16l4-4 4 4m-4-8a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg text-white">Blog Empire</h1>
+                        <p class="text-xs text-gray-400">Content Management</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="p-6 space-y-2">
+                <template x-for="item in navigation" :key="item.id">
+                    <button @click="setActiveView(item.id)" 
+                            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200"
+                            :class="activeView === item.id ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'">
+                        <span x-html="item.icon" class="w-5 h-5"></span>
+                        <span x-text="item.name" class="font-medium"></span>
+                        <span x-show="item.badge" 
+                              x-text="item.badge" 
+                              class="ml-auto px-2 py-1 text-xs gradient-primary rounded-full text-white"></span>
+                    </button>
+                </template>
+            </nav>
+
+            <!-- Quick Stats -->
+            <div class="mx-6 mb-6 glass rounded-xl p-4">
+                <h3 class="font-semibold text-sm mb-3 text-gray-300">Quick Stats</h3>
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Total Posts</span>
+                        <span class="font-bold text-white" x-text="stats.totalPosts">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Active Domains</span>
+                        <span class="font-bold text-green-400" x-text="stats.activeDomains">0</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">This Month</span>
+                        <span class="font-bold text-blue-400" x-text="stats.thisMonth">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Profile -->
+            <div class="absolute bottom-0 left-0 right-0 p-6 border-t border-gray-800">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 gradient-primary rounded-full flex items-center justify-center">
+                        <span class="font-bold text-white text-sm">SH</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="font-medium text-white text-sm">Sami Halawa</p>
+                        <p class="text-xs text-gray-400">Content Manager</p>
+                    </div>
+                    <button class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content flex-1 ml-72">
+            <!-- Top Bar -->
+            <header class="glass-strong border-b border-gray-800 sticky top-0 z-30">
+                <div class="flex items-center justify-between p-6">
+                    <div class="flex items-center gap-4">
+                        <button @click="sidebarOpen = !sidebarOpen" 
+                                class="md:hidden p-2 hover:bg-white/5 rounded-lg transition-colors">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                            </svg>
+                        </button>
+                        <div>
+                            <h2 class="text-2xl font-bold text-white" x-text="getViewTitle()">Dashboard</h2>
+                            <p class="text-sm text-gray-400" x-text="getViewDescription()">Overview of your blog empire</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <!-- Search -->
+                        <div class="relative hidden md:block">
+                            <input type="text" 
+                                   x-model="searchQuery"
+                                   placeholder="Search posts, domains..."
+                                   class="w-80 px-4 py-2 pl-10 glass rounded-lg border border-gray-700 focus:border-blue-500 focus:outline-none transition-colors">
+                            <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+
+                        <!-- Notifications -->
+                        <button class="relative p-3 hover:bg-white/5 rounded-lg transition-colors">
+                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-5-5-5 5h5zM15 17v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4"></path>
+                            </svg>
+                            <span class="absolute -top-1 -right-1 w-3 h-3 gradient-danger rounded-full"></span>
+                        </button>
+
+                        <!-- New Post Button -->
+                        <button @click="openModal('newPost')" class="btn btn-primary">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                            </svg>
+                            New Post
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="p-6 space-y-6">
+                <!-- Dashboard View -->
+                <div x-show="activeView === 'dashboard'" x-transition class="space-y-6">
+                    <!-- Overview Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="glass rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16l4-4 4 4m-4-8a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Total Posts</p>
+                                    <p class="text-2xl font-bold text-white" x-text="stats.totalPosts">0</p>
+                                    <p class="text-xs text-green-400">+12% this month</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 gradient-success rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Active Domains</p>
+                                    <p class="text-2xl font-bold text-white" x-text="stats.activeDomains">0</p>
+                                    <p class="text-xs text-green-400">All operational</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 gradient-warning rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Monthly Views</p>
+                                    <p class="text-2xl font-bold text-white" x-text="stats.monthlyViews.toLocaleString()">0</p>
+                                    <p class="text-xs text-green-400">+8% growth</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="glass rounded-xl p-6 hover-lift">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 gradient-danger rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-400">Engagement</p>
+                                    <p class="text-2xl font-bold text-white" x-text="stats.engagement + '%'">0%</p>
+                                    <p class="text-xs text-red-400">-2% from last week</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Charts Row -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div class="chart-container">
+                            <h3 class="text-lg font-semibold text-white mb-4">Traffic Overview</h3>
+                            <canvas id="trafficChart" class="w-full h-64"></canvas>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <h3 class="text-lg font-semibold text-white mb-4">Top Performing Domains</h3>
+                            <canvas id="domainsChart" class="w-full h-64"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="glass rounded-xl p-6">
+                        <h3 class="text-xl font-bold text-white mb-6">Recent Activity</h3>
+                        <div class="space-y-4">
+                            <template x-for="activity in recentActivity" :key="activity.id">
+                                <div class="flex items-center gap-4 p-4 glass rounded-lg">
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                                         :class="activity.type === 'post' ? 'bg-blue-500' : activity.type === 'domain' ? 'bg-green-500' : 'bg-yellow-500'">
+                                        <span class="text-white text-sm" x-text="activity.icon"></span>
+                                    </div>
+                                    <div class="flex-1">
+                                        <p class="text-white font-medium" x-text="activity.title"></p>
+                                        <p class="text-gray-400 text-sm" x-text="activity.description"></p>
+                                    </div>
+                                    <span class="text-gray-500 text-sm" x-text="activity.time"></span>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- API Integration Notice -->
+                <div x-show="activeView !== 'dashboard'" x-transition class="space-y-6">
+                    <div class="glass rounded-xl p-8 text-center">
+                        <div class="w-16 h-16 gradient-primary rounded-full mx-auto mb-4 flex items-center justify-center">
+                            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-2">API Integration Required</h3>
+                        <p class="text-gray-400 mb-4">Connect your Airtable and blog APIs to access full functionality</p>
+                        <div class="flex justify-center gap-4">
+                            <button class="btn btn-primary">Configure APIs</button>
+                            <button class="btn btn-secondary">View Documentation</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div x-show="notification.show"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform translate-y-2"
+             x-transition:enter-end="opacity-100 transform translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform translate-y-0"
+             x-transition:leave-end="opacity-0 transform translate-y-2"
+             class="fixed bottom-6 right-6 z-50">
+            
+            <div class="glass-strong rounded-xl p-4 border-l-4"
+                 :class="notification.type === 'success' ? 'border-green-500' : notification.type === 'error' ? 'border-red-500' : 'border-blue-500'">
+                <div class="flex items-center gap-3">
+                    <div class="w-6 h-6 rounded-full flex items-center justify-center"
+                         :class="notification.type === 'success' ? 'bg-green-500' : notification.type === 'error' ? 'bg-red-500' : 'bg-blue-500'">
+                        <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path x-show="notification.type === 'success'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            <path x-show="notification.type === 'error'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            <path x-show="notification.type === 'info'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p class="font-medium text-white" x-text="notification.title"></p>
+                        <p class="text-sm text-gray-400" x-text="notification.message"></p>
+                    </div>
+                    <button @click="notification.show = false" class="ml-4 p-1 hover:bg-white/5 rounded">
+                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function blogDashboard() {
+            return {
+                // State
+                sidebarOpen: window.innerWidth > 768,
+                activeView: 'dashboard',
+                activeModal: null,
+                searchQuery: '',
+                loading: false,
+
+                // Navigation
+                navigation: [
+                    { id: 'dashboard', name: 'Dashboard', icon: '📊', badge: null },
+                    { id: 'posts', name: 'Posts', icon: '📝', badge: 142 },
+                    { id: 'domains', name: 'Domains', icon: '🌐', badge: 18 },
+                    { id: 'analytics', name: 'Analytics', icon: '📈', badge: null },
+                    { id: 'settings', name: 'Settings', icon: '⚙️', badge: null }
+                ],
+
+                // Data
+                stats: {
+                    totalPosts: 142,
+                    activeDomains: 18,
+                    monthlyViews: 45678,
+                    thisMonth: 12,
+                    engagement: 67
+                },
+
+                recentActivity: [
+                    {
+                        id: 1,
+                        type: 'post',
+                        icon: '📝',
+                        title: 'New post published',
+                        description: 'AI Content Creation on gptmundo.com',
+                        time: '2 minutes ago'
+                    },
+                    {
+                        id: 2,
+                        type: 'domain',
+                        icon: '🌐',
+                        title: 'Domain updated',
+                        description: 'SSL certificate renewed for gptcoins.com',
+                        time: '1 hour ago'
+                    },
+                    {
+                        id: 3,
+                        type: 'analytics',
+                        icon: '📊',
+                        title: 'Traffic milestone',
+                        description: '50K monthly views achieved',
+                        time: '3 hours ago'
+                    }
+                ],
+
+                notification: {
+                    show: false,
+                    type: 'success',
+                    title: '',
+                    message: ''
+                },
+
+                // Methods
+                init() {
+                    this.loadData();
+                    this.initCharts();
+                    
+                    // Handle window resize
+                    window.addEventListener('resize', () => {
+                        this.sidebarOpen = window.innerWidth > 768;
+                    });
+                    
+                    // Show welcome notification
+                    this.showNotification('info', 'Welcome', 'Blog Empire dashboard loaded successfully');
+                },
+
+                async loadData() {
+                    this.loading = true;
+                    try {
+                        // Load data from APIs
+                        const [blogData, domainData] = await Promise.allSettled([
+                            fetch('/api/blog/blogs').then(r => r.ok ? r.json() : null).catch(() => null),
+                            fetch('/api/dashboard/super-dashboard').then(r => r.ok ? r.json() : null).catch(() => null)
+                        ]);
+                        
+                        if (blogData.value) {
+                            // Update stats with real data
+                            this.stats.totalPosts = blogData.value.totalPosts || this.stats.totalPosts;
+                        }
+                        
+                        if (domainData.value) {
+                            this.stats.activeDomains = domainData.value.activeDomains || this.stats.activeDomains;
+                        }
+                    } catch (error) {
+                        console.log('Using mock data - API not available');
+                    } finally {
+                        this.loading = false;
+                    }
+                },
+
+                setActiveView(view) {
+                    this.activeView = view;
+                    if (window.innerWidth <= 768) {
+                        this.sidebarOpen = false;
+                    }
+                },
+
+                getViewTitle() {
+                    const titles = {
+                        dashboard: 'Dashboard',
+                        posts: 'Posts Management',
+                        domains: 'Domain Overview',
+                        analytics: 'Analytics & Insights',
+                        settings: 'Settings'
+                    };
+                    return titles[this.activeView] || 'Dashboard';
+                },
+
+                getViewDescription() {
+                    const descriptions = {
+                        dashboard: 'Overview of your blog empire',
+                        posts: 'Create and manage your content',
+                        domains: 'Monitor all your domains',
+                        analytics: 'Performance metrics and insights',
+                        settings: 'Configure your dashboard'
+                    };
+                    return descriptions[this.activeView] || 'Overview of your blog empire';
+                },
+
+                openModal(type) {
+                    this.activeModal = type;
+                },
+
+                showNotification(type, title, message) {
+                    this.notification = {
+                        show: true,
+                        type,
+                        title,
+                        message
+                    };
+                    
+                    setTimeout(() => {
+                        this.notification.show = false;
+                    }, 5000);
+                },
+
+                initCharts() {
+                    this.$nextTick(() => {
+                        // Traffic Chart
+                        const trafficCtx = document.getElementById('trafficChart');
+                        if (trafficCtx && typeof Chart !== 'undefined') {
+                            new Chart(trafficCtx, {
+                                type: 'line',
+                                data: {
+                                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                                    datasets: [{
+                                        label: 'Page Views',
+                                        data: [12000, 19000, 15000, 25000, 30000, 45000],
+                                        borderColor: 'rgb(102, 126, 234)',
+                                        backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                                        tension: 0.4,
+                                        fill: true
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    scales: {
+                                        y: { 
+                                            grid: { color: '#374151' },
+                                            ticks: { color: '#9ca3af' }
+                                        },
+                                        x: { 
+                                            grid: { color: '#374151' },
+                                            ticks: { color: '#9ca3af' }
+                                        }
+                                    },
+                                    plugins: {
+                                        legend: { labels: { color: '#ffffff' } }
+                                    }
+                                }
+                            });
+                        }
+
+                        // Domains Chart
+                        const domainsCtx = document.getElementById('domainsChart');
+                        if (domainsCtx && typeof Chart !== 'undefined') {
+                            new Chart(domainsCtx, {
+                                type: 'doughnut',
+                                data: {
+                                    labels: ['gptmundo.com', 'gptcoins.com', 'empleados.ai', 'Others'],
+                                    datasets: [{
+                                        data: [35, 25, 20, 20],
+                                        backgroundColor: [
+                                            'rgb(102, 126, 234)',
+                                            'rgb(16, 185, 129)',
+                                            'rgb(245, 158, 11)',
+                                            'rgb(107, 114, 128)'
+                                        ]
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    plugins: {
+                                        legend: { labels: { color: '#ffffff' } }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            };
+        }
+    </script>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
