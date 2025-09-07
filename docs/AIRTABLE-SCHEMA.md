@@ -5,6 +5,18 @@
 - **Base Name**: "Multidomain Management"
 - **Auth**: Use worker secrets (AIRTABLE_TOKEN, AIRTABLE_BASE) — do not commit tokens.
 
+## Automation Fields Added
+- **Topic Brief**: Brief description for AI content generation
+- **Target Word Count**: Desired article length
+- **Content Style**: Professional/Conversational/Technical/Educational
+
+## Airtable AI Setup
+Use Airtable's native AI features for content generation:
+1. Create AI fields referencing Topic Brief, Blog Name, Category
+2. Set up Automations triggered by Status = "Draft"
+3. Generate Title, Content, Excerpt via AI prompts
+4. Auto-publish when content is complete
+
 ## Schema Analysis
 
 ### Tables Found
