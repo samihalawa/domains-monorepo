@@ -3,15 +3,14 @@ name = "unified-domains-worker"
 main = "index.js"
 compatibility_date = "2024-01-01"
 
-# Environment Variables
 [env.production.vars]
 WORKER_DOMAIN = "unified-domains-worker.samihalawa.workers.dev"
 NETLIFY_TOKEN = "8e4f4f3e-2dcb-4b1c-8f7a-5f3e5e8c9b6a"
 CLOUDFLARE_API_TOKEN = "SvIY8ZHwMbo8X4LZNbC7cr0GD20MDsy3UkyPtOrw"
 
-# Secrets (use wrangler secret put to set these)
-# AIRTABLE_TOKEN = "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622"
-# AIRTABLE_BASE = "appLattdbxMhK4I0y"
+[env.production.secrets]
+AIRTABLE_TOKEN = "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622"
+AIRTABLE_BASE = "appLattdbxMhK4I0y"
 
 # Routes for all domains - commented out for initial deployment
 # Add route bindings later via Cloudflare dashboard or proper zone management

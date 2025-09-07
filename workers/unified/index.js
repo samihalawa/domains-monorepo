@@ -1,11 +1,3 @@
-/**
- * Unified Domains Worker (clean)
- * - Dashboard API (dynamic: Monorepo + Netlify + Cloudflare)
- * - Router API
- * - Minimal Blog API (Airtable-backed)
- * - CORS proxy and DNS stubs
- */
-
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
