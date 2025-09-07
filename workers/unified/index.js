@@ -171,46 +171,99 @@ export default {
   }
 };
 
-// Build domains dynamically: from router map (monorepo) and Netlify API
+// Simple JSON cache using caches.default
+async function getCachedJSON(key, fetcher, ttlSeconds = 60) {
+  try {
+    const cache = caches.default;
+    const req = new Request(`https://cache.local/${encodeURIComponent(key)}`);
+    const cached = await cache.match(req);
+    if (cached) {
+      return await cached.json();
+    }
+    const data = await fetcher();
+    const resp = new Response(JSON.stringify(data), {
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': `max-age=${ttlSeconds}`
+      }
+    });
+    await cache.put(req, resp.clone());
+    return data;
+  } catch (_) {
+    return await fetcher();
+  }
+}
+
+// Build domains dynamically: from Cloudflare Zones, router map (monorepo), and Netlify API
 async function buildDomainsResponse(env) {
   const byDomain = new Map();
 
-  // 1) Monorepo from router map
-  const routerMap = getDomainMap();
-  const seen = new Set();
-  for (const host of Object.keys(routerMap)) {
-    const apex = host.replace(/^www\./, '');
-    if (seen.has(apex)) continue;
-    seen.add(apex);
-    byDomain.set(apex, {
-      name: apex,
-      platform: 'Monorepo',
-      status: 'pending',
-      url: `https://${apex}`,
-      value: 'medium'
-    });
+  // 1) Cloudflare Zones (optional; seed without overriding later sources)
+  try {
+    const cfToken = env.CLOUDFLARE_API_TOKEN || env.CLOUDFLARE_TOKEN;
+    if (cfToken) {
+      const zones = await getCachedJSON('cloudflare-zones', () => fetchCloudflareZones(cfToken), 120);
+      for (const z of zones) {
+        const name = (z.name || '').replace(/^www\./, '');
+        if (!name) continue;
+        if (!byDomain.has(name)) {
+          byDomain.set(name, {
+            name,
+            platform: 'Cloudflare',
+            status: 'pending',
+            url: `https://${name}`,
+            value: 'medium'
+          });
+        }
+      }
+    }
+  } catch (_) {
+    // ignore
   }
 
-  // 2) Netlify sites (if token provided)
+  // 2) Monorepo from router map
+  try {
+    const routerMap = getDomainMap();
+    const seen = new Set();
+    for (const host of Object.keys(routerMap)) {
+      const apex = host.replace(/^www\./, '');
+      if (seen.has(apex)) continue;
+      seen.add(apex);
+      const prev = byDomain.get(apex);
+      byDomain.set(apex, {
+        ...(prev || {}),
+        name: apex,
+        platform: 'Monorepo',
+        status: prev?.status || 'pending',
+        url: prev?.url || `https://${apex}`,
+        value: prev?.value || 'medium'
+      });
+    }
+  } catch (_) {
+    // ignore
+  }
+
+  // 3) Netlify sites (if token provided) — overrides others
   try {
     const netlifyToken = env.NETLIFY_TOKEN || env.NETLIFY_API_TOKEN;
     if (netlifyToken) {
-      const sites = await fetchNetlifySites(netlifyToken);
+      const sites = await getCachedJSON('netlify-sites', () => fetchNetlifySites(netlifyToken), 60);
       for (const s of sites) {
-        const name = (s.custom_domain || (s.ssl_url ? new URL(s.ssl_url).hostname : null) || (s.url ? new URL(s.url).hostname : null) || s.name).replace(/^www\./, '');
+        const hostname = (s.custom_domain || (s.ssl_url ? new URL(s.ssl_url).hostname : null) || (s.url ? new URL(s.url).hostname : null) || s.name || '').replace(/^www\./, '');
+        if (!hostname) continue;
         const live = !!(s.published_deploy && s.published_deploy.state === 'ready');
         const status = live ? 'live' : (s.state === 'current' ? 'live' : (s.state === 'error' ? 'down' : 'pending'));
-        byDomain.set(name, {
-          name,
+        byDomain.set(hostname, {
+          name: hostname,
           platform: 'Netlify',
           status,
-          url: s.url || s.ssl_url || `https://${name}`,
+          url: s.url || s.ssl_url || `https://${hostname}`,
           value: 'high'
         });
       }
     }
-  } catch (e) {
-    // Fail soft; still return monorepo
+  } catch (_) {
+    // ignore
   }
 
   // 3) Optional lightweight health check (skip to keep fast)
@@ -219,6 +272,7 @@ async function buildDomainsResponse(env) {
     total: domains.length,
     monorepo: domains.filter(d => d.platform === 'Monorepo').length,
     netlify: domains.filter(d => d.platform === 'Netlify').length,
+    cloudflare: domains.filter(d => d.platform === 'Cloudflare').length,
     live: domains.filter(d => d.status === 'live').length,
     down: domains.filter(d => d.status === 'down').length,
     pending: domains.filter(d => d.status === 'pending').length,
@@ -232,6 +286,30 @@ async function fetchNetlifySites(token) {
   });
   if (!res.ok) return [];
   return res.json();
+}
+
+async function fetchCloudflareZones(token) {
+  const out = [];
+  let page = 1;
+  const perPage = 50;
+  for (;;) {
+    const url = `https://api.cloudflare.com/client/v4/zones?per_page=${perPage}&page=${page}`;
+    const res = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!res.ok) break;
+    const json = await res.json();
+    if (!json || !json.result) break;
+    out.push(...json.result);
+    const info = json.result_info || {};
+    const totalPages = info.total_pages || 1;
+    if (page >= totalPages) break;
+    page += 1;
+  }
+  return out;
 }
 
 // Blog API Handler

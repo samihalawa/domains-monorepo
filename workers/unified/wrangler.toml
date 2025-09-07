@@ -8,6 +8,11 @@ compatibility_date = "2024-01-01"
 WORKER_DOMAIN = "unified-domains-worker.samihalawa.workers.dev"
 # Optional: set to enable Netlify integration in /api/dashboard/domains
 # NETLIFY_TOKEN = "${NETLIFY_TOKEN}"
+# Optional: set to enable Cloudflare Zones enrichment
+# CLOUDFLARE_API_TOKEN = "${CLOUDFLARE_API_TOKEN}"
+
+# Notes:
+# - The worker caches Cloudflare zones for ~120s and Netlify sites for ~60s via caches.default.
 
 # Secrets (use wrangler secret put to set these)
 # AIRTABLE_TOKEN = "..."
