@@ -1109,6 +1109,21 @@ Top 5 AI Tools for Developers..."></textarea>
 
             <div id="blog-deploy-view" class="view-content">
                 <div class="form-container">
+                    <h3><span class="icon">📝</span> Blog Posts</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="blog-domain-select">Blog Domain</label>
+                            <select id="blog-domain-select">
+                                <option value="">Select domain…</option>
+                            </select>
+                            <div id="blog-status" style="margin-top:6px; color:#94A3B8; font-size:0.85rem;">Loading…</div>
+                        </div>
+                    </div>
+                    <div id="blog-posts-list" class="domains-grid" style="grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); margin-top: 10px;">
+                        <!-- Posts injected here -->
+                    </div>
+                </div>
+                <div class="form-container" style="margin-top:20px;">
                     <h3><span class="icon">🚀</span> Deploy New Blog</h3>
                     <div class="form-grid">
                         <div class="form-group">
@@ -1203,6 +1218,8 @@ Top 5 AI Tools for Developers..."></textarea>
     </div>
 
     <script>
+        // You can override API base by setting window.API_BASE before this script runs
+        const API_BASE = (window.API_BASE || 'https://unified-domains-worker-production.trigox.workers.dev');
         document.addEventListener('DOMContentLoaded', () => {
             const navItems = document.querySelectorAll('.nav-item');
             const views = document.querySelectorAll('.view-content');
@@ -1215,7 +1232,7 @@ Top 5 AI Tools for Developers..."></textarea>
             let unusedDomains = [];
             async function loadDomains() {
                 try {
-                    const res = await fetch('https://unified-domains-worker-production.trigox.workers.dev/api/dashboard/domains');
+                    const res = await fetch(`${API_BASE}/api/dashboard/domains`);
                     const data = await res.json();
                     if (data && data.success) {
                         allDomains = (data.domains || []).map(d => ({
@@ -1241,7 +1258,7 @@ Top 5 AI Tools for Developers..."></textarea>
                 const container = document.getElementById('netlify-content');
                 container.innerHTML = '<div class="loading-spinner"></div>';
                 try {
-                    const response = await fetch('https://unified-domains-worker-production.trigox.workers.dev/api/dashboard/netlify-sites');
+                    const response = await fetch(`${API_BASE}/api/dashboard/netlify-sites`);
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const sites = await response.json();
                     
@@ -1278,6 +1295,7 @@ Top 5 AI Tools for Developers..."></textarea>
             function populateDropdowns() {
                 const aiTargetDomain = document.getElementById('ai-target-domain');
                 const deployTargetDomain = document.getElementById('deploy-target-domain');
+                const blogDomainSelect = document.getElementById('blog-domain-select');
 
                 allDomains.forEach(domain => {
                     const option = new Option(`${domain.name} (${domain.platform})`, domain.name);
@@ -1288,6 +1306,88 @@ Top 5 AI Tools for Developers..."></textarea>
                     const option = new Option(`${domain.name}`, domain.name);
                     deployTargetDomain.add(option);
                 });
+
+                // Optionally prefill blog domain list from known domains
+                if (blogDomainSelect && blogDomainSelect.options.length === 0) {
+                    allDomains.forEach(domain => {
+                        blogDomainSelect.add(new Option(domain.name, domain.name));
+                    });
+                }
+            }
+
+            // Blog: load list of blog-enabled domains from API
+            async function loadBlogDomains() {
+                const select = document.getElementById('blog-domain-select');
+                const statusEl = document.getElementById('blog-status');
+                if (!select) return;
+                try {
+                    statusEl.textContent = 'Loading blogs…';
+                    const res = await fetch(`${API_BASE}/api/blog/blogs`);
+                    const data = await res.json();
+                    if (data && data.blogs && data.blogs.length) {
+                        select.innerHTML = '';
+                        data.blogs.sort((a,b)=>a.Domain.localeCompare(b.Domain)).forEach(b => {
+                            select.add(new Option(b.Domain, b.Domain));
+                        });
+                        statusEl.textContent = `${data.blogs.length} blogs detected`;
+                        // Auto-load posts for first blog
+                        if (select.value) loadBlogPosts(select.value);
+                    } else {
+                        statusEl.textContent = 'No blogs found yet';
+                    }
+                } catch (e) {
+                    console.error('Failed to load blogs', e);
+                    statusEl.textContent = 'Failed to load blogs';
+                }
+            }
+
+            async function loadBlogPosts(domainName) {
+                const list = document.getElementById('blog-posts-list');
+                const statusEl = document.getElementById('blog-status');
+                if (!list) return;
+                list.innerHTML = '<div class="loading-spinner" style="margin:20px auto"></div>';
+                statusEl.textContent = `Loading posts for ${domainName}…`;
+                try {
+                    const res = await fetch(`${API_BASE}/api/blog/posts?domain=${encodeURIComponent(domainName)}`);
+                    const data = await res.json();
+                    if (data && data.success) {
+                        renderPosts(data.posts || []);
+                        statusEl.textContent = `${(data.posts||[]).length} posts loaded`;
+                    } else {
+                        list.innerHTML = '<div class="error-message">No posts found</div>';
+                        statusEl.textContent = 'No posts found';
+                    }
+                } catch (e) {
+                    console.error('Failed to load posts', e);
+                    list.innerHTML = '<div class="error-message">Failed to load posts</div>';
+                    statusEl.textContent = 'Failed to load posts';
+                }
+            }
+
+            function renderPosts(posts) {
+                const list = document.getElementById('blog-posts-list');
+                if (!list) return;
+                if (!posts.length) {
+                    list.innerHTML = '<p style="color:#94A3B8">No posts yet.</p>';
+                    return;
+                }
+                list.innerHTML = posts.map(p => {
+                    const title = p.Title || p.title || '(Untitled)';
+                    const slug = p.Slug || p.slug || '';
+                    const date = p['Published Date'] || p.publishedAt || p.published || '';
+                    const author = p.Author || p.author || '';
+                    const url = slug ? `https://${(document.getElementById('blog-domain-select')?.value)||''}/blog/${slug}` : '#';
+                    const tags = Array.isArray(p.Tags) ? p.Tags.join(', ') : (p.tags || '');
+                    return `
+                        <div class="domain-card" style="padding:16px" data-platform="blog" data-status="live">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                                <h3 style="font-size:1rem; color:#E2E8F0;">${title}</h3>
+                                ${slug ? `<a href="${url}" target="_blank" class="preview-btn visit">Open</a>` : ''}
+                            </div>
+                            <p style="color:#94A3B8; font-size:0.85rem;">${date ? new Date(date).toLocaleString() : ''} ${author ? `• ${author}` : ''} ${tags ? `• ${tags}` : ''}</p>
+                        </div>
+                    `;
+                }).join('');
             }
 
             function renderNetlifyProjects() {
@@ -1430,6 +1530,7 @@ Top 5 AI Tools for Developers..."></textarea>
 
             // Start loading data
             loadDomains();
+            loadBlogDomains();
             setupEventListeners();
         });
 
@@ -1465,6 +1566,12 @@ Top 5 AI Tools for Developers..."></textarea>
             }
             alert(`Deploying new blog to ${domain} at path "${path}".`);
         }
+        // Blog UI events
+        document.addEventListener('change', (e) => {
+            if (e.target && e.target.id === 'blog-domain-select') {
+                loadBlogPosts(e.target.value);
+            }
+        });
     </script>
 </body>
 </html>
