@@ -924,40 +924,17 @@
             <nav>
                 <div class="nav-section">
                     <p class="nav-section-title">Core Modules</p>
-                    <div class="nav-item active" data-view="dashboard-view">
-                        <span class="nav-icon">📊</span>
-                        <span>Dashboard</span>
-                    </div>
-                    <div class="nav-item" data-view="domains-view">
+                    <div class="nav-item active" data-view="domains-view">
                         <span class="nav-icon">🌐</span>
                         <span>Domains</span>
                     </div>
-                    <div class="nav-item" data-view="ai-content-view">
-                        <span class="nav-icon">🤖</span>
-                        <span>AI Content</span>
-                    </div>
                     <div class="nav-item" data-view="blog-deploy-view">
-                        <span class="nav-icon">🚀</span>
-                        <span>Blog Deploy</span>
+                        <span class="nav-icon">📝</span>
+                        <span>Blogs</span>
                     </div>
                     <div class="nav-item" data-view="netlify-view">
                         <span class="nav-icon">⚡️</span>
                         <span>Netlify</span>
-                    </div>
-                </div>
-                <div class="nav-section">
-                    <p class="nav-section-title">Management</p>
-                    <div class="nav-item" data-view="payments-view">
-                        <span class="nav-icon">💳</span>
-                        <span>Payments</span>
-                    </div>
-                    <div class="nav-item" data-view="analytics-view">
-                        <span class="nav-icon">📈</span>
-                        <span>Analytics</span>
-                    </div>
-                    <div class="nav-item" data-view="settings-view">
-                        <span class="nav-icon">⚙️</span>
-                        <span>Settings</span>
                     </div>
                 </div>
             </nav>
@@ -966,19 +943,19 @@
                 <p class="stats-title">Portfolio Snapshot</p>
                 <div class="stats-grid">
                     <div class="stat-item">
-                        <p class="stat-number" id="total-domains-stat">24</p>
+                        <p class="stat-number" id="total-domains-stat">0</p>
                         <p class="stat-label">Domains</p>
                     </div>
                     <div class="stat-item">
-                        <p class="stat-number" id="live-sites-stat">24</p>
+                        <p class="stat-number" id="live-sites-stat">0</p>
                         <p class="stat-label">Live</p>
                     </div>
                     <div class="stat-item">
-                        <p class="stat-number" id="monorepo-domains-stat">17</p>
+                        <p class="stat-number" id="monorepo-domains-stat">0</p>
                         <p class="stat-label">Monorepo</p>
                     </div>
                     <div class="stat-item">
-                        <p class="stat-number" id="netlify-domains-stat">7</p>
+                        <p class="stat-number" id="netlify-domains-stat">0</p>
                         <p class="stat-label">Netlify</p>
                     </div>
                     <div class="stat-item">
@@ -993,57 +970,14 @@
         <main class="main-content">
             <div class="dashboard-header">
                 <div class="header-left">
-                    <h1 id="view-title">Dashboard</h1>
-                    <p id="view-subtitle">Welcome to your Domain Empire Command Center.</p>
-                </div>
-                <div class="header-actions">
-                    <button class="action-btn" id="quick-action-btn">
-                        <span class="icon">✨</span> Quick Action
-                    </button>
-                    <button class="action-btn primary" id="primary-action-btn">
-                        <span class="icon">🚀</span> Deploy All
-                    </button>
+                    <h1 id="view-title">Domains</h1>
+                    <p id="view-subtitle">Browse domains and statuses.</p>
                 </div>
             </div>
 
-            <div id="dashboard-view" class="view-content active">
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <span class="metric-icon">📈</span>
-                            <span class="metric-trend up">+5.2%</span>
-                        </div>
-                        <p class="metric-number">1.2M</p>
-                        <p class="metric-label">Total Pageviews</p>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <span class="metric-icon">👥</span>
-                            <span class="metric-trend up">+12%</span>
-                        </div>
-                        <p class="metric-number">850K</p>
-                        <p class="metric-label">Unique Visitors</p>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <span class="metric-icon">💰</span>
-                            <span class="metric-trend down">-1.5%</span>
-                        </div>
-                        <p class="metric-number">$5,430</p>
-                        <p class="metric-label">Estimated Revenue</p>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <span class="metric-icon">🤖</span>
-                            <span class="metric-trend up">+30</span>
-                        </div>
-                        <p class="metric-number">152</p>
-                        <p class="metric-label">AI Posts Generated</p>
-                    </div>
-                </div>
-            </div>
+            
 
-            <div id="domains-view" class="view-content">
+            <div id="domains-view" class="view-content active">
                 <div class="quick-filters">
                     <span class="filter-chip active" data-filter="all">All</span>
                     <span class="filter-chip" data-filter="monorepo">Monorepo</span>
@@ -1058,54 +992,7 @@
                 </div>
             </div>
 
-            <div id="ai-content-view" class="view-content">
-                <div class="form-container">
-                    <h3><span class="icon">🤖</span> AI Content Generation</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="ai-target-domain">Target Domain</label>
-                            <select id="ai-target-domain">
-                                <option value="">Select Domain...</option>
-                                <!-- Domains will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="ai-tone">AI Tone</label>
-                            <select id="ai-tone">
-                                <option value="professional">Professional</option>
-                                <option value="casual">Casual</option>
-                                <option value="technical">Technical</option>
-                                <option value="witty">Witty</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label for="blog-topic">Blog Post Topic</label>
-                            <input type="text" id="blog-topic" placeholder="e.g., 'The Future of AI in Fintech'">
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <button class="action-btn primary" onclick="generateAIPost()">
-                                <span class="icon">✨</span> Generate Single Post
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-container">
-                    <h3><span class="icon">📚</span> Bulk Content Generation</h3>
-                    <div class="form-grid">
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label for="bulk-topics">Topics (one per line)</label>
-                            <textarea id="bulk-topics" placeholder="The Rise of GPT-4...
-The Impact of AI on Marketing...
-Top 5 AI Tools for Developers..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button class="action-btn success" onclick="bulkGenerateContent()">
-                                <span class="icon">🚀</span> Generate Multiple Posts
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            
 
             <div id="blog-deploy-view" class="view-content">
                 <div class="form-container">
@@ -1123,27 +1010,7 @@ Top 5 AI Tools for Developers..."></textarea>
                         <!-- Posts injected here -->
                     </div>
                 </div>
-                <div class="form-container" style="margin-top:20px;">
-                    <h3><span class="icon">🚀</span> Deploy New Blog</h3>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="deploy-target-domain">Unused Domain</label>
-                            <select id="deploy-target-domain">
-                                <option value="">Select Domain to Activate...</option>
-                                <!-- Unused domains will be populated dynamically -->
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="blog-path">Blog Path</label>
-                            <input type="text" id="blog-path" value="/blog">
-                        </div>
-                        <div class="form-group">
-                            <button class="action-btn primary" onclick="deployNewBlog()">
-                                <span class="icon">⚡️</span> Deploy Blog
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
             <div id="netlify-view" class="view-content">
@@ -1155,49 +1022,10 @@ Top 5 AI Tools for Developers..."></textarea>
                 </div>
             </div>
 
-            <div id="payments-view" class="view-content">
-                <div class="loading-overlay">
-                    <div class="loading-text">Payments management coming soon...</div>
-                </div>
-            </div>
-
-            <div id="analytics-view" class="view-content">
-                <div class="analytics-grid">
-                    <div class="analytics-card">
-                        <h3 class="analytics-title">📊 Domain Categories</h3>
-                        <div class="category-breakdown" id="categoryBreakdown">
-                            <!-- Dynamic content -->
-                        </div>
-                    </div>
-                    <div class="analytics-card">
-                        <h3 class="analytics-title">🌍 Platform Distribution</h3>
-                        <div class="category-breakdown" id="platformBreakdown">
-                            <!-- Dynamic content -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div id="settings-view" class="view-content">
-                <div class="loading-overlay">
-                    <div class="loading-text">Settings panel coming soon...</div>
-                </div>
-            </div>
+            
         </main>
 
-        <!-- Bulk Actions Bar -->
-        <div class="bulk-actions-bar" id="bulkActionsBar">
-            <div class="bulk-info">
-                <span id="selectedCount">0</span> domains selected
-            </div>
-            <div class="bulk-actions">
-                <button class="bulk-btn" id="bulkHealthCheck">🩺 Health Check</button>
-                <button class="bulk-btn" id="bulkDeploy">🚀 Deploy</button>
-                <button class="bulk-btn" id="bulkExport">📊 Export</button>
-                <button class="bulk-btn" id="bulkManage">⚙️ Manage</button>
-                <button class="bulk-btn danger" id="bulkDelete">🗑️ Remove</button>
-            </div>
-        </div>
+        
     </div>
 
     <!-- Modal Overlay -->
@@ -1228,8 +1056,7 @@ Top 5 AI Tools for Developers..."></textarea>
 
             // Live Data
             let allDomains = [];
-            let netlifyProjects = [];
-            let unusedDomains = [];
+            
             async function loadDomains() {
                 try {
                     const res = await fetch(`${API_BASE}/api/dashboard/domains`);
@@ -1242,10 +1069,7 @@ Top 5 AI Tools for Developers..."></textarea>
                             value: d.value || 'medium',
                             url: d.url || `https://${d.name || d.domain}`
                         }));
-                        netlifyProjects = allDomains.filter(d => d.platform === 'Netlify');
-                        unusedDomains = allDomains.filter(d => d.status === 'pending' || d.status === 'down');
-                        populateDropdowns();
-                        renderNetlifyProjects();
+                        
                         renderDomainsGrid();
                         updateStats(data.counts);
                     }
@@ -1255,65 +1079,47 @@ Top 5 AI Tools for Developers..."></textarea>
             }
 
             async function loadNetlifyProjects() {
-                const container = document.getElementById('netlify-content');
-                container.innerHTML = '<div class="loading-spinner"></div>';
+                const grid = document.getElementById('netlify-projects-grid');
+                if (!grid) return;
+                grid.innerHTML = '<div class="loading-spinner" style="margin:20px auto"></div>';
                 try {
                     const response = await fetch(`${API_BASE}/api/dashboard/netlify-sites`);
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const sites = await response.json();
-                    
-                    let content = '<h2>⚡️ Netlify Projects Supervision</h2>';
+                    grid.innerHTML = '';
                     if (sites && sites.length > 0) {
-                        content += '<div class="netlify-grid">';
                         sites.forEach(site => {
-                            content += `
-                                <div class="netlify-card">
-                                    <div class="netlify-card-header">
-                                        <span class="site-name">${site.name}</span>
-                                        <span class="site-status ${site.state}">${site.state}</span>
+                            const url = site.ssl_url || site.url || '';
+                            const state = site.state || (site.published_deploy?.state || 'unknown');
+                            grid.innerHTML += `
+                                <div class="domain-card" data-platform="netlify" data-status="${state}">
+                                    <div class="domain-header">
+                                        <div class="domain-info">
+                                            <p class="domain-name">
+                                                <span class="status-dot ${state}"></span>
+                                                ${site.name}
+                                            </p>
+                                            <div class="domain-meta">
+                                                <span class="platform-badge">Netlify</span>
+                                                ${site.published_deploy?.published_at ? `<span class=\"value-badge\">${new Date(site.published_deploy.published_at).toLocaleString()}</span>` : ''}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="netlify-card-body">
-                                        <p><strong>URL:</strong> <a href="${site.ssl_url}" target="_blank">${site.ssl_url}</a></p>
-                                        <p><strong>Repo:</strong> ${site.build_settings.repo_path || 'Not linked'}</p>
-                                        <p><strong>Last Deployed:</strong> ${new Date(site.published_deploy.published_at).toLocaleString()}</p>
+                                    <div class="domain-actions">
+                                        ${url ? `<a href=\"${url}\" target=\"_blank\" class=\"action-btn primary\">Visit</a>` : ''}
                                     </div>
-                                </div>
-                            `;
+                                </div>`;
                         });
-                        content += '</div>';
                     } else {
-                        content += '<p>No Netlify sites found.</p>';
+                        grid.innerHTML = '<p style="color:#94A3B8">No Netlify sites found.</p>';
                     }
-                    container.innerHTML = content;
-
                 } catch (error) {
                     console.error('Error loading Netlify projects:', error);
-                    container.innerHTML = `<div class="error-message">Failed to load Netlify projects. Check console for details.</div>`;
+                    grid.innerHTML = `<div class="error-message">Failed to load Netlify projects. Check console for details.</div>`;
                 }
             }
 
-            function populateDropdowns() {
-                const aiTargetDomain = document.getElementById('ai-target-domain');
-                const deployTargetDomain = document.getElementById('deploy-target-domain');
-                const blogDomainSelect = document.getElementById('blog-domain-select');
-
-                allDomains.forEach(domain => {
-                    const option = new Option(`${domain.name} (${domain.platform})`, domain.name);
-                    aiTargetDomain.add(option.cloneNode(true));
-                });
-
-                unusedDomains.forEach(domain => {
-                    const option = new Option(`${domain.name}`, domain.name);
-                    deployTargetDomain.add(option);
-                });
-
-                // Optionally prefill blog domain list from known domains
-                if (blogDomainSelect && blogDomainSelect.options.length === 0) {
-                    allDomains.forEach(domain => {
-                        blogDomainSelect.add(new Option(domain.name, domain.name));
-                    });
-                }
-            }
+            // (Removed) populateDropdowns – no mock dropdowns
 
             // Blog: load list of blog-enabled domains from API
             async function loadBlogDomains() {
@@ -1390,32 +1196,7 @@ Top 5 AI Tools for Developers..."></textarea>
                 }).join('');
             }
 
-            function renderNetlifyProjects() {
-                const grid = document.getElementById('netlify-projects-grid');
-                grid.innerHTML = '';
-                netlifyProjects.forEach(p => {
-                    grid.innerHTML += `
-                        <div class="domain-card">
-                            <div class="domain-header">
-                                <div class="domain-info">
-                                    <p class="domain-name">
-                                        <span class="status-dot ${p.status}"></span>
-                                        ${p.name}
-                                    </p>
-                                    <div class="domain-meta">
-                                        <span class="platform-badge">${p.platform}</span>
-                                        <span class="value-badge value-badge-${p.value.replace(' ','-').toLowerCase()}">${p.value}</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="domain-actions">
-                                <button class="action-btn">View Deploys</button>
-                                <button class="action-btn primary">Trigger Deploy</button>
-                            </div>
-                        </div>
-                    `;
-                });
-            }
+            
 
             function renderDomainsGrid() {
                 const grid = document.getElementById('domains-grid-main');
@@ -1446,7 +1227,6 @@ Top 5 AI Tools for Developers..."></textarea>
                                 </div>
                             </div>
                             <div class="domain-actions">
-                                <button class="action-btn">Manage</button>
                                 <a href="http://${d.name}" target="_blank" class="action-btn primary">Visit</a>
                             </div>
                         </div>
@@ -1455,35 +1235,23 @@ Top 5 AI Tools for Developers..."></textarea>
             }
 
             function setupEventListeners() {
-                document.querySelectorAll('.nav-item').forEach(item => {
+                const navItems = document.querySelectorAll('.nav-item');
+                const views = document.querySelectorAll('.view-content');
+                const viewTitle = document.getElementById('view-title');
+                const viewSubtitle = document.getElementById('view-subtitle');
+                navItems.forEach(item => {
                     item.addEventListener('click', () => {
-                        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
-                        document.querySelectorAll('.view-content').forEach(v => v.classList.remove('active'));
+                        navItems.forEach(i => i.classList.remove('active'));
+                        views.forEach(v => v.classList.remove('active'));
                         item.classList.add('active');
                         const viewId = item.getAttribute('data-view');
                         document.getElementById(viewId).classList.add('active');
-
-                        if (viewId === 'netlify-view') {
-                            loadNetlifyProjects();
-                        }
+                        viewTitle.textContent = item.querySelector('span:last-child').textContent;
+                        viewSubtitle.textContent = `Manage your ${viewTitle.textContent.toLowerCase()}.`;
+                        if (viewId === 'netlify-view') loadNetlifyProjects();
                     });
                 });
             }
-
-            navItems.forEach(item => {
-                item.addEventListener('click', () => {
-                    const viewId = item.getAttribute('data-view');
-
-                    navItems.forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-
-                    views.forEach(v => v.classList.remove('active'));
-                    document.getElementById(viewId).classList.add('active');
-
-                    viewTitle.textContent = item.querySelector('span:last-child').textContent;
-                    viewSubtitle.textContent = `Manage your ${viewTitle.textContent.toLowerCase()}.`;
-                });
-            });
 
             const filters = document.querySelectorAll('.filter-chip');
             filters.forEach(filter => {
@@ -1534,38 +1302,7 @@ Top 5 AI Tools for Developers..."></textarea>
             setupEventListeners();
         });
 
-        // API Call Functions (mocked for now)
-        function generateAIPost() {
-            const domain = document.getElementById('ai-target-domain').value;
-            const topic = document.getElementById('blog-topic').value;
-            const tone = document.getElementById('ai-tone').value;
-            if (!domain || !topic) {
-                alert('Please select a domain and enter a topic.');
-                return;
-            }
-            alert(`Generating AI post for ${domain} on topic "${topic}" with a ${tone} tone.`);
-            // In a real app, this would be:
-            // fetch('/api/blog/generate-ai-post', { method: 'POST', body: JSON.stringify({ domain, topic, tone }) })
-        }
-
-        function bulkGenerateContent() {
-            const topics = document.getElementById('bulk-topics').value;
-            if (!topics) {
-                alert('Please enter topics for bulk generation.');
-                return;
-            }
-            alert(`Starting bulk generation for ${topics.split('\n').length} posts.`);
-        }
-
-        function deployNewBlog() {
-            const domain = document.getElementById('deploy-target-domain').value;
-            const path = document.getElementById('blog-path').value;
-            if (!domain) {
-                alert('Please select a domain to deploy the blog to.');
-                return;
-            }
-            alert(`Deploying new blog to ${domain} at path "${path}".`);
-        }
+        
         // Blog UI events
         document.addEventListener('change', (e) => {
             if (e.target && e.target.id === 'blog-domain-select') {
