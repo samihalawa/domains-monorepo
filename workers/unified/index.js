@@ -1,3 +1,5 @@
+
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -30,6 +32,14 @@ export default {
       // Router API Routes
       if (pathname.startsWith('/api/router/')) {
         return handleRouterAPI(request, env, pathname.replace('/api/router', ''), ctx, corsHeaders);
+      }
+
+      // Serve dashboard HTML
+      if (pathname === '/dashboard') {
+        // For now, redirect to a deployed version or serve a message
+        return new Response('Dashboard is available at the deployment URL', {
+          headers: { ...corsHeaders, 'Content-Type': 'text/plain' },
+        });
       }
 
       // Legacy API routes for backwards compatibility
@@ -226,44 +236,65 @@ async function buildDomainsResponse(env) {
 
 // ===== Dashboard API =====
 async function handleDashboardAPI(request, env, pathname, ctx, corsHeaders) {
-  const path = pathname.replace(/^\//, '');
+  const url = new URL(request.url);
 
-  if (path === 'health') return jsonResponse({ status: 'ok', timestamp: Date.now() }, corsHeaders);
-
-  if (path === 'deployment-map') {
-    const deploymentMap = await getDeploymentMap(env);
-    return jsonResponse({ success: true, data: deploymentMap }, corsHeaders);
+  if (pathname === '/netlify-sites') {
+    return listNetlifySites(request, env, corsHeaders);
   }
 
-  if (path === 'domain-analysis') {
+  // Example of handling different dashboard routes
+  if (pathname === '/domain-analysis') {
     const analysis = await getDomainAnalysis(env);
     return jsonResponse({ success: true, data: analysis }, corsHeaders);
   }
 
-  if (path === 'super-dashboard') {
+  if (pathname === '/super-dashboard') {
     const dashboardData = await getSuperDashboardData(env);
     return jsonResponse({ success: true, data: dashboardData }, corsHeaders);
   }
 
-  if (path === 'domains' && request.method === 'GET') {
+  if (pathname === '/domains' && request.method === 'GET') {
     const payload = await buildDomainsResponse(env);
     return jsonResponse(payload, corsHeaders);
   }
 
-  if (path === 'bulk-health-check' && request.method === 'POST') {
+  if (pathname === '/bulk-health-check' && request.method === 'POST') {
     const { domains } = await request.json();
     const results = await performBulkHealthCheck(domains || []);
     return jsonResponse({ success: true, results }, corsHeaders);
   }
 
-  if (path === 'domain-status' && request.method === 'GET') {
+  if (pathname === '/domain-status' && request.method === 'GET') {
     const url = new URL(request.url);
     const domain = url.searchParams.get('domain');
     const status = await getDomainStatus(domain);
     return jsonResponse({ success: true, status }, corsHeaders);
   }
 
-  return jsonResponse({ error: 'API endpoint not found' }, corsHeaders, 404);
+  return jsonResponse({ error: 'Dashboard endpoint not found' }, { ...corsHeaders, status: 404 });
+}
+
+async function listNetlifySites(request, env, corsHeaders) {
+  try {
+    const url = `https://api.netlify.com/api/v1/sites`;
+    const response = await fetch(url, {
+      headers: {
+        'Authorization': `Bearer ${env.NETLIFY_TOKEN}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Netlify API error: ${response.status} ${response.statusText}`, errorText);
+      return jsonResponse({ error: 'Failed to fetch from Netlify API', details: errorText }, { ...corsHeaders, status: response.status });
+    }
+
+    const sites = await response.json();
+    return jsonResponse(sites, corsHeaders);
+  } catch (error) {
+    console.error('Error fetching Netlify sites:', error);
+    return jsonResponse({ error: 'Internal server error' }, { ...corsHeaders, status: 500 });
+  }
 }
 
 function enrichForStats(d) {
@@ -374,18 +405,18 @@ async function getDomainStatus(domain) {
 
 // ===== Router API =====
 async function handleRouterAPI(request, env, pathname, ctx, corsHeaders) {
-  const path = pathname.replace(/^\//, '');
+  const url = new URL(request.url);
 
-  if (path === 'map') {
+  if (pathname === 'map') {
     const domainMap = getDomainMap();
     return jsonResponse({ domains: domainMap }, corsHeaders);
   }
 
-  if (path === 'health') {
+  if (pathname === 'health') {
     return jsonResponse({ ok: true, service: 'router' }, corsHeaders);
   }
 
-  if (path === 'domains/status') {
+  if (pathname === 'domains/status') {
     const domains = Object.keys(getDomainMap());
     const statuses = await Promise.all(domains.slice(0, 10).map(async (domain) => {
       try {

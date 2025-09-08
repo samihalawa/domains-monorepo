@@ -1,7 +1,7 @@
-# Unified Domains Worker Configuration
 name = "unified-domains-worker"
 main = "index.js"
 compatibility_date = "2024-01-01"
+account_id = "21d8251b2204f8dfa7df681246d76705"
 
 [env.production.vars]
 WORKER_DOMAIN = "unified-domains-worker.samihalawa.workers.dev"
@@ -11,9 +11,3 @@ CLOUDFLARE_API_TOKEN = "SvIY8ZHwMbo8X4LZNbC7cr0GD20MDsy3UkyPtOrw"
 [env.production.secrets]
 AIRTABLE_TOKEN = "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622"
 AIRTABLE_BASE = "appLattdbxMhK4I0y"
-
-# Routes for all domains - commented out for initial deployment
-# Add route bindings later via Cloudflare dashboard or proper zone management
-# [[routes]]
-# pattern = "*.yourdomain.com/*"
-# zone_id = "your_zone_id"

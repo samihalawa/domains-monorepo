@@ -1215,7 +1215,7 @@ Top 5 AI Tools for Developers..."></textarea>
             let unusedDomains = [];
             async function loadDomains() {
                 try {
-                    const res = await fetch('https://unified-domains-worker-production.trigox.workers.dev/api/dashboard/domains');
+                    const res = await fetch('http://localhost:8787/api/dashboard/domains');
                     const data = await res.json();
                     if (data && data.success) {
                         allDomains = (data.domains || []).map(d => ({
@@ -1241,7 +1241,7 @@ Top 5 AI Tools for Developers..."></textarea>
                 const container = document.getElementById('netlify-content');
                 container.innerHTML = '<div class="loading-spinner"></div>';
                 try {
-                    const response = await fetch('https://unified-domains-worker-production.trigox.workers.dev/api/dashboard/netlify-sites');
+                    const response = await fetch('http://localhost:8787/api/dashboard/netlify-sites');
                     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                     const sites = await response.json();
                     
