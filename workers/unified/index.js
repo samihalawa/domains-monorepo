@@ -19,6 +19,43 @@ export default {
     }
 
     try {
+      // ---- RESTful aliases (non-breaking) ----
+      // Domains
+      if (request.method === 'GET' && pathname === '/api/domains') {
+        const payload = await buildDomainsResponse(env);
+        return jsonResponse(payload, corsHeaders);
+      }
+      const domainStatusMatch = pathname.match(/^\/api\/domains\/([^/]+)\/status$/);
+      if (request.method === 'GET' && domainStatusMatch) {
+        const domain = decodeURIComponent(domainStatusMatch[1]);
+        const status = await getDomainStatus(domain);
+        return jsonResponse({ success: true, status }, corsHeaders);
+      }
+
+      // Netlify
+      if (request.method === 'GET' && pathname === '/api/netlify/sites') {
+        return listNetlifySites(request, env, corsHeaders);
+      }
+
+      // Blogs
+      if (request.method === 'GET' && pathname === '/api/blogs') {
+        const blogs = await getAllBlogs(env);
+        return jsonResponse(blogs, corsHeaders);
+      }
+      const blogPostsMatch = pathname.match(/^\/api\/blogs\/([^/]+)\/posts$/);
+      if (request.method === 'GET' && blogPostsMatch) {
+        const domain = decodeURIComponent(blogPostsMatch[1]).replace(/^www\./, '');
+        const blog = await getBlogByDomain(domain, env);
+        if (!blog) return jsonResponse({ error: 'Blog not found for domain' }, corsHeaders, 404);
+        const posts = await getBlogPosts(blog.id, env);
+        return jsonResponse({ success: true, blog, posts: posts.posts || [] }, corsHeaders);
+      }
+
+      // Health alias
+      if (pathname === '/api/health') {
+        return jsonResponse({ ok: true, service: 'unified-domains-worker' }, corsHeaders);
+      }
+
       // Blog API Routes
       if (pathname.startsWith('/api/blog/')) {
         return handleBlogAPI(request, env, pathname.replace('/api/blog', ''), ctx, corsHeaders);
@@ -653,4 +690,3 @@ function jsonResponse(data, headers = {}, status = 200) {
     }
   });
 }
-
