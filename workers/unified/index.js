@@ -79,6 +79,15 @@ export default {
         });
       }
 
+      // Blog routes for all domains
+      const hostname = url.hostname.replace('www.', '');
+      if (pathname.startsWith('/blog/')) {
+        return handleBlogPage(request, env, hostname, pathname);
+      }
+      if (pathname === '/blog') {
+        return handleBlogListing(request, env, hostname);
+      }
+
       // Legacy API routes for backwards compatibility
       if (pathname.startsWith('/api/')) {
         if (pathname.startsWith('/api/blogs') || pathname.startsWith('/api/posts')) {
@@ -689,4 +698,161 @@ function jsonResponse(data, headers = {}, status = 200) {
       ...headers
     }
   });
+}
+
+// ===== Blog Handlers =====
+async function handleBlogListing(request, env, hostname) {
+  try {
+    const blog = await getBlogByDomain(hostname, env);
+    if (!blog) {
+      return new Response('Blog not found', { status: 404 });
+    }
+    
+    const posts = await getBlogPosts(blog.id, env);
+    const html = generateBlogListingHTML(hostname, blog, posts.posts || []);
+    
+    return new Response(html, {
+      headers: { 'Content-Type': 'text/html' }
+    });
+  } catch (error) {
+    return new Response('Error loading blog', { status: 500 });
+  }
+}
+
+async function handleBlogPage(request, env, hostname, pathname) {
+  try {
+    const slug = pathname.replace('/blog/', '');
+    const blog = await getBlogByDomain(hostname, env);
+    if (!blog) {
+      return new Response('Blog not found', { status: 404 });
+    }
+    
+    const posts = await getBlogPosts(blog.id, env);
+    const post = posts.posts?.find(p => p.slug === slug);
+    if (!post) {
+      return new Response('Article not found', { status: 404 });
+    }
+    
+    const html = generateBlogPostHTML(hostname, blog, post);
+    
+    return new Response(html, {
+      headers: { 'Content-Type': 'text/html' }
+    });
+  } catch (error) {
+    return new Response('Error loading article', { status: 500 });
+  }
+}
+
+function generateBlogListingHTML(domain, blog, posts) {
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - ${domain}</title>
+  <meta name="description" content="Artículos y contenido de ${domain}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; line-height: 1.6; color: #333; background: #f9f9f9; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    header { background: #fff; padding: 20px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 40px; }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; color: #2563eb; }
+    .subtitle { color: #666; font-size: 1.2rem; }
+    .posts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+    .post-card { background: #fff; border-radius: 12px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .post-card:hover { transform: translateY(-5px); }
+    .post-title { font-size: 1.5rem; margin-bottom: 15px; color: #333; }
+    .post-excerpt { color: #666; margin-bottom: 20px; line-height: 1.6; }
+    .post-meta { font-size: 0.9rem; color: #888; margin-bottom: 15px; }
+    .read-more { color: #2563eb; text-decoration: none; font-weight: 600; }
+    .read-more:hover { text-decoration: underline; }
+    @media (max-width: 768px) { 
+      .posts-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Blog de ${domain}</h1>
+      <p class="subtitle">Artículos, noticias y contenido especializado</p>
+    </div>
+  </header>
+  
+  <main class="container">
+    <div class="posts-grid">
+      ${posts.map(post => `
+        <article class="post-card">
+          <h2 class="post-title">${post.title || 'Sin título'}</h2>
+          <div class="post-meta">Publicado el ${new Date(post.created_at || Date.now()).toLocaleDateString('es-ES')}</div>
+          <p class="post-excerpt">${(post.content || post.excerpt || '').substring(0, 200)}...</p>
+          <a href="/blog/${post.slug || post.id}" class="read-more">Leer más →</a>
+        </article>
+      `).join('')}
+    </div>
+    
+    ${posts.length === 0 ? '<p style="text-align: center; color: #666; font-size: 1.2rem; margin-top: 60px;">No hay artículos disponibles en este momento.</p>' : ''}
+  </main>
+</body>
+</html>`;
+}
+
+function generateBlogPostHTML(domain, blog, post) {
+  return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${post.title || 'Artículo'} - ${domain}</title>
+  <meta name="description" content="${(post.excerpt || post.content || '').substring(0, 160)}">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; line-height: 1.7; color: #333; background: #f9f9f9; }
+    .container { max-width: 800px; margin: 0 auto; padding: 20px; }
+    header { background: #fff; padding: 30px 0; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 40px; }
+    .back-link { color: #2563eb; text-decoration: none; margin-bottom: 20px; display: inline-block; }
+    .back-link:hover { text-decoration: underline; }
+    h1 { font-size: 2.5rem; margin-bottom: 20px; color: #2563eb; line-height: 1.2; }
+    .article-meta { color: #666; font-size: 1rem; margin-bottom: 30px; }
+    .article-content { background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+    .article-content p { margin-bottom: 20px; font-size: 1.1rem; }
+    .article-content h2 { margin: 30px 0 15px; color: #333; }
+    .article-content h3 { margin: 25px 0 10px; color: #555; }
+    .article-content ul, .article-content ol { margin: 15px 0 15px 30px; }
+    .article-content li { margin-bottom: 8px; }
+    @media (max-width: 768px) { 
+      h1 { font-size: 2rem; }
+      .article-content { padding: 30px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <a href="/blog" class="back-link">← Volver al blog</a>
+      <h1>${post.title || 'Sin título'}</h1>
+      <div class="article-meta">
+        Publicado el ${new Date(post.created_at || Date.now()).toLocaleDateString('es-ES')}
+        ${post.author ? ` por ${post.author}` : ''}
+      </div>
+    </div>
+  </header>
+  
+  <main class="container">
+    <article class="article-content">
+      ${formatContent(post.content || post.excerpt || 'Contenido no disponible.')}
+    </article>
+  </main>
+</body>
+</html>`;
+}
+
+function formatContent(content) {
+  return content
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^/, '<p>')
+    .replace(/$/, '</p>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>');
 }
