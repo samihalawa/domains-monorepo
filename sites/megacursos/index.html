@@ -1,227 +1,410 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MegaCursos - Online Learning Platform</title>
-    <meta name="description" content="Access thousands of courses in technology and business">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MegaCursos - Plataforma de Aprendizaje Online</title>
+  <meta name="description" content="Miles de cursos en tecnología, diseño, marketing y negocios. Aprende con instructores expertos.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script async src="https://zarazscript.trigox.workers.dev/"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    <!-- Universal Tracking Script -->
-    <script async src="https://zarazscript.trigox.workers.dev/"></script>
+    :root {
+      --primary: #2563eb;
+      --secondary: #7c3aed;
+      --success: #059669;
+      --warning: #d97706;
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #1f2937;
+      --text-light: #6b7280;
+    }
     
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        header {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #dc2626;
-        }
-        
-        nav a {
-            margin-left: 30px;
-            text-decoration: none;
-            color: #666;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #dc2626;
-        }
-        
-        .hero {
-            padding: 100px 20px;
-            text-align: center;
-            color: white;
-        }
-        
-        h1 {
-            font-size: 48px;
-            margin-bottom: 20px;
-            animation: fadeInUp 0.8s ease;
-        }
-        
-        .tagline {
-            font-size: 24px;
-            margin-bottom: 40px;
-            opacity: 0.9;
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-        
-        .cta-button {
-            display: inline-block;
-            padding: 15px 40px;
-            background: white;
-            color: #dc2626;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: bold;
-            font-size: 18px;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.4s both;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        
-        .features {
-            background: white;
-            padding: 80px 20px;
-            border-radius: 20px;
-            margin: 40px 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-        }
-        
-        .features h2 {
-            text-align: center;
-            font-size: 36px;
-            margin-bottom: 50px;
-            color: #333;
-        }
-        
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        
-        .feature-card {
-            text-align: center;
-            padding: 30px;
-            border-radius: 10px;
-            background: #f8f9fa;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .feature-icon {
-            font-size: 48px;
-            margin-bottom: 20px;
-        }
-        
-        .feature-card h3 {
-            font-size: 24px;
-            margin-bottom: 15px;
-            color: #dc2626;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            color: white;
-            background: rgba(0,0,0,0.1);
-        }
-        
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 32px;
-            }
-            
-            .tagline {
-                font-size: 18px;
-            }
-            
-            nav a {
-                display: none;
-            }
-        }
-    </style>
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    
+    /* Header */
+    header {
+      padding: 20px 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .logo {
+      font-size: 28px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+    
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+    
+    /* Hero Section */
+    .hero {
+      padding: 80px 0;
+      text-align: center;
+      color: white;
+    }
+    
+    .hero h1 {
+      font-size: 56px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      margin-bottom: 40px;
+      opacity: 0.9;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--success), #10b981);
+      color: white;
+      padding: 16px 32px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 18px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+    }
+    
+    /* Features */
+    .features {
+      padding: 80px 0;
+      background: var(--surface);
+    }
+    
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+      margin-top: 48px;
+    }
+    
+    .feature-card {
+      background: var(--surface);
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      border: 1px solid rgba(0,0,0,0.05);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+    }
+    
+    .feature-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+    
+    .feature-card:nth-child(1) .feature-icon { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+    .feature-card:nth-child(2) .feature-icon { background: linear-gradient(135deg, #10b981, #059669); }
+    .feature-card:nth-child(3) .feature-icon { background: linear-gradient(135deg, #f59e0b, #d97706); }
+    
+    .feature-card h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .feature-card p {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    /* Stats */
+    .stats {
+      padding: 60px 0;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      text-align: center;
+    }
+    
+    .stat-item h3 {
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    
+    .stat-item p {
+      opacity: 0.9;
+      font-size: 18px;
+    }
+    
+    /* Categories */
+    .categories {
+      padding: 80px 0;
+      background: var(--bg);
+    }
+    
+    .section-title {
+      text-align: center;
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 18px;
+      margin-bottom: 48px;
+    }
+    
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+    }
+    
+    .category-card {
+      background: var(--surface);
+      padding: 24px;
+      border-radius: 12px;
+      text-align: center;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    
+    .category-card:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+    
+    .category-emoji {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    .category-card h4 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .category-card p {
+      color: var(--text-light);
+      font-size: 14px;
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--text);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+    }
+    
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    
+    .footer-links a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    
+    .footer-links a:hover {
+      color: white;
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .nav-links { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .categories-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">megacursos.com</div>
-            <nav>
-                <a href="#features">Features</a>
-                <a href="#about">About</a>
-                <a href="#contact">Contact</a>
-            </nav>
-        </div>
-    </header>
-    
-    <div class="hero">
-        <div class="container">
-            <h1>Learn Without Limits</h1>
-            <p class="tagline">Your Journey to Knowledge Starts Here</p>
-            <a href="#" class="cta-button" onclick="trackUniversalEvent && trackUniversalEvent('cta_clicked', {domain: 'megacursos.com'})">Browse Courses</a>
-        </div>
+  <header>
+    <nav class="container">
+      <div class="logo">MegaCursos</div>
+      <ul class="nav-links">
+        <li><a href="#inicio">Inicio</a></li>
+        <li><a href="#cursos">Cursos</a></li>
+        <li><a href="#instructores">Instructores</a></li>
+        <li><a href="#precios">Precios</a></li>
+        <li><a href="#contacto">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>Aprende Sin Límites</h1>
+      <p>Accede a miles de cursos especializados en tecnología, diseño, marketing y negocios. Aprende de instructores expertos desde cualquier lugar.</p>
+      <a href="#cursos" class="cta-button">Explorar Cursos</a>
     </div>
-    
-    <div class="features" id="features">
-        <h2>Learning Features</h2>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <div class="feature-icon">👨‍🏫</div>
-                <h3>Expert Instructors</h3>
-                <p>Learn from industry professionals</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">♾️</div>
-                <h3>Lifetime Access</h3>
-                <p>Access your courses anytime, anywhere</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🏆</div>
-                <h3>Certificates</h3>
-                <p>Earn recognized certificates upon completion</p>
-            </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">¿Por qué elegir MegaCursos?</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📚</div>
+          <h3>Contenido Premium</h3>
+          <p>Cursos actualizados y de alta calidad creados por expertos de la industria con años de experiencia práctica.</p>
         </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>Aprendizaje Personalizado</h3>
+          <p>Rutas de aprendizaje adaptadas a tu nivel y objetivos profesionales para maximizar tu progreso.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🏆</div>
+          <h3>Certificaciones</h3>
+          <p>Obtén certificados reconocidos por la industria que validen tus habilidades y mejoren tu perfil profesional.</p>
+        </div>
+      </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2024 megacursos.com. All rights reserved.</p>
-        <p>Part of the Sami Halawa Digital Portfolio</p>
-    </footer>
+  </section>
+
+  <section class="stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <h3>15,000+</h3>
+          <p>Cursos disponibles</p>
+        </div>
+        <div class="stat-item">
+          <h3>500,000+</h3>
+          <p>Estudiantes activos</p>
+        </div>
+        <div class="stat-item">
+          <h3>2,500+</h3>
+          <p>Instructores expertos</p>
+        </div>
+        <div class="stat-item">
+          <h3>95%</h3>
+          <p>Satisfacción del cliente</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories">
+    <div class="container">
+      <h2 class="section-title">Categorías Populares</h2>
+      <p class="section-subtitle">Explora nuestras áreas de conocimiento más demandadas</p>
+      <div class="categories-grid">
+        <div class="category-card">
+          <div class="category-emoji">💻</div>
+          <h4>Programación</h4>
+          <p>JavaScript, Python, React, Node.js</p>
+        </div>
+        <div class="category-card">
+          <div class="category-emoji">🎨</div>
+          <h4>Diseño</h4>
+          <p>UI/UX, Photoshop, Illustrator, Figma</p>
+        </div>
+        <div class="category-card">
+          <div class="category-emoji">📈</div>
+          <h4>Marketing</h4>
+          <p>SEO, Social Media, Google Ads, Analytics</p>
+        </div>
+        <div class="category-card">
+          <div class="category-emoji">💼</div>
+          <h4>Negocios</h4>
+          <p>Emprendimiento, Finanzas, Liderazgo</p>
+        </div>
+        <div class="category-card">
+          <div class="category-emoji">🤖</div>
+          <h4>Inteligencia Artificial</h4>
+          <p>Machine Learning, ChatGPT, Automation</p>
+        </div>
+        <div class="category-card">
+          <div class="category-emoji">📊</div>
+          <h4>Data Science</h4>
+          <p>Python, R, Tableau, Power BI</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="#">Términos de Servicio</a>
+        <a href="#">Política de Privacidad</a>
+        <a href="#">Soporte</a>
+        <a href="#">Blog</a>
+        <a href="#">Afiliados</a>
+      </div>
+      <p>&copy; 2024 MegaCursos. Todos los derechos reservados.</p>
+    </div>
+  </footer>
 </body>
 </html>
