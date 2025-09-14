@@ -24,6 +24,9 @@ class DomainManager {
     
     // Start performance monitoring
     this.startPerformanceMonitoring();
+    
+    // Start health monitoring
+    this.startHealthMonitoring();
   }
 
   api(path) { return (this.API_BASE || '') + path; }
@@ -157,7 +160,8 @@ class DomainManager {
     el.innerHTML = domainsToRender.map(d => `
       <div class="domain-item ${this.selected && this.selected.name === d.name ? 'selected' : ''}" 
            data-name="${d.name}" 
-           onclick="domainManager.selectDomain('${d.name}')">
+           onclick="domainManager.selectDomain('${d.name}')"
+           oncontextmenu="domainManager.showContextMenu(event, '${d.name}')">
         <div class="domain-name">${d.name}</div>
         <div class="domain-meta">
           <span class="pill pill-${this.getStatusClass(d.status)}">${d.status}</span> 
@@ -353,6 +357,235 @@ class DomainManager {
       case 'info': default: return 'ℹ️ Info';
     }
   }
+  
+  startHealthMonitoring() {
+    // Check domain health every 2 minutes
+    setInterval(() => {
+      if (this.selected) {
+        this.checkDomainHealth(this.selected.name);
+      }
+    }, 120000);
+  }
+  
+  async checkDomainHealth(domain) {
+    try {
+      const start = performance.now();
+      const response = await fetch(`https://${domain}`, { 
+        method: 'HEAD',
+        mode: 'no-cors',
+        cache: 'no-cache'
+      });
+      const responseTime = performance.now() - start;
+      
+      // Update analytics if this is the selected domain
+      if (this.selected && this.selected.name === domain) {
+        this.updateDomainAnalytics(domain, {
+          responseTime: responseTime,
+          status: 'online',
+          ssl: true // Assume HTTPS worked if no error
+        });
+      }
+      
+    } catch (e) {
+      if (this.selected && this.selected.name === domain) {
+        this.updateDomainAnalytics(domain, {
+          responseTime: null,
+          status: 'offline',
+          ssl: false
+        });
+      }
+    }
+  }
+  
+  updateDomainAnalytics(domain, metrics) {
+    // Update the analytics panel if it exists
+    const uptimeStat = document.getElementById('uptime-stat');
+    const responseStat = document.getElementById('response-stat');
+    const sslStat = document.getElementById('ssl-stat');
+    
+    if (uptimeStat) {
+      uptimeStat.textContent = metrics.status === 'online' ? '✅ Online' : '❌ Offline';
+      uptimeStat.style.color = metrics.status === 'online' ? 'var(--accent-green)' : 'var(--accent-red)';
+    }
+    
+    if (responseStat && metrics.responseTime) {
+      responseStat.textContent = `${Math.round(metrics.responseTime)}ms`;
+      const color = metrics.responseTime < 1000 ? 'var(--accent-green)' : 
+                   metrics.responseTime < 3000 ? 'var(--accent-yellow)' : 'var(--accent-red)';
+      responseStat.style.color = color;
+    } else if (responseStat) {
+      responseStat.textContent = 'Timeout';
+      responseStat.style.color = 'var(--accent-red)';
+    }
+    
+    if (sslStat) {
+      sslStat.textContent = metrics.ssl ? '✅ Valid' : '❌ Invalid';
+      sslStat.style.color = metrics.ssl ? 'var(--accent-green)' : 'var(--accent-red)';
+    }
+    
+    // Update chart if it exists
+    this.updateDomainChart(domain, metrics);
+  }
+  
+  updateDomainChart(domain, metrics) {
+    const canvas = document.getElementById('domain-chart');
+    if (!canvas) return;
+    
+    // Create or update chart
+    if (!this.domainChart) {
+      this.initializeDomainChart();
+    }
+    
+    if (this.domainChart && metrics.responseTime) {
+      // Add new data point (keep last 10)
+      const data = this.domainChart.data.datasets[0].data;
+      data.push(metrics.responseTime);
+      if (data.length > 10) data.shift();
+      
+      // Update labels
+      const labels = this.domainChart.data.labels;
+      const now = new Date();
+      labels.push(now.toLocaleTimeString());
+      if (labels.length > 10) labels.shift();
+      
+      this.domainChart.update('none');
+    }
+  }
+  
+  initializeDomainChart() {
+    const canvas = document.getElementById('domain-chart');
+    if (!canvas || typeof Chart === 'undefined') return;
+    
+    this.domainChart = new Chart(canvas, {
+      type: 'line',
+      data: {
+        labels: [],
+        datasets: [{
+          label: 'Response Time',
+          data: [],
+          borderColor: 'var(--accent-blue)',
+          backgroundColor: 'rgba(59, 130, 246, 0.1)',
+          borderWidth: 2,
+          fill: true,
+          tension: 0.4,
+          pointRadius: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          x: { display: false },
+          y: {
+            display: false,
+            beginAtZero: true
+          }
+        },
+        elements: {
+          point: { radius: 0 }
+        },
+        interaction: {
+          intersect: false
+        }
+      }
+    });
+  }
+  
+  exportData() {
+    const exportData = {
+      timestamp: new Date().toISOString(),
+      domains: this.domains,
+      routingMap: this.routingMap,
+      performanceMetrics: this.performanceMetrics,
+      totalDomains: this.domains.length,
+      activeCount: this.domains.filter(d => this.getStatusClass(d.status) === 'active').length
+    };
+    
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `domains-export-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    this.showNotification('Domain data exported successfully', 'success');
+  }
+  
+  toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().then(() => {
+        this.showNotification('Entered fullscreen mode', 'info', 2000);
+      }).catch(e => {
+        this.showNotification('Could not enter fullscreen', 'warning');
+      });
+    } else {
+      document.exitFullscreen().then(() => {
+        this.showNotification('Exited fullscreen mode', 'info', 2000);
+      });
+    }
+  }
+  
+  showContextMenu(event, domainName) {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    this.contextDomain = domainName;
+    const menu = document.getElementById('context-menu');
+    if (!menu) return;
+    
+    menu.style.display = 'block';
+    menu.style.left = event.pageX + 'px';
+    menu.style.top = event.pageY + 'px';
+    
+    // Close on click outside
+    const closeMenu = (e) => {
+      if (!menu.contains(e.target)) {
+        menu.style.display = 'none';
+        document.removeEventListener('click', closeMenu);
+      }
+    };
+    
+    setTimeout(() => {
+      document.addEventListener('click', closeMenu);
+    }, 100);
+  }
+  
+  contextAction(action) {
+    const domain = this.domains.find(d => d.name === this.contextDomain);
+    if (!domain) return;
+    
+    const menu = document.getElementById('context-menu');
+    if (menu) menu.style.display = 'none';
+    
+    switch (action) {
+      case 'select':
+        this.selectDomain(domain.name);
+        break;
+      case 'admin':
+        this.openAdmin(domain.name);
+        break;
+      case 'open':
+        window.open(domain.url, '_blank');
+        break;
+      case 'copy':
+        navigator.clipboard.writeText(domain.url).then(() => {
+          this.showNotification(`Copied ${domain.url}`, 'success', 2000);
+        }).catch(() => {
+          this.showNotification('Failed to copy URL', 'error');
+        });
+        break;
+      case 'health':
+        this.checkDomainHealth(domain.name);
+        this.showNotification(`Checking health for ${domain.name}`, 'info', 2000);
+        break;
+    }
+  }
 
   async renderDetail(containerId = 'detail') {
     const el = document.getElementById(containerId); 
@@ -398,12 +631,29 @@ class DomainManager {
               <div class="loading-spinner" style="margin: 20px auto;"></div>
             </div>
           </div>
+          <div class="panel">
+            <div class="panel-title">Analytics</div>
+            <div class="panel-content">
+              <canvas id="domain-chart" width="100" height="60" style="max-height: 120px;"></canvas>
+              <div class="analytics-stats" style="margin-top: 12px;">
+                <div class="stat-row"><span class="stat-label">Uptime:</span> <span class="stat-value" id="uptime-stat">Checking...</span></div>
+                <div class="stat-row"><span class="stat-label">Response:</span> <span class="stat-value" id="response-stat">Checking...</span></div>
+                <div class="stat-row"><span class="stat-label">SSL:</span> <span class="stat-value" id="ssl-stat">Checking...</span></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     `;
     
     // Load data asynchronously
     this.loadDetailData(d);
+    
+    // Initialize chart and check health
+    setTimeout(() => {
+      this.initializeDomainChart();
+      this.checkDomainHealth(d.name);
+    }, 100);
   }
   
   async loadDetailData(domain) {

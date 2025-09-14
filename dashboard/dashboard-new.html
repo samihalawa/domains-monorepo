@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Domain Control Center - Mail Style Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -96,6 +97,19 @@
     
     .btn-sm:hover {
       background: rgba(255,255,255,0.3);
+    }
+    
+    .header-tools {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .header-tools .btn {
+      padding: 6px 10px;
+      font-size: 11px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      color: var(--text-primary);
     }
     
     .main-container {
@@ -590,6 +604,54 @@
       to { transform: translateX(100%); opacity: 0; }
     }
     
+    /* Analytics */
+    .analytics-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .stat-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    
+    .stat-label {
+      color: var(--text-secondary);
+    }
+    
+    .stat-value {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    
+    /* Context Menu */
+    .context-menu {
+      position: fixed;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      z-index: 4000;
+      display: none;
+      padding: 4px 0;
+      min-width: 150px;
+    }
+    
+    .context-item {
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-size: 13px;
+    }
+    
+    .context-item:hover {
+      background: var(--glass);
+    }
+    
     /* Responsive */
     @media (max-width: 1024px) {
       .detail-body {
@@ -637,6 +699,10 @@
         <button class="btn btn-sm" onclick="domainManager.bulkAction('admin')">Open Admin</button>
         <button class="btn btn-sm" onclick="domainManager.bulkAction('refresh')">Refresh</button>
         <button class="btn btn-sm" onclick="domainManager.clearSelection()">Clear</button>
+      </div>
+      <div class="header-tools">
+        <button class="btn btn-sm" onclick="domainManager.exportData()" title="Export domain data">📁 Export</button>
+        <button class="btn btn-sm" onclick="domainManager.toggleFullscreen()" title="Toggle fullscreen">⛶ Full</button>
       </div>
       <span id="connection-status" class="muted">Connecting...</span>
     </div>
@@ -709,6 +775,15 @@
   
   <!-- Notifications -->
   <div class="notifications-container" id="notifications"></div>
+  
+  <!-- Context Menu -->
+  <div class="context-menu" id="context-menu">
+    <div class="context-item" onclick="domainManager.contextAction('select')">📍 Select</div>
+    <div class="context-item" onclick="domainManager.contextAction('admin')">⚙️ Admin Panel</div>
+    <div class="context-item" onclick="domainManager.contextAction('open')">🌐 Open Site</div>
+    <div class="context-item" onclick="domainManager.contextAction('copy')">📋 Copy URL</div>
+    <div class="context-item" onclick="domainManager.contextAction('health')">❤️ Check Health</div>
+  </div>
 
   <script src="js/domain-manager.js"></script>
   <script>
