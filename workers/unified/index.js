@@ -104,12 +104,12 @@ export default {
         return jsonResponse({ ok: true, service: 'unified-domains-worker' }, corsHeaders);
       }
 
-      // DNS Management endpoints (stubs)
+      // DNS Management endpoints
       if (pathname === '/dns/ensure' && request.method === 'POST') {
         try {
-          const { domain, apexIp = '192.0.2.1', proxied = true } = await request.json();
+          const { domain, target, apexIp = undefined, proxied = true } = await request.json();
           if (!domain) return jsonResponse({ error: 'missing_domain' }, corsHeaders, 400);
-          const result = await ensureDns(env, domain, apexIp, proxied);
+          const result = await ensureDns(env, domain, { target, apexIp, proxied });
           return jsonResponse(result, corsHeaders);
         } catch (e) {
           return jsonResponse({ error: 'ensure_failed', message: String(e) }, corsHeaders, 500);
@@ -215,9 +215,63 @@ async function fetchCloudflareZones(token) {
   return out;
 }
 
+// Static domain data for testing/demo
+function getStaticDomains() {
+  return [
+    // High-value AI domains
+    { name: 'ministerio.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'Government AI', value: 'ultra-high', url: 'https://ministerio.ai' },
+    { name: 'empleados.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'HR Solutions', value: 'high', url: 'https://empleados.ai' },
+    { name: 'octbot.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Bot', value: 'medium', url: 'https://octbot.ai' },
+    { name: 'autoword.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Writing', value: 'medium', url: 'https://autoword.ai' },
+    { name: 'detectar.ai', platform: 'Cloudflare', status: 'pending', industry: 'AI Detection', value: 'medium', url: 'https://detectar.ai' },
+    
+    // Crypto & Fintech
+    { name: 'damecoins.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Crypto Exchange', value: 'high', url: 'https://damecoins.com' },
+    { name: 'gptcoins.com', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Crypto', value: 'high', url: 'https://gptcoins.com' },
+    { name: 'flywallex.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Digital Wallet', value: 'high', url: 'https://flywallex.com' },
+    { name: 'gateway24h.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Payment Processing', value: 'high', url: 'https://gateway24h.com' },
+    { name: 'instantvirtualcards.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Virtual Cards', value: 'high', url: 'https://instantvirtualcards.com' },
+    
+    // GPT Tools
+    { name: 'gptabsolute.com', platform: 'Cloudflare', status: 'live', industry: 'GPT Tools', value: 'high', url: 'https://gptabsolute.com' },
+    { name: 'gpt-excel.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Excel AI', value: 'medium', url: 'https://gpt-excel.com' },
+    { name: 'gptapikeys.com', platform: 'Cloudflare Pages', status: 'live', industry: 'API Management', value: 'medium', url: 'https://gptapikeys.com' },
+    { name: 'gptautoweb.com', platform: 'Cloudflare', status: 'pending', industry: 'Web Automation', value: 'medium', url: 'https://gptautoweb.com' },
+    
+    // News & Education
+    { name: 'fintechmorning.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Fintech News', value: 'medium', url: 'https://fintechmorning.com' },
+    { name: 'cryptoupdated.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Crypto News', value: 'medium', url: 'https://cryptoupdated.com' },
+    { name: 'megacursos.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Online Courses', value: 'medium', url: 'https://megacursos.com' },
+    { name: 'visualingo.app', platform: 'Cloudflare Pages', status: 'live', industry: 'Language Learning', value: 'high', url: 'https://visualingo.app' },
+    
+    // APIs & Development
+    { name: 'dameapi.com', platform: 'Cloudflare Pages', status: 'live', industry: 'API Marketplace', value: 'medium', url: 'https://dameapi.com' },
+    { name: 'apilord.com', platform: 'Cloudflare', status: 'live', industry: 'API Tools', value: 'medium', url: 'https://apilord.com' },
+    { name: 'mcp.blue', platform: 'Cloudflare Pages', status: 'live', industry: 'Model Protocol', value: 'high', url: 'https://mcp.blue' },
+    
+    // Other services  
+    { name: 'sort.services', platform: 'Cloudflare Pages', status: 'live', industry: 'Sorting Services', value: 'low', url: 'https://sort.services' },
+    { name: 'samihalawa.com', platform: 'Cloudflare', status: 'live', industry: 'Personal', value: 'medium', url: 'https://samihalawa.com' },
+    
+    // Some inactive for testing
+    { name: 'maximagpt.com', platform: 'Cloudflare', status: 'inactive', industry: 'GPT Tools', value: 'low', url: 'https://maximagpt.com' },
+    { name: 'gptveteran.com', platform: 'Cloudflare', status: 'pending', industry: 'GPT Community', value: 'low', url: 'https://gptveteran.com' },
+    { name: 'gptaddicts.com', platform: 'Netlify', status: 'live', industry: 'GPT Community', value: 'medium', url: 'https://gptaddicts.com' },
+    { name: 'gptenespanol.com', platform: 'Netlify', status: 'live', industry: 'GPT Spanish', value: 'medium', url: 'https://gptenespanol.com' },
+    { name: 'gptvenezuela.com', platform: 'Netlify', status: 'pending', industry: 'GPT Regional', value: 'low', url: 'https://gptvenezuela.com' },
+    { name: 'pime.ai', platform: 'Cloudflare', status: 'live', industry: 'AI Platform', value: 'ultra-high', url: 'https://pime.ai' }
+  ];
+}
+
 // ===== Domain aggregator (Monorepo + Netlify + Cloudflare) =====
 async function buildDomainsResponse(env) {
   const byDomain = new Map();
+
+  // Add static test domains for demo purposes
+  const staticDomains = getStaticDomains();
+  for (const d of staticDomains) {
+    byDomain.set(d.name, d);
+  }
 
   // Cloudflare zones (seed)
   try {
@@ -670,13 +724,118 @@ async function handleBlogAPI(request, env, pathname, ctx, corsHeaders) {
   return jsonResponse({ error: 'API endpoint not found' }, corsHeaders, 404);
 }
 
-// ===== DNS stubs =====
-async function ensureDns(env, domain, apexIp, proxied) {
-  return { domain, created: { apex: true, www: true } };
+// ===== DNS management (Cloudflare) =====
+async function ensureDns(env, domain, { target, apexIp, proxied = true } = {}) {
+  const token = env.CLOUDFLARE_API_TOKEN || env.CLOUDFLARE_TOKEN;
+  if (!token) throw new Error('Missing Cloudflare API token');
+  const apex = (domain || '').replace(/^www\./, '');
+
+  const zone = await findZoneByName(token, apex);
+  if (!zone) throw new Error(`Zone not found for ${apex}`);
+
+  const zoneId = zone.id;
+  const records = await listDnsRecords(token, zoneId);
+
+  const changes = { updated: [], created: [] };
+
+  // Determine apex target: prefer provided target, else Cloudflare Pages flattening if apexIp specified
+  // If target is provided, we create CNAME for apex (flattened via proxied=true)
+  const apexRecordTarget = target || apexIp || null;
+
+  // Upsert apex record
+  const apexExisting = records.find(r => (r.name === apex || r.name === `${apex}.`) && (r.type === 'CNAME' || r.type === 'A'));
+  if (apexRecordTarget) {
+    if (target) {
+      // CNAME flattening at apex with proxied true
+      if (apexExisting) {
+        await updateDnsRecord(token, zoneId, apexExisting.id, {
+          type: 'CNAME', name: apex, content: target, proxied
+        });
+        changes.updated.push({ name: apex, type: 'CNAME', content: target, proxied });
+      } else {
+        const rec = await createDnsRecord(token, zoneId, {
+          type: 'CNAME', name: apex, content: target, proxied
+        });
+        changes.created.push(rec);
+      }
+    } else if (apexIp) {
+      // Plain A record
+      if (apexExisting) {
+        await updateDnsRecord(token, zoneId, apexExisting.id, {
+          type: 'A', name: apex, content: apexIp, proxied
+        });
+        changes.updated.push({ name: apex, type: 'A', content: apexIp, proxied });
+      } else {
+        const rec = await createDnsRecord(token, zoneId, {
+          type: 'A', name: apex, content: apexIp, proxied
+        });
+        changes.created.push(rec);
+      }
+    }
+  }
+
+  // Ensure www CNAME -> apex
+  const wwwName = `www.${apex}`;
+  const wwwExisting = records.find(r => (r.name === wwwName || r.name === `${wwwName}.`) && r.type === 'CNAME');
+  if (wwwExisting) {
+    await updateDnsRecord(token, zoneId, wwwExisting.id, { type: 'CNAME', name: wwwName, content: apex, proxied });
+    changes.updated.push({ name: wwwName, type: 'CNAME', content: apex, proxied });
+  } else {
+    const rec = await createDnsRecord(token, zoneId, { type: 'CNAME', name: wwwName, content: apex, proxied });
+    changes.created.push(rec);
+  }
+
+  return { success: true, domain: apex, zoneId, changes };
 }
 
 async function getDns(env, domain) {
-  return { domain, records: [] };
+  const token = env.CLOUDFLARE_API_TOKEN || env.CLOUDFLARE_TOKEN;
+  if (!token) throw new Error('Missing Cloudflare API token');
+  const apex = (domain || '').replace(/^www\./, '');
+  const zone = await findZoneByName(token, apex);
+  if (!zone) throw new Error(`Zone not found for ${apex}`);
+  const records = await listDnsRecords(token, zone.id);
+  return { success: true, domain: apex, zoneId: zone.id, records };
+}
+
+async function findZoneByName(token, domain) {
+  const res = await fetch(`https://api.cloudflare.com/client/v4/zones?name=${encodeURIComponent(domain)}`, {
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+  });
+  if (!res.ok) return null;
+  const json = await res.json();
+  return json.result && json.result[0];
+}
+
+async function listDnsRecords(token, zoneId) {
+  const res = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records?per_page=100`, {
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+  });
+  if (!res.ok) return [];
+  const json = await res.json();
+  return json.result || [];
+}
+
+async function createDnsRecord(token, zoneId, body) {
+  const res = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records`, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(`Create DNS failed: ${json.errors ? JSON.stringify(json.errors) : res.status}`);
+  return json.result;
+}
+
+async function updateDnsRecord(token, zoneId, recordId, body) {
+  const res = await fetch(`https://api.cloudflare.com/client/v4/zones/${zoneId}/dns_records/${recordId}`, {
+    method: 'PUT',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify(body)
+  });
+  const json = await res.json();
+  if (!res.ok) throw new Error(`Update DNS failed: ${json.errors ? JSON.stringify(json.errors) : res.status}`);
+  return json.result;
 }
 
 // ===== Utilities =====
