@@ -904,7 +904,7 @@ class DomainManager {
     modal.classList.add('open');
     
     // Track admin panel opens
-    console.log(`Opening admin panel for ${d.name}: ${url}`);
+    // Opening admin panel for ${d.name}
   }
   
   extractNetlifySiteId(domain) {
