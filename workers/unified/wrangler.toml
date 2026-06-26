@@ -5,9 +5,8 @@ account_id = "21d8251b2204f8dfa7df681246d76705"
 
 [env.production.vars]
 WORKER_DOMAIN = "unified-domains-worker.samihalawa.workers.dev"
-NETLIFY_TOKEN = "nfp_pDmgg5cmJKQsgnbojU3nGqHgwAtCri6k2699"
-CLOUDFLARE_API_TOKEN = "SvIY8ZHwMbo8X4LZNbC7cr0GD20MDsy3UkyPtOrw"
-AIRTABLE_TOKEN = "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622"
-AIRTABLE_BASE = "appLattdbxMhK4I0y"
-
-# Note: for production security, set Airtable keys as secrets via `wrangler secret`.
+# Security: Do NOT commit tokens here. Use Wrangler secrets instead:
+#   npx wrangler secret put NETLIFY_TOKEN --env production
+#   npx wrangler secret put CLOUDFLARE_API_TOKEN --env production
+#   npx wrangler secret put AIRTABLE_TOKEN --env production
+#   npx wrangler secret put AIRTABLE_BASE --env production

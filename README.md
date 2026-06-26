@@ -115,17 +115,17 @@ domains-monorepo/
 ## 🔐 Security Configuration
 
 ### API Tokens (Production)
-```javascript
-// Cloudflare
-CLOUDFLARE_API_TOKEN=SvIY8ZHwMbo8X4LZNbC7cr0GD20MDsy3UkyPtOrw
-CLOUDFLARE_ACCOUNT_ID=21d8251b2204f8dfa7df681246d76705
+Use Wrangler secrets. Do NOT commit real tokens.
+```bash
+# Cloudflare
+npx wrangler secret put CLOUDFLARE_API_TOKEN --env production
 
-// Airtable
-AIRTABLE_TOKEN=patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622
-AIRTABLE_BASE=appLattdbxMhK4I0y
+# Airtable
+npx wrangler secret put AIRTABLE_TOKEN --env production
+npx wrangler secret put AIRTABLE_BASE --env production
 
-// Netlify
-NETLIFY_TOKEN=8e4f4f3e-2dcb-4b1c-8f7a-5f3e5e8c9b6a
+# Netlify
+npx wrangler secret put NETLIFY_TOKEN --env production
 ```
 
 ## 📈 Performance Metrics
@@ -223,8 +223,9 @@ account_id = "21d8251b2204f8dfa7df681246d76705"
 
 **Dashboard not loading domains**
 ```javascript
-// Check API endpoint in dashboard/index.html
-const API_URL = 'https://unified-domains-worker-production.trigox.workers.dev';
+// Check API endpoint configuration in dashboard HTML
+// Set before scripts load, e.g.:
+window.API_BASE = 'http://localhost:8787'; // local dev
 ```
 
 **Netlify sites not showing**

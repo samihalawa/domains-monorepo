@@ -215,63 +215,13 @@ async function fetchCloudflareZones(token) {
   return out;
 }
 
-// Static domain data for testing/demo
-function getStaticDomains() {
-  return [
-    // High-value AI domains
-    { name: 'ministerio.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'Government AI', value: 'ultra-high', url: 'https://ministerio.ai' },
-    { name: 'empleados.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'HR Solutions', value: 'high', url: 'https://empleados.ai' },
-    { name: 'octbot.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Bot', value: 'medium', url: 'https://octbot.ai' },
-    { name: 'autoword.ai', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Writing', value: 'medium', url: 'https://autoword.ai' },
-    { name: 'detectar.ai', platform: 'Cloudflare', status: 'pending', industry: 'AI Detection', value: 'medium', url: 'https://detectar.ai' },
-    
-    // Crypto & Fintech
-    { name: 'damecoins.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Crypto Exchange', value: 'high', url: 'https://damecoins.com' },
-    { name: 'gptcoins.com', platform: 'Cloudflare Pages', status: 'live', industry: 'AI Crypto', value: 'high', url: 'https://gptcoins.com' },
-    { name: 'flywallex.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Digital Wallet', value: 'high', url: 'https://flywallex.com' },
-    { name: 'gateway24h.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Payment Processing', value: 'high', url: 'https://gateway24h.com' },
-    { name: 'instantvirtualcards.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Virtual Cards', value: 'high', url: 'https://instantvirtualcards.com' },
-    
-    // GPT Tools
-    { name: 'gptabsolute.com', platform: 'Cloudflare', status: 'live', industry: 'GPT Tools', value: 'high', url: 'https://gptabsolute.com' },
-    { name: 'gpt-excel.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Excel AI', value: 'medium', url: 'https://gpt-excel.com' },
-    { name: 'gptapikeys.com', platform: 'Cloudflare Pages', status: 'live', industry: 'API Management', value: 'medium', url: 'https://gptapikeys.com' },
-    { name: 'gptautoweb.com', platform: 'Cloudflare', status: 'pending', industry: 'Web Automation', value: 'medium', url: 'https://gptautoweb.com' },
-    
-    // News & Education
-    { name: 'fintechmorning.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Fintech News', value: 'medium', url: 'https://fintechmorning.com' },
-    { name: 'cryptoupdated.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Crypto News', value: 'medium', url: 'https://cryptoupdated.com' },
-    { name: 'megacursos.com', platform: 'Cloudflare Pages', status: 'live', industry: 'Online Courses', value: 'medium', url: 'https://megacursos.com' },
-    { name: 'visualingo.app', platform: 'Cloudflare Pages', status: 'live', industry: 'Language Learning', value: 'high', url: 'https://visualingo.app' },
-    
-    // APIs & Development
-    { name: 'dameapi.com', platform: 'Cloudflare Pages', status: 'live', industry: 'API Marketplace', value: 'medium', url: 'https://dameapi.com' },
-    { name: 'apilord.com', platform: 'Cloudflare', status: 'live', industry: 'API Tools', value: 'medium', url: 'https://apilord.com' },
-    { name: 'mcp.blue', platform: 'Cloudflare Pages', status: 'live', industry: 'Model Protocol', value: 'high', url: 'https://mcp.blue' },
-    
-    // Other services  
-    { name: 'sort.services', platform: 'Cloudflare Pages', status: 'live', industry: 'Sorting Services', value: 'low', url: 'https://sort.services' },
-    { name: 'samihalawa.com', platform: 'Cloudflare', status: 'live', industry: 'Personal', value: 'medium', url: 'https://samihalawa.com' },
-    
-    // Some inactive for testing
-    { name: 'maximagpt.com', platform: 'Cloudflare', status: 'inactive', industry: 'GPT Tools', value: 'low', url: 'https://maximagpt.com' },
-    { name: 'gptveteran.com', platform: 'Cloudflare', status: 'pending', industry: 'GPT Community', value: 'low', url: 'https://gptveteran.com' },
-    { name: 'gptaddicts.com', platform: 'Netlify', status: 'live', industry: 'GPT Community', value: 'medium', url: 'https://gptaddicts.com' },
-    { name: 'gptenespanol.com', platform: 'Netlify', status: 'live', industry: 'GPT Spanish', value: 'medium', url: 'https://gptenespanol.com' },
-    { name: 'gptvenezuela.com', platform: 'Netlify', status: 'pending', industry: 'GPT Regional', value: 'low', url: 'https://gptvenezuela.com' },
-    { name: 'pime.ai', platform: 'Cloudflare', status: 'live', industry: 'AI Platform', value: 'ultra-high', url: 'https://pime.ai' }
-  ];
-}
+// Static mock domains removed to ensure API-backed data only
 
 // ===== Domain aggregator (Monorepo + Netlify + Cloudflare) =====
 async function buildDomainsResponse(env) {
   const byDomain = new Map();
 
-  // Add static test domains for demo purposes
-  const staticDomains = getStaticDomains();
-  for (const d of staticDomains) {
-    byDomain.set(d.name, d);
-  }
+  // No mock domains: only real data sources
 
   // Cloudflare zones (seed)
   try {

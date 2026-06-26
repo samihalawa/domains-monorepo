@@ -92,8 +92,8 @@ The dashboard automatically detects the API endpoint:
 - `http://localhost:8787` for local development
 - Falls back to relative paths for production
 
-### Worker Test Data
-I've added static domain data to the worker so you can test immediately without needing live API tokens. The data includes all your major domains with realistic statuses.
+### Worker Data Sources
+The worker only uses real data sources (Cloudflare, Netlify, and the monorepo router map). No static mock data is bundled to keep the dashboard fully API-driven.
 
 ## 📱 Responsive Design
 

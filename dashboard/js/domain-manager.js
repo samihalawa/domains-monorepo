@@ -170,6 +170,59 @@ class DomainManager {
       </div>
     `).join('');
   }
+
+  // Render domains into the table in dashboard.html
+  renderDomainsTable(containerId = 'domains-table-body') {
+    const tbody = document.getElementById(containerId);
+    if (!tbody) return;
+
+    if (this.loading) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 40px;">
+            <div class="loading-spinner"></div>
+            <p>Loading domains...</p>
+          </td>
+        </tr>`;
+      return;
+    }
+
+    if (this.error) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 24px; color: var(--accent-red);">
+            ⚠️ ${this.error}
+          </td>
+        </tr>`;
+      return;
+    }
+
+    const rows = (this.filteredDomains.length ? this.filteredDomains : this.domains).map(d => {
+      const statusClass = (d.status || '').toLowerCase() === 'active' ? 'status-active' : 'status-inactive';
+      const lastMod = d.updated || d.created || '';
+      return `
+        <tr>
+          <td><a href="${d.url}" target="_blank" rel="noopener">${d.name}</a></td>
+          <td><span class="${statusClass}">${d.status || '-'}</span></td>
+          <td>—</td>
+          <td>${d.provider || '-'}</td>
+          <td>—</td>
+          <td>${lastMod ? new Date(lastMod).toLocaleDateString() : '—'}</td>
+          <td>
+            <button class="btn" onclick="window.open('${d.url}','_blank')">Open</button>
+            <button class="btn" onclick="domainManager.openAdmin('${d.name}')">Admin</button>
+            <button class="btn" onclick="domainManager.manageBlog('${d.name}')">Blog</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    tbody.innerHTML = rows || `
+      <tr>
+        <td colspan="7" style="text-align: center; padding: 24px; color: var(--text-secondary);">
+          No domains found
+        </td>
+      </tr>`;
+  }
   
   getStatusClass(status) {
     const s = (status || '').toLowerCase();
@@ -186,34 +239,35 @@ class DomainManager {
   }
   
   setupFilters() {
-    // Wait for DOM to be ready
-    const setupWhenReady = () => {
+    const attach = () => {
       const searchInput = document.getElementById('domain-search');
       const statusFilter = document.getElementById('status-filter');
       const providerFilter = document.getElementById('provider-filter');
-      
-      if (!searchInput) {
-        setTimeout(setupWhenReady, 100);
-        return;
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+          this.searchQuery = e.target.value.toLowerCase();
+          this.applyFilters();
+        });
       }
-      
-      searchInput.addEventListener('input', (e) => {
-        this.searchQuery = e.target.value.toLowerCase();
-        this.applyFilters();
-      });
-      
-      statusFilter.addEventListener('change', (e) => {
-        this.statusFilter = e.target.value;
-        this.applyFilters();
-      });
-      
-      providerFilter.addEventListener('change', (e) => {
-        this.providerFilter = e.target.value;
-        this.applyFilters();
-      });
+      if (statusFilter) {
+        statusFilter.addEventListener('change', (e) => {
+          this.statusFilter = e.target.value;
+          this.applyFilters();
+        });
+      }
+      if (providerFilter) {
+        providerFilter.addEventListener('change', (e) => {
+          this.providerFilter = e.target.value;
+          this.applyFilters();
+        });
+      }
     };
-    
-    setupWhenReady();
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', attach, { once: true });
+    } else {
+      attach();
+    }
   }
   
   applyFilters() {
@@ -232,6 +286,7 @@ class DomainManager {
     });
     
     this.renderDomainList();
+    this.renderDomainsTable();
   }
   
   navigateDomains(direction) {
@@ -899,9 +954,15 @@ class DomainManager {
       title = `${d.name} - GitHub Pages`;
     }
     
-    modalTitle.textContent = title;
-    frame.src = url;
-    modal.classList.add('open');
+    if (modal && frame && modalTitle) {
+      modalTitle.textContent = title;
+      frame.src = url;
+      modal.classList.add('open');
+    } else {
+      // Fallback: open in new tab if modal UI not present
+      window.open(url, '_blank');
+      return;
+    }
     
     // Track admin panel opens
     // Opening admin panel for ${d.name}
@@ -924,7 +985,13 @@ class DomainManager {
     modal.classList.remove('open'); 
   }
 
-  async fetchAndRender() { await Promise.all([this.fetchRoutingMap(), this.fetchAllDomains()]); this.renderDomainList('domain-list'); if (!this.selected && this.domains[0]) this.selectDomain(this.domains[0].name); this.renderStats(); }
+  async fetchAndRender() {
+    await Promise.all([this.fetchRoutingMap(), this.fetchAllDomains()]);
+    this.renderDomainList('domain-list');
+    this.renderDomainsTable('domains-table-body');
+    if (!this.selected && this.domains[0]) this.selectDomain(this.domains[0].name);
+    this.renderStats();
+  }
 
   renderStats() {
     const s = this.getStatistics();
@@ -945,4 +1012,3 @@ if (document.readyState === 'loading') {
 } else {
   domainManager.initialize();
 }
-

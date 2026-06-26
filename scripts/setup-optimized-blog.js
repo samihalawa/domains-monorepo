@@ -5,8 +5,14 @@
  * Professional multi-blog management with proper relationships and performance
  */
 
-const AIRTABLE_API_TOKEN = process.env.AIRTABLE_API_TOKEN || "patn9EcWwQcOQtP2A.084bc3ecf3d4493db9e4bc215f31a10de83cb9486a1d277c4fdb8a869b379622";
-const AIRTABLE_BASE_ID = "appLattdbxMhK4I0y";
+const AIRTABLE_API_TOKEN = process.env.AIRTABLE_API_TOKEN || process.env.AIRTABLE_TOKEN;
+const AIRTABLE_BASE_ID = process.env.AIRTABLE_BASE_ID || process.env.AIRTABLE_BASE;
+
+if (!AIRTABLE_API_TOKEN || !AIRTABLE_BASE_ID) {
+  console.error('Missing AIRTABLE_API_TOKEN and/or AIRTABLE_BASE_ID.');
+  console.error('Set env vars or use Wrangler secrets for production.');
+  process.exit(1);
+}
 
 // OPTIMIZED SCHEMA with proper relationships and indexing
 const OPTIMIZED_SCHEMA = {
